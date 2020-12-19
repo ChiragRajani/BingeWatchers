@@ -61,7 +61,7 @@
         app:chip_deletable="true"
         android:layout_height="114dp"
         android:layout_marginTop="40dp"
-        app:hint="Enter Genres.."
+        app:hint="Enter your preffered genres.."
         app:hintColor="@color/common_google_signin_btn_text_light_default"
         app:maxRows="3"
         app:textColor="@color/cardview_dark_background" />

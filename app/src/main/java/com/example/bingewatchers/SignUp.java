@@ -37,6 +37,7 @@ public class SignUp extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private static final String TAG = "MyActivity";
     FirebaseFirestore db;
+    String email1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String email1 = email.getText().toString();
+                email1 = email.getText().toString();
                 String pwd1 = pwd.getText().toString();
 
                 System.out.println("email: " + email1 + "\npassword is " + pwd1 + "\n");
@@ -92,31 +93,24 @@ public class SignUp extends AppCompatActivity {
     }
 
     void updateUserinDB(Map userinfo) {
-        db.collection("Users")
-                .add(userinfo)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        Toast.makeText(SignUp.this, "Account Created and Values updated", Toast.LENGTH_SHORT);
+        try {
+            db.collection("Users")
+                    .document(email1)
+                    .set(userinfo);
+        } catch (@NonNull Exception e) {
+            Log.w(TAG, "Error adding document", e);
+            Toast.makeText(SignUp.this, "Account  Not created " + e.getMessage(), Toast.LENGTH_SHORT);
 
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                        Toast.makeText(SignUp.this, "Account  Not created " + e.getMessage(), Toast.LENGTH_SHORT);
-                    }
-                });
+        }
+        Log.d(TAG, "===========DocumentSnapshot added with ID: ");
+        Toast.makeText(SignUp.this, "Account Created and Values updated", Toast.LENGTH_SHORT);
     }
 
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-//        updateUI(currentUser);
+
     }
 
     public void createAccount(String email, String password, Map userInfo) {
@@ -130,16 +124,15 @@ public class SignUp extends AppCompatActivity {
                             Toast.makeText(SignUp.this, "Account Created", Toast.LENGTH_SHORT);
                             updateUserinDB(userInfo);
                             FirebaseUser user = mAuth.getCurrentUser();
-//                            updateUI(user);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(SignUp.this, "Authentication failed." + task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
-//                            updateUI(null);
+
                         }
 
-                        // ...
                     }
                 });
     }
