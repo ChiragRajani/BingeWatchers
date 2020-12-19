@@ -1,25 +1,20 @@
 package com.example.bingewatchers;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.pchmn.materialchips.ChipsInput;
 
@@ -30,14 +25,13 @@ import java.util.Map;
 
 public class SignUp extends AppCompatActivity {
 
-    private EditText email;
-    private EditText pwd;
+    private TextInputEditText email, pwd, dob, name;
     private Button btn;
     ChipsInput chipsInput;
     private FirebaseAuth mAuth;
     private static final String TAG = "MyActivity";
     FirebaseFirestore db;
-    String email1;
+    String regEmail,regPwd,regName,regDOB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +41,8 @@ public class SignUp extends AppCompatActivity {
         email = findViewById(R.id.username);
         pwd = findViewById(R.id.password);
         btn = findViewById(R.id.submit);
+        dob = findViewById(R.id.dob);
+        name = findViewById(R.id.Name);
         chipsInput = (ChipsInput) findViewById(R.id.chips_input);
         mAuth = FirebaseAuth.getInstance();
         List<Chip> contactList = new ArrayList<>();
@@ -58,10 +54,11 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                email1 = email.getText().toString();
-                String pwd1 = pwd.getText().toString();
-
-                System.out.println("email: " + email1 + "\npassword is " + pwd1 + "\n");
+                regEmail= email.getText().toString();
+                regPwd = pwd.getText().toString();
+                regDOB=dob.getText().toString() ;
+                regName=name.getText().toString();
+                System.out.println("email: " + regEmail + "\npassword is " + regPwd + "\nDOB is "+regDOB+"\nregName"+regName);
                 System.out.println("Selected List is\n" + chipsInput.getSelectedChipList().size());
                 List<Chip> contactsSelected = (List<Chip>) chipsInput.getSelectedChipList();
 
@@ -78,10 +75,12 @@ public class SignUp extends AppCompatActivity {
 
 
                 Map<String, Object> user = new HashMap<>();
-                user.put("Username", email1);
-                user.put("password", pwd1);
+                user.put("Username", regEmail);
+                user.put("password", regPwd);
                 user.put("Genere", namesList);
-                createAccount(email1, pwd1, user);
+                user.put("Date of Birth", regDOB);
+                user.put("Name",regName );
+                createAccount(regEmail,regPwd, user);
 
                 email.setText("");
                 pwd.setText("");
@@ -95,7 +94,7 @@ public class SignUp extends AppCompatActivity {
     void updateUserinDB(Map userinfo) {
         try {
             db.collection("Users")
-                    .document(email1)
+                    .document(regEmail)
                     .set(userinfo);
         } catch (@NonNull Exception e) {
             Log.w(TAG, "Error adding document", e);

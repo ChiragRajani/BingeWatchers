@@ -21,8 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText email;
-    private EditText pwd;
+    private EditText email, pwd;
     private Button btn;
     private TextView reg,status;
     private FirebaseAuth mAuth;
