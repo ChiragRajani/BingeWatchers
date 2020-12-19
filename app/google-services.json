@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "455480609621",
+    "project_id": "bingewatchers-b2513",
+    "storage_bucket": "bingewatchers-b2513.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455480609621:android:0d3785da2dc44b37187ddc",
+        "android_client_info": {
+          "package_name": "com.example.bingewatchers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "455480609621-e5hb0k8avvi4152c26om9r7sq8j0178d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-_BlUxqPGaI1KsrrMId-8Imx3iD-pUDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "455480609621-e5hb0k8avvi4152c26om9r7sq8j0178d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
