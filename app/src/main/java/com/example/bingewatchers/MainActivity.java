@@ -4,11 +4,13 @@ package com.example.bingewatchers;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
     private EditText email;
     private EditText pwd;
     private Button btn;
-    ChipsInput chipsInput ;
+    private TextView reg;
     private FirebaseAuth mAuth;
     private static final String TAG = "MyActivity";
-    FirebaseFirestore db ;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,93 +51,61 @@ public class MainActivity extends AppCompatActivity {
         email = findViewById(R.id.username);
         pwd = findViewById(R.id.password);
         btn = findViewById(R.id.submit);
-        chipsInput = (ChipsInput) findViewById(R.id.chips_input);
+        reg = findViewById(R.id.reg);
         mAuth = FirebaseAuth.getInstance();
-        List<Chip> contactList = new ArrayList<>();
-        chipsInput.setFilterableList(contactList);
-        Chip ch=new Chip() ;
-        db = FirebaseFirestore.getInstance();
-        chipsInput.setFilterableList(ch.getList());
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-              String  email1 = email.getText().toString();
-                String pwd1 = pwd.getText().toString() ;
+                String email1 = email.getText().toString();
+                String pwd1 = pwd.getText().toString();
 
-                System.out.println("email: "+email1 +"\npassword is "+pwd1+"\n");
-                System.out.println("Selected List is\n"+chipsInput.getSelectedChipList().size());
-                List<Chip> contactsSelected = (List<Chip>) chipsInput.getSelectedChipList();
+                signIn(email1, pwd1);
 
-                System.out.println(contactsSelected.toString());
-//                       for (int i = 0; i <contactsSelected.size(); i++)
-//                     System.out.print(contactsSelected.get(i).getInfo()+"\n");
-
-                List<String> namesList = new ArrayList<String>();
-                for(Chip person : contactsSelected){
-                    namesList.add(person.getLabel());
-                }
-//                for (int i = 0; i <namesList.size(); i++)
-//                    System.out.print(namesList.get(i)+"\n");
-
-
-                Map<String, Object> user = new HashMap<>();
-                user.put("Username", email1);
-                user.put("password",pwd1) ;
-                user.put("Genere", namesList);
-                createAccount(email1,pwd1,user);
 
             }
         });
-    }
-    void updateUserinDB(Map userinfo){
-        db.collection("Users")
-                .add(userinfo)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        Toast.makeText(MainActivity.this,"Account Created and Values updated",Toast.LENGTH_SHORT) ;
 
+        reg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Registration Button Clicked!! ", Toast.LENGTH_SHORT);
+                System.out.println("==================================================");
+                Intent i = new Intent(MainActivity.this, SignUp.class);
+                startActivity(i);
+            }
+        });
+    }
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                        Toast.makeText(MainActivity.this,"Account  Not created "+e.getMessage(),Toast.LENGTH_SHORT) ;
-                    }
-                });
-    }
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        updateUI(currentUser);
-    }
-    public void createAccount(String email, String password,Map userInfo){
-        mAuth.createUserWithEmailAndPassword(email, password)
+    private void signIn(String email1, String password) {
+        mAuth.signInWithEmailAndPassword(email1, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            Toast.makeText(MainActivity.this,"Account Created",Toast.LENGTH_SHORT) ;
-                            updateUserinDB(userInfo);
+                            Toast.makeText(MainActivity.this, "SIGN IN HO GYA BHENCHOOOOODDDDD!!!!!!!!!!!!",
+                                    Toast.LENGTH_LONG).show();
+                            System.out.println("SIGN IN HO GYA BHENCHOOOOODDDDD!!!!!!!!!!!!");
                             FirebaseUser user = mAuth.getCurrentUser();
 //                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed."+ task.getException().getMessage(),
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
 //                            updateUI(null);
                         }
-
-                        // ...
                     }
                 });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        updateUI(currentUser);
+
     }
 }
