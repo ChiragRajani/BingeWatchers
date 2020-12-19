@@ -5,8 +5,7 @@ import android.net.Uri;
 
 
 import com.pchmn.materialchips.model.ChipInterface;
-//
-//import org.jetbrains.annotations.Nullable;
+
 
 import java.util.ArrayList;
 import java.util.List;
