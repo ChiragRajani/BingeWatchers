@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
 //                String email1 = email.getText().toString();
 //                String pwd1 = pwd.getText().toString();
-                String email1="chirag9893@gmail.com" ;
-                String pwd1="1234567";
+                String email1="cjajmera009@gsdkk.com" ;
+                String pwd1="poiuytrewq";
                 signIn(email1, pwd1);
 
 
