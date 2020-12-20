@@ -10,17 +10,17 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="188dp"
+        android:layout_marginBottom="664dp"
         android:text="SignOut"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="153dp" />
+        tools:layout_editor_absoluteX="282dp" />
 
     <TextView
         android:id="@+id/user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="224dp"
-        android:layout_marginEnd="196dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="336dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
