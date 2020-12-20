@@ -13,7 +13,7 @@
         android:theme="@style/Theme.BingeWatchers">
         <activity android:name=".CreateJoinGroup"></activity>
         <activity android:name=".DashBoard" />
-
+        <activity android:name=".GenreSelection" />
         <activity android:name=".SignUp" />
         <activity android:name=".MainActivity">
             <intent-filter>

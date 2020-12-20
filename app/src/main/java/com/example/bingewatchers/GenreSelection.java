@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.pchmn.materialchips.ChipsInput;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,10 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 public class GenreSelection extends AppCompatActivity {
-    ChipsInput chipsInput,chip1;
+   private ChipGroup chipGroup ;
     private Button btn;
     String email = SignUp.regEmail;
     private FirebaseAuth mAuth;
+    private List<String> contactList;
     private static final String TAG = "GenreSelection";
     FirebaseFirestore db;
 
@@ -35,34 +36,53 @@ public class GenreSelection extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         btn = findViewById(R.id.submit);
-//        chipsInput = (ChipsInput) findViewById(R.id.chips_input);
-        chip1 = findViewById(R.id.chip1);
-        List<Chip> contactList = new ArrayList<>();
-//        chipsInput.setFilterableList(contactList);
-        Chip ch = new Chip();
+        chipGroup= findViewById(R.id.chipGroup);
+        contactList = new ArrayList<>();
 
-//        chipsInput.setFilterableList(ch.getList());
-
-//        chip1.setOnCheckedChangeListener{}
-
+        contactList.add("Absurdist");
+        contactList.add("Action" );
+        contactList.add("Adventure");
+        contactList.add("Comedy");
+        contactList.add("Crime");
+        contactList.add("Drama");
+        contactList.add("Fantasy");
+        contactList.add("Historical");
+        contactList.add("Horror" );
+        contactList.add("Magical realism");
+        contactList.add("Mystery" );
+        contactList.add("Paranoid fiction");
+        contactList.add("Philosophical");
+        contactList.add("Political");
+        contactList.add("Romance");
+        contactList.add("Saga") ;
+        contactList.add("Satire");
+        contactList.add("Science"  );
+        contactList.add("Social") ;
+        contactList.add("Speculative" );
+        contactList.add("Thrille");
+        contactList.add("Urban");
+        contactList.add("Wester");
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                System.out.println("Selected List is\n" + chipsInput.getSelectedChipList().size());
-//                List<Chip> contactsSelected = (List<Chip>) chipsInput.getSelectedChipList();
-//
-//                System.out.println(contactsSelected.toString());
-//
-//                List<String> namesList = new ArrayList<String>();
-//                for (Chip person : contactsSelected) {
-//                    namesList.add(person.getLabel());
-//                }
-//                Map<String, Object> genre = new HashMap<>();
-//                genre.put("Genres",namesList);
-//                addGenres(email, genre);
+                System.out.println("------------------------------------");
+                List<Integer> ids = chipGroup.getCheckedChipIds();
+                System.out.println("-----------------------------------"+ids);
+                addGenres(email, liste(ids));
             }
         });
+    }
+    Map<String,Object> liste(List<Integer> ids){
+        List<String> genreL=new ArrayList<>();
+        Map<String, Object> genreM = new HashMap<>();
+        for(int i : ids){
+            int y= i-1;
+            genreL.add(contactList.get(y));
+        }
+        genreM.put("Genres",genreL);
+        System.out.println(genreM);
+        return genreM;
     }
 
     private void addGenres(String email, Map<String, Object> namesList) {
