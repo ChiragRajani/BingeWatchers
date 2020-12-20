@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private static final String TAG = "MyActivity";
     FirebaseFirestore db;
+    FirebaseFirestore db1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
