@@ -1,5 +1,6 @@
 package com.example.bingewatchers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,11 +30,14 @@ public class SignUp extends AppCompatActivity {
 
     private TextInputEditText email, pwd, dob, name;
     private Button btn;
+
     ChipsInput chipsInput;
+
     private FirebaseAuth mAuth;
     private static final String TAG = "MyActivity";
     FirebaseFirestore db;
-    String regEmail,regPwd,regName,regDOB;
+    String regPwd,regName,regDOB;
+    static String regEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +49,17 @@ public class SignUp extends AppCompatActivity {
         btn = findViewById(R.id.submit);
         dob = findViewById(R.id.dob);
         name = findViewById(R.id.Name);
-        chipsInput = (ChipsInput) findViewById(R.id.chips_input);
+
+//        chipsInput = (ChipsInput) findViewById(R.id.chips_input);
+
         mAuth = FirebaseAuth.getInstance();
-        List<Chip> contactList = new ArrayList<>();
-        chipsInput.setFilterableList(contactList);
-        Chip ch = new Chip();
         db = FirebaseFirestore.getInstance();
-        chipsInput.setFilterableList(ch.getList());
+
+//        List<Chip> contactList = new ArrayList<>();
+//        chipsInput.setFilterableList(contactList);
+//        Chip ch = new Chip();
+//        chipsInput.setFilterableList(ch.getList());
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,31 +69,38 @@ public class SignUp extends AppCompatActivity {
                 regDOB=dob.getText().toString() ;
                 regName=name.getText().toString();
                 System.out.println("email: " + regEmail + "\npassword is " + regPwd + "\nDOB is "+regDOB+"\nregName"+regName);
-                System.out.println("Selected List is\n" + chipsInput.getSelectedChipList().size());
-                List<Chip> contactsSelected = (List<Chip>) chipsInput.getSelectedChipList();
 
-                System.out.println(contactsSelected.toString());
+//                System.out.println("Selected List is\n" + chipsInput.getSelectedChipList().size());
+//                List<Chip> contactsSelected = (List<Chip>) chipsInput.getSelectedChipList();
+//                System.out.println(contactsSelected.toString());
+//
 //                       for (int i = 0; i <contactsSelected.size(); i++)
 //                     System.out.print(contactsSelected.get(i).getInfo()+"\n");
 
-                List<String> namesList = new ArrayList<String>();
-                for (Chip person : contactsSelected) {
-                    namesList.add(person.getLabel());
-                }
-//                for (int i = 0; i <namesList.size(); i++)
-//                    System.out.print(namesList.get(i)+"\n");
+//                List<String> namesList = new ArrayList<String>();
+//                for (Chip person : contactsSelected) {
+//                    namesList.add(person.getLabel());
+//                }
+
+
 
 
                 Map<String, Object> user = new HashMap<>();
                 user.put("Username", regEmail);
                 user.put("password", regPwd);
-                user.put("Genere", namesList);
+
+//                user.put("Genere", namesList);
+
                 user.put("Date of Birth", regDOB);
                 user.put("Name",regName );
-                createAccount(regEmail,regPwd, user);
+//                createAccount(regEmail,regPwd, user);
+//                updateUserinDB(user);
 
                 email.setText("");
                 pwd.setText("");
+                Intent i = new Intent(SignUp.this,GenreSelection.class);
+                startActivity(i);
+
 
             }
         });
@@ -126,6 +141,8 @@ public class SignUp extends AppCompatActivity {
                            //Snackbar.makeText(SignUp.this," ", Snackbar.LENGTH_SHORT).show();
                             updateUserinDB(userInfo);
                             FirebaseUser user = mAuth.getCurrentUser();
+                            Intent i = new Intent(SignUp.this,GenreSelection.class);
+                            startActivity(i);
 
                         } else {
                             // If sign in fails, display a message to the user.
