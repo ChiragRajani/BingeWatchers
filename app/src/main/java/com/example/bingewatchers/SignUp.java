@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -94,6 +95,11 @@ public class SignUp extends AppCompatActivity {
 //        FirebaseUser currentUser = mAuth.getCurrentUser();
 //
 //    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
 
     public void createAccount(String email, String password, Map userInfo) {
         mAuth.createUserWithEmailAndPassword(email, password)

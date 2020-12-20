@@ -108,7 +108,6 @@
             android:layout_centerHorizontal="true"
             android:ems="10"
             android:hint="Enter Email"
-
             
             android:textAllCaps="true"
             tools:ignore="MissingConstraints"
@@ -132,6 +131,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/dob"
+
             android:layout_width="350dp"
             android:layout_height="70dp"
             android:layout_alignParentTop="true"
@@ -139,14 +139,12 @@
             android:layout_centerHorizontal="true"
             android:ems="10"
             android:hint="Enter Date of Birth"
-
-            android:inputType="date"
-            android:textAllCaps="true"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="26dp"
             tools:layout_editor_absoluteY="51dp" />
-
+<!--        android:onClick="showDatePickerDialog"-->
     </com.google.android.material.textfield.TextInputLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
