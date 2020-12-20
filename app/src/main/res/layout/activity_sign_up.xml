@@ -13,11 +13,11 @@
         android:layout_width="377dp"
         android:layout_height="77dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="16dp"
         android:layout_marginBottom="612dp"
         android:gravity="center_horizontal"
 
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints">
 
@@ -39,22 +39,22 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.pchmn.materialchips.ChipsInput
-        android:id="@+id/chips_input"
-        android:layout_width="300dp"
+<!--    <com.pchmn.materialchips.ChipsInput-->
+<!--        android:id="@+id/chips_input"-->
+<!--        android:layout_width="300dp"-->
 
-        android:layout_height="114dp"
-        android:layout_marginBottom="140dp"
-        android:gravity="center"
-        app:chip_deletable="true"
-        app:hint="Enter your preffered genres.."
-        app:hintColor="@color/common_google_signin_btn_text_light_default"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:maxRows="3"
-        app:textColor="@color/cardview_dark_background"
-        tools:ignore="MissingConstraints" />
+<!--        android:layout_height="114dp"-->
+<!--        android:layout_marginBottom="140dp"-->
+<!--        android:gravity="center"-->
+<!--        app:chip_deletable="true"-->
+<!--        app:hint="Enter your preffered genres.."-->
+<!--        app:hintColor="@color/common_google_signin_btn_text_light_default"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:maxRows="3"-->
+<!--        app:textColor="@color/cardview_dark_background"-->
+<!--        tools:ignore="MissingConstraints" />-->
 
     <Button
         android:id="@+id/submit"
@@ -66,7 +66,8 @@
         android:text="Sign Up"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="145dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtv"
@@ -107,11 +108,11 @@
         android:layout_width="377dp"
         android:layout_height="77dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="4dp"
         android:layout_marginBottom="488dp"
         android:gravity="center_horizontal"
 
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints">
 
