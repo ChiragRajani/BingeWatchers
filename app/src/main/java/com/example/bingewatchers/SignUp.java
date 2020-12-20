@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -121,6 +123,7 @@ public class SignUp extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             Toast.makeText(SignUp.this, "Account Created", Toast.LENGTH_SHORT);
+                           //Snackbar.makeText(SignUp.this," ", Snackbar.LENGTH_SHORT).show();
                             updateUserinDB(userInfo);
                             FirebaseUser user = mAuth.getCurrentUser();
 
