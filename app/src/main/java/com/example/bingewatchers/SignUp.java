@@ -28,13 +28,10 @@ public class SignUp extends AppCompatActivity {
 
     private TextInputEditText email, pwd, dob, name;
     private Button btn;
-
-    ChipsInput chipsInput;
-
     private FirebaseAuth mAuth;
     private static final String TAG = "MyActivity";
     FirebaseFirestore db;
-    String regPwd,regName,regDOB;
+    String regPwd, regName, regDOB;
     static String regEmail;
 
     @Override
@@ -47,62 +44,31 @@ public class SignUp extends AppCompatActivity {
         btn = findViewById(R.id.submit);
         dob = findViewById(R.id.dob);
         name = findViewById(R.id.Name);
-
-//        chipsInput = (ChipsInput) findViewById(R.id.chips_input);
-
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
-//        List<Chip> contactList = new ArrayList<>();
-//        chipsInput.setFilterableList(contactList);
-//        Chip ch = new Chip();
-//        chipsInput.setFilterableList(ch.getList());
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                regEmail= email.getText().toString();
+                regEmail = email.getText().toString();
                 regPwd = pwd.getText().toString();
-                regDOB=dob.getText().toString() ;
-                regName=name.getText().toString();
-                System.out.println("email: " + regEmail + "\npassword is " + regPwd + "\nDOB is "+regDOB+"\nregName"+regName);
-
-//                System.out.println("Selected List is\n" + chipsInput.getSelectedChipList().size());
-//                List<Chip> contactsSelected = (List<Chip>) chipsInput.getSelectedChipList();
-//                System.out.println(contactsSelected.toString());
-//
-//                       for (int i = 0; i <contactsSelected.size(); i++)
-//                     System.out.print(contactsSelected.get(i).getInfo()+"\n");
-
-//                List<String> namesList = new ArrayList<String>();
-//                for (Chip person : contactsSelected) {
-//                    namesList.add(person.getLabel());
-//                }
-
-
-
+                regDOB = dob.getText().toString();
+                regName = name.getText().toString();
+                System.out.println("email: " + regEmail + "\npassword is " + regPwd + "\nDOB is " + regDOB + "\nregName" + regName);
 
                 Map<String, Object> user = new HashMap<>();
                 user.put("Username", regEmail);
                 user.put("password", regPwd);
-
-//                user.put("Genere", namesList);
-
                 user.put("Date of Birth", regDOB);
-                user.put("Name",regName );
-//                createAccount(regEmail,regPwd, user);
-//                updateUserinDB(user);
+                user.put("Name", regName);
+                createAccount(regEmail, regPwd, user);
+
 
                 email.setText("");
                 pwd.setText("");
-                Intent i = new Intent(SignUp.this,GenreSelection.class);
-                startActivity(i);
-
-
             }
         });
-
 
     }
 
@@ -119,13 +85,13 @@ public class SignUp extends AppCompatActivity {
         Log.d(TAG, "===========DocumentSnapshot added with ID: ");
         Toast.makeText(SignUp.this, "Account Created and Values updated", Toast.LENGTH_SHORT);
     }
-
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-    }
+//
+//    public void onStart() {
+//        super.onStart();
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//
+//    }
 
     public void createAccount(String email, String password, Map userInfo) {
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -138,7 +104,7 @@ public class SignUp extends AppCompatActivity {
                             Toast.makeText(SignUp.this, "Account Created", Toast.LENGTH_SHORT);
                             updateUserinDB(userInfo);
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent i = new Intent(SignUp.this,GenreSelection.class);
+                            Intent i = new Intent(SignUp.this, GenreSelection.class);
                             startActivity(i);
 
                         } else {
@@ -151,9 +117,5 @@ public class SignUp extends AppCompatActivity {
 
                     }
                 });
-
-
-
-
     }
 }
