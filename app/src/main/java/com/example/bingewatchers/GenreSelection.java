@@ -99,4 +99,9 @@ public class GenreSelection extends AppCompatActivity {
         Log.d(TAG, "===========Genres Added");
         Toast.makeText(GenreSelection.this, "Genres updated", Toast.LENGTH_LONG);
     }
+    public void onBackPressed() {
+
+        super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(),DashBoard.class));
+    }
 }
