@@ -94,7 +94,7 @@ public class GenreSelection extends AppCompatActivity {
             Log.w(TAG, "Error adding genres", e);
             Toast.makeText(GenreSelection.this, "Genres  Not added " + e.getMessage(), Toast.LENGTH_LONG);
         }
-        Intent i = new Intent(GenreSelection.this,DashBoard.class);
+        Intent i = new Intent(GenreSelection.this, DashBoard.class);
         startActivity(i);
         Log.d(TAG, "===========Genres Added");
         Toast.makeText(GenreSelection.this, "Genres updated", Toast.LENGTH_LONG);

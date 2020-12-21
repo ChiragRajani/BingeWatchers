@@ -25,6 +25,9 @@ public class DatePickerFragment extends DialogFragment
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
+        String dateFormat =day+"-"+month+"-"+year ;
+        System.out.println(dateFormat);
+        SignUp.dob.setText(dateFormat);
         // Do something with the date chosen by the user
     }
 }

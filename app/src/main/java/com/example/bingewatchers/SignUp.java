@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,12 +30,13 @@ import java.util.Map;
 
 public class SignUp extends AppCompatActivity {
 
-    private TextInputEditText email, pwd, dob, name;
+    private TextInputEditText email, pwd, name;
+    static EditText dob ;
     private Button btn;
     private FirebaseAuth mAuth;
     private static final String TAG = "MyActivity";
     FirebaseFirestore db;
-    String regPwd, regName, regDOB;
+    String regPwd, regName,regDOB;
     static String regEmail;
 
     @Override

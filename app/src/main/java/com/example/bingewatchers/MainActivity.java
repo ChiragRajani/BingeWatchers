@@ -99,17 +99,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         // FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
             Intent i = new Intent(MainActivity.this, DashBoard.class);
             startActivity(i);
-
+            System.out.println(" user logged in"+currentUser.getEmail());
         } else {
-            System.out.println("User is logged i");
+
+            System.out.println("no user is logged i");
         }
+//        System.out.println("in on start   :   " + currentUser.toString());
+//        updateUI(currentUser);
     }
-}
+    public void onBackPressed() {
+
+            super.onBackPressed();
+            finishAffinity();
+        }
+
+    }

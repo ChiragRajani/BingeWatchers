@@ -11,18 +11,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BingeWatchers">
-        <activity android:name=".CreateJoinGroup"></activity>
-        <activity android:name=".DashBoard" >
+        <activity android:name=".CreateJoinGroup"/>
+        <activity android:name=".MainActivity" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
         <activity android:name=".GenreSelection" />
         <activity android:name=".SignUp" />
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".DashBoard">
 
+        </activity>
     </application>
 
 </manifest>

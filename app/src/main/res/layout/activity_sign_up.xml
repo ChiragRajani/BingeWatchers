@@ -138,11 +138,17 @@
             android:layout_alignParentEnd="true"
             android:layout_centerHorizontal="true"
             android:ems="10"
+            android:selectAllOnFocus="true"
             android:hint="Enter Date of Birth"
             tools:ignore="MissingConstraints"
+            android:inputType="date"
+            android:focusable="false"
+            android:clickable="true"
             tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="51dp" />
-<!--        android:onClick="showDatePickerDialog"-->
+            tools:layout_editor_absoluteY="51dp"
+            android:onClick="showDatePickerDialog"
+            />
+
     </com.google.android.material.textfield.TextInputLayout>
 
 
