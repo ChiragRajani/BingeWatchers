@@ -1,16 +1,22 @@
 package com.example.bingewatchers;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,46 +30,61 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.zip.Inflater;
 
 public class DashBoard extends AppCompatActivity {
     FirebaseAuth mAuth;
     Button signout,goToGroup;
-    TextView user,list;
+    TextView user,list,ema;
     FirebaseFirestore db;
+
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private NavigationView nv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dash_board);
+        setContentView(R.layout.navigation_drawer);
         user = findViewById(R.id.user);
+        setTitle("DashBoard");
         list=findViewById(R.id.list) ;
         goToGroup=findViewById(R.id.goToGroup) ;
         nv = (NavigationView)findViewById(R.id.nv);
+        ema=findViewById(R.id.email_id) ;
         dl = (DrawerLayout)findViewById(R.id.activity_nav);
         t = new ActionBarDrawerToggle(this, dl,R.string.drawer_open, R.string.drawer_close);
-
         dl.addDrawerListener(t);
         t.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         user.setText("Hello User\n" + mAuth.getCurrentUser().getEmail());
+
+
+        View view;
+        Inflater mInflater ;
+
+        LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View vi = inflater.inflate(R.layout.nav_header, null); //log.xml is your file.
+        TextView tv = (TextView)vi.findViewById(R.id.email_id);
+        tv.setText(mAuth.getCurrentUser().getEmail());
+
+
+
         getGroups();
-        dl.getBackground().setAlpha(255);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
+@Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                switch(id)
-                {
+                switch(id) {
                     case R.id.profile:
-                        Toast.makeText(DashBoard.this, "My Account",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DashBoard.this, "My Account", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.groups:
-                        Toast.makeText(DashBoard.this, "Settings",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DashBoard.this, "Settings", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.logout: {
                         Toast.makeText(DashBoard.this, "My Cart", Toast.LENGTH_SHORT).show();
@@ -74,10 +95,7 @@ public class DashBoard extends AppCompatActivity {
                     default:
                         return true;
                 }
-
-
                 return true;
-
             }
         });
 
@@ -99,6 +117,7 @@ public class DashBoard extends AppCompatActivity {
             }
         });
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(t.onOptionsItemSelected(item))
