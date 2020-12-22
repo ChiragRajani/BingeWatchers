@@ -102,6 +102,7 @@ public class CreateJoinGroup extends AppCompatActivity {
                             //System.out.println("%%%%%%%%%%%%%555b  DOCUMENT EXISTS");
                             //status.setText("Group Found with name\n"+groupName);
 
+
                         } else {
                             System.out.println("%%%%%%%%%%%%%555b  DOCUMENT DOESENT EXISTS");
 
