@@ -35,8 +35,8 @@ import java.util.zip.Inflater;
 
 public class DashBoard extends AppCompatActivity {
     FirebaseAuth mAuth;
-    Button signout,goToGroup;
-    TextView user,list,viewEmail,viewUsername;
+    Button signout, goToGroup;
+    TextView user, list, viewEmail, viewUsername;
     FirebaseFirestore db;
 
     private DrawerLayout dl;
@@ -50,15 +50,15 @@ public class DashBoard extends AppCompatActivity {
         setContentView(R.layout.navigation_drawer);
         user = findViewById(R.id.user);
         setTitle("DashBoard");
-        list=findViewById(R.id.list) ;
-       // goToGroup=findViewById(R.id.goToGroup) ;
-        nv = (NavigationView)findViewById(R.id.nv);
+        list = findViewById(R.id.list);
+        // goToGroup=findViewById(R.id.goToGroup) ;
+        nv = (NavigationView) findViewById(R.id.nv);
 
-        dl = (DrawerLayout)findViewById(R.id.activity_nav);
+        dl = (DrawerLayout) findViewById(R.id.activity_nav);
         View headerView = nv.getHeaderView(0);
-        viewEmail= (TextView) headerView.findViewById(R.id.email_id);
-        viewUsername=(TextView)headerView.findViewById(R.id.username) ;
-        t = new ActionBarDrawerToggle(this, dl,R.string.drawer_open, R.string.drawer_close);
+        viewEmail = (TextView) headerView.findViewById(R.id.email_id);
+        viewUsername = (TextView) headerView.findViewById(R.id.username);
+        t = new ActionBarDrawerToggle(this, dl, R.string.drawer_open, R.string.drawer_close);
         dl.addDrawerListener(t);
         t.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -67,26 +67,28 @@ public class DashBoard extends AppCompatActivity {
         user.setText("Hello User\n" + mAuth.getCurrentUser().getEmail());
 
 
-        LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         viewUsername.setText(mAuth.getCurrentUser().getEmail());
 
         getGroups();
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-@Override
+            @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                switch(id) {
+                switch (id) {
                     case R.id.profile:
                         Toast.makeText(DashBoard.this, "My Account", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.groups:{
+                    case R.id.groups:
+                    {
 
                         Toast.makeText(DashBoard.this, "Settings", Toast.LENGTH_SHORT).show();
-                        Intent i =new Intent(DashBoard.this,CreateJoinGroup.class) ;
-                        startActivity(i) ;
+                        Intent i = new Intent(DashBoard.this, CreateJoinGroup.class);
+                        startActivity(i);
                         break;
                     }
-                    case R.id.logout: {
+                    case R.id.logout:
+                    {
                         Toast.makeText(DashBoard.this, "My Cart", Toast.LENGTH_SHORT).show();
                         mAuth.signOut();
                         startActivity(new Intent(DashBoard.this, MainActivity.class));
@@ -102,25 +104,25 @@ public class DashBoard extends AppCompatActivity {
 
 
 
-//        signout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mAuth.signOut();
-//                startActivity(new Intent(DashBoard.this, MainActivity.class));
-//            }
-//        });
-//        goToGroup.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i =new Intent(DashBoard.this,CreateJoinGroup.class) ;
-//                startActivity(i) ;
-//            }
-//        });
+        //        signout.setOnClickListener(new View.OnClickListener() {
+        //            @Override
+        //            public void onClick(View view) {
+        //                mAuth.signOut();
+        //                startActivity(new Intent(DashBoard.this, MainActivity.class));
+        //            }
+        //        });
+        //        goToGroup.setOnClickListener(new View.OnClickListener() {
+        //            @Override
+        //            public void onClick(View view) {
+        //                Intent i =new Intent(DashBoard.this,CreateJoinGroup.class) ;
+        //                startActivity(i) ;
+        //            }
+        //        });
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(t.onOptionsItemSelected(item))
+        if (t.onOptionsItemSelected(item))
             return true;
 
         return super.onOptionsItemSelected(item);
@@ -132,29 +134,30 @@ public class DashBoard extends AppCompatActivity {
         System.out.println("||||||||||||||| curent user is " + email);
         db.collection("Users").document(email).get();
         DocumentReference docRef = db.collection("Users").document(email);
-        System.out.println("3453333333333333  "+docRef.toString());
-        final Map<String, Object>[] messages = new Map[]{null};
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        System.out.println("3453333333333333  " + docRef.toString());
+        final Map < String, Object > [] messages = new Map[] {
+                null
+        };
+        docRef.get().addOnCompleteListener(new OnCompleteListener < DocumentSnapshot > () {
             @SuppressLint("SetTextI18n")
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            public void onComplete(@NonNull Task < DocumentSnapshot > task) {
                 if (task.isSuccessful()) {
                     //if read successful
 
                     DocumentSnapshot document = task.getResult();
-                    ArrayList<String> groups= (ArrayList<String>) document.get("Groups");
-                    System.out.println("888888888888888888888 "+document.get("Group"));
+                    ArrayList < String > groups = (ArrayList < String > ) document.get("Groups");
+                    System.out.println("888888888888888888888 " + document.get("Group"));
 
                     viewEmail.setText(document.get("Name").toString());
-                    if(groups!=null) {
+                    if (groups != null) {
                         list.setText("");
-                        for (String i : groups) {
+                        for (String i: groups) {
 
-                            list.append(i+"\n");
+                            list.append(i + "\n");
                         }
 
-                    }
-                    else
+                    } else
                         list.setText("Oppos youre no into any group");
 
                     messages[0] = document.getData();
@@ -184,7 +187,7 @@ public class DashBoard extends AppCompatActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
