@@ -1,11 +1,14 @@
 package com.example.bingewatchers;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,28 +30,67 @@ public class DashBoard extends AppCompatActivity {
     Button signout,goToGroup;
     TextView user,list;
     FirebaseFirestore db;
-
+    private DrawerLayout dl;
+    private ActionBarDrawerToggle t;
+    private NavigationView nv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
         user = findViewById(R.id.user);
-        signout = findViewById(R.id.button);
         list=findViewById(R.id.list) ;
         goToGroup=findViewById(R.id.goToGroup) ;
+        nv = (NavigationView)findViewById(R.id.nv);
+        dl = (DrawerLayout)findViewById(R.id.activity_nav);
+        t = new ActionBarDrawerToggle(this, dl,R.string.drawer_open, R.string.drawer_close);
+
+        dl.addDrawerListener(t);
+        t.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         user.setText("Hello User\n" + mAuth.getCurrentUser().getEmail());
         getGroups();
-        signout.setOnClickListener(new View.OnClickListener() {
+        dl.getBackground().setAlpha(255);
+        nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                Intent i = new Intent(DashBoard.this, MainActivity.class);
-                startActivity(i);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                switch(id)
+                {
+                    case R.id.profile:
+                        Toast.makeText(DashBoard.this, "My Account",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.groups:
+                        Toast.makeText(DashBoard.this, "Settings",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.logout: {
+                        Toast.makeText(DashBoard.this, "My Cart", Toast.LENGTH_SHORT).show();
+                        mAuth.signOut();
+                        startActivity(new Intent(DashBoard.this, MainActivity.class));
+                        break;
+                    }
+                    default:
+                        return true;
+                }
+
+
+                return true;
+
             }
         });
+
+
+
+
+//        signout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mAuth.signOut();
+//                startActivity(new Intent(DashBoard.this, MainActivity.class));
+//            }
+//        });
         goToGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,7 +99,13 @@ public class DashBoard extends AppCompatActivity {
             }
         });
     }
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        if(t.onOptionsItemSelected(item))
+            return true;
+
+        return super.onOptionsItemSelected(item);
+    }
     public void getGroups() {
         //  Map<String, Object> user = new HashMap<>();
 

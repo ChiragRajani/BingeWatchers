@@ -4,6 +4,7 @@ package com.example.bingewatchers;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,10 +12,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btn;
     private TextView reg;
     private FirebaseAuth mAuth;
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
     private static final String TAG = "MyActivity";
 
 
@@ -37,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         pwd = findViewById(R.id.password);
         btn = findViewById(R.id.submit);
         reg = findViewById(R.id.reg);
+       // toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+      //  initNavigationDrawer();
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -67,6 +77,52 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+//    public void initNavigationDrawer() {
+//
+//        NavigationView navigationView = (NavigationView)findViewById(R.id.navigation_view);
+//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(MenuItem menuItem) {
+//
+//                int id = menuItem.getItemId();
+//
+//                switch (id){
+//                    case R.id.home:
+//                        Toast.makeText(getApplicationContext(),"Home",Toast.LENGTH_SHORT).show();
+//              //          drawerLayout.closeDrawers();
+//                        break;
+//                    case R.id.Groups:
+//                        Toast.makeText(getApplicationContext(),"Settings",Toast.LENGTH_SHORT).show();
+//                        break;
+//
+//                    case R.id.logout:
+//                        finish();
+//
+//                }
+//                return true;
+//            }
+//        });
+//        View header = navigationView.getHeaderView(0);
+//        TextView tv_email = (TextView)header.findViewById(R.id.tv_email);
+//        tv_email.setText("raj.amalw@learn2crack.com");
+//        drawerLayout = (DrawerLayout)findViewById(R.id.drawer);
+//
+//        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close){
+//
+//            @Override
+//            public void onDrawerClosed(View v){
+//                super.onDrawerClosed(v);
+//            }
+//
+//            @Override
+//            public void onDrawerOpened(View v) {
+//                super.onDrawerOpened(v);
+//            }
+//        };
+//        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+//        actionBarDrawerToggle.syncState();
+//    }
 
     private void signIn(String email1, String password) {
         mAuth.signInWithEmailAndPassword(email1, password)
