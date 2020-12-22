@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -44,7 +46,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Glide.with(mContext)
                 .asBitmap()
-                .load("https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854531.jpg")
+                .load(mImageUrls)
                 .into(holder.image);
 
         holder.name.setText(mNames.get(position));
@@ -60,7 +62,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return mNames.size();
+        return mImageUrls.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

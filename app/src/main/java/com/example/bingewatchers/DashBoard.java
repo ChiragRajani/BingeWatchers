@@ -32,12 +32,12 @@ import java.util.Map;
 
 public class DashBoard extends AppCompatActivity {
     private static final String TAG = "DashBoard";
-    private final ArrayList<String> mImageUrls = new ArrayList<>();
     FirebaseAuth mAuth;
     Button goToGroup;
     TextView user, list, viewEmail, viewUsername;
     FirebaseFirestore db;
     boolean doubleBackToExitPressedOnce = false;
+    private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
@@ -127,12 +127,19 @@ public class DashBoard extends AppCompatActivity {
 
                     mNames = (ArrayList<String>) document.get("Groups");
                     System.out.println("888888888888888888888 " + mNames);
-                    initRecyclerView1(mNames);
+
 
                     viewEmail.setText(document.get("Name").toString());
 
                     messages[0] = document.getData();
+                    Map kv = new HashImages().getHash1();
 
+                    for (String i : mNames) {
+                        String o = i.substring(0, 1);
+                        System.out.println(i);
+                        mImageUrls.add(kv.get(o).toString());
+                    }
+                    initRecyclerView1(mNames,mImageUrls);
 
                 } else {
                     System.out.println("error ");
@@ -143,13 +150,13 @@ public class DashBoard extends AppCompatActivity {
 
     }
 
-    private void initRecyclerView1(ArrayList<String> mNamesv) {
+    private void initRecyclerView1(ArrayList<String> mNames1, ArrayList<String> mImageUrls1) {
         Log.d(TAG, "initRecyclerView: init recyclerview");
-        System.out.println("9999999999999999999999" + mNamesv);
+        System.out.println("9999999999999999999999" + mNames1);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNamesv, mImageUrls);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames1, mImageUrls1);
         recyclerView.setAdapter(adapter);
     }
 
@@ -178,41 +185,6 @@ public class DashBoard extends AppCompatActivity {
                 doubleBackToExitPressedOnce = false;
             }
         }, 2000);
-    }
-
-    private void getImages() {
-        Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
-//        mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
-//        mNames.add("Havasu Falls");
-//
-//        mImageUrls.add("https://i.redd.it/tpsnoz5bzo501.jpg");
-//        mNames.add("Trondheim");
-//
-//        mImageUrls.add("https://i.redd.it/qn7f9oqu7o501.jpg");
-//        mNames.add("Portugal");
-//
-//        mImageUrls.add("https://i.redd.it/j6myfqglup501.jpg");
-//        mNames.add("Rocky Mountain National Park");
-//
-//
-//        mImageUrls.add("https://i.redd.it/0h2gm1ix6p501.jpg");
-//        mNames.add("Mahahual");
-//
-//        mImageUrls.add("https://i.redd.it/k98uzl68eh501.jpg");
-//        mNames.add("Frozen Lake");
-//
-//
-//        mImageUrls.add("https://i.redd.it/glin0nwndo501.jpg");
-//        mNames.add("White Sands Desert");
-//
-//        mImageUrls.add("https://i.redd.it/obx4zydshg601.jpg");
-//        mNames.add("Austrailia");
-//
-//        mImageUrls.add("https://i.imgur.com/ZcLLrkY.jpg");
-//        mNames.add("Washington");
-
-//        initRecyclerView();
-
     }
 
 }
