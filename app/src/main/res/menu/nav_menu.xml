@@ -4,11 +4,14 @@
     <item android:id="@+id/profile"
         android:icon="@drawable/ic_person"
         android:title="Profile"/>
-    <item android:id="@+id/groups"
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single" >
+        <item android:id="@+id/groups"
         android:icon="@drawable/ic_groups"
         android:title="Groups"/>
     <item android:id="@+id/logout"
         android:icon="@drawable/ic_exit"
         android:title="Logout"/>
-
+    </group>
 </menu>

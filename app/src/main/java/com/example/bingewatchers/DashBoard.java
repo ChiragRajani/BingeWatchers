@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -35,7 +36,7 @@ import java.util.zip.Inflater;
 public class DashBoard extends AppCompatActivity {
     FirebaseAuth mAuth;
     Button signout,goToGroup;
-    TextView user,list,ema;
+    TextView user,list,viewEmail,viewUsername;
     FirebaseFirestore db;
 
     private DrawerLayout dl;
@@ -52,8 +53,11 @@ public class DashBoard extends AppCompatActivity {
         list=findViewById(R.id.list) ;
         goToGroup=findViewById(R.id.goToGroup) ;
         nv = (NavigationView)findViewById(R.id.nv);
-        ema=findViewById(R.id.email_id) ;
+
         dl = (DrawerLayout)findViewById(R.id.activity_nav);
+        View headerView = nv.getHeaderView(0);
+        viewEmail= (TextView) headerView.findViewById(R.id.email_id);
+        viewUsername=(TextView)headerView.findViewById(R.id.username) ;
         t = new ActionBarDrawerToggle(this, dl,R.string.drawer_open, R.string.drawer_close);
         dl.addDrawerListener(t);
         t.syncState();
@@ -63,16 +67,8 @@ public class DashBoard extends AppCompatActivity {
         user.setText("Hello User\n" + mAuth.getCurrentUser().getEmail());
 
 
-        View view;
-        Inflater mInflater ;
-
         LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        View vi = inflater.inflate(R.layout.nav_header, null); //log.xml is your file.
-        TextView tv = (TextView)vi.findViewById(R.id.email_id);
-        tv.setText(mAuth.getCurrentUser().getEmail());
-
-
+        viewUsername.setText(mAuth.getCurrentUser().getEmail());
 
         getGroups();
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -135,6 +131,7 @@ public class DashBoard extends AppCompatActivity {
         System.out.println("3453333333333333  "+docRef.toString());
         final Map<String, Object>[] messages = new Map[]{null};
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -143,6 +140,8 @@ public class DashBoard extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     ArrayList<String> groups= (ArrayList<String>) document.get("Groups");
                     System.out.println("888888888888888888888 "+document.get("Group"));
+
+                    viewEmail.setText(document.get("Name").toString());
                     if(groups!=null) {
                         list.setText("");
                         for (String i : groups) {
