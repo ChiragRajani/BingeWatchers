@@ -1,25 +1,23 @@
 package com.example.bingewatchers;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,14 +29,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.zip.Inflater;
 
 public class DashBoard extends AppCompatActivity {
+    private static final String TAG = "DashBoard";
+    private final ArrayList<String> mImageUrls = new ArrayList<>();
     FirebaseAuth mAuth;
-    Button signout,goToGroup;
-    TextView user,list,viewEmail,viewUsername;
+    Button goToGroup;
+    TextView user, list, viewEmail, viewUsername;
     FirebaseFirestore db;
-
+    boolean doubleBackToExitPressedOnce = false;
+    private ArrayList<String> mNames = new ArrayList<>();
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private NavigationView nv;
@@ -48,17 +48,27 @@ public class DashBoard extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
+
+        final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getGroups(); // your code
+                System.out.println("REEEFRESSSSHED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                pullToRefresh.setRefreshing(false);
+            }
+        });
+
         user = findViewById(R.id.user);
         setTitle("DashBoard");
-        list=findViewById(R.id.list) ;
-       // goToGroup=findViewById(R.id.goToGroup) ;
-        nv = (NavigationView)findViewById(R.id.nv);
-
-        dl = (DrawerLayout)findViewById(R.id.activity_nav);
+        list = findViewById(R.id.list);
+        goToGroup = findViewById(R.id.goToGroup);
+        nv = findViewById(R.id.nv);
+        dl = findViewById(R.id.activity_nav);
         View headerView = nv.getHeaderView(0);
-        viewEmail= (TextView) headerView.findViewById(R.id.email_id);
-        viewUsername=(TextView)headerView.findViewById(R.id.username) ;
-        t = new ActionBarDrawerToggle(this, dl,R.string.drawer_open, R.string.drawer_close);
+        viewEmail = headerView.findViewById(R.id.email_id);
+        viewUsername = headerView.findViewById(R.id.username);
+        t = new ActionBarDrawerToggle(this, dl, R.string.drawer_open, R.string.drawer_close);
         dl.addDrawerListener(t);
         t.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -66,24 +76,22 @@ public class DashBoard extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         user.setText("Hello User\n" + mAuth.getCurrentUser().getEmail());
 
+        getGroups();
 
-        LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         viewUsername.setText(mAuth.getCurrentUser().getEmail());
 
-        getGroups();
+
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-@Override
+            @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                switch(id) {
+                switch (id) {
                     case R.id.profile:
                         Toast.makeText(DashBoard.this, "My Account", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.groups:{
-
+                    case R.id.groups: {
                         Toast.makeText(DashBoard.this, "Settings", Toast.LENGTH_SHORT).show();
-                        Intent i =new Intent(DashBoard.this,CreateJoinGroup.class) ;
-                        startActivity(i) ;
+                        startActivity(new Intent(DashBoard.this, CreateJoinGroup.class));
                         break;
                     }
                     case R.id.logout: {
@@ -98,41 +106,15 @@ public class DashBoard extends AppCompatActivity {
                 return true;
             }
         });
-
-
-
-
-//        signout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mAuth.signOut();
-//                startActivity(new Intent(DashBoard.this, MainActivity.class));
-//            }
-//        });
-//        goToGroup.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i =new Intent(DashBoard.this,CreateJoinGroup.class) ;
-//                startActivity(i) ;
-//            }
-//        });
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if(t.onOptionsItemSelected(item))
-            return true;
-
-        return super.onOptionsItemSelected(item);
-    }
     public void getGroups() {
-        //  Map<String, Object> user = new HashMap<>();
-
+        mAuth = FirebaseAuth.getInstance();
         String email = mAuth.getCurrentUser().getEmail();
         System.out.println("||||||||||||||| curent user is " + email);
-        db.collection("Users").document(email).get();
+
         DocumentReference docRef = db.collection("Users").document(email);
-        System.out.println("3453333333333333  "+docRef.toString());
+        System.out.println("3453333333333333  " + docRef.toString());
         final Map<String, Object>[] messages = new Map[]{null};
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @SuppressLint("SetTextI18n")
@@ -142,24 +124,15 @@ public class DashBoard extends AppCompatActivity {
                     //if read successful
 
                     DocumentSnapshot document = task.getResult();
-                    ArrayList<String> groups= (ArrayList<String>) document.get("Groups");
-                    System.out.println("888888888888888888888 "+document.get("Group"));
+
+                    mNames = (ArrayList<String>) document.get("Groups");
+                    System.out.println("888888888888888888888 " + mNames);
+                    initRecyclerView1(mNames);
 
                     viewEmail.setText(document.get("Name").toString());
-                    if(groups!=null) {
-                        list.setText("");
-                        for (String i : groups) {
-
-                            list.append(i+"\n");
-                        }
-
-                    }
-                    else
-                        list.setText("Oppos youre no into any group");
 
                     messages[0] = document.getData();
 
-                    Toast.makeText(getApplicationContext(), document.getId() + " => " + document.getData(), Toast.LENGTH_LONG).show();
 
                 } else {
                     System.out.println("error ");
@@ -167,8 +140,26 @@ public class DashBoard extends AppCompatActivity {
             }
 
         });
+
     }
-    boolean doubleBackToExitPressedOnce = false;
+
+    private void initRecyclerView1(ArrayList<String> mNamesv) {
+        Log.d(TAG, "initRecyclerView: init recyclerview");
+        System.out.println("9999999999999999999999" + mNamesv);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(layoutManager);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNamesv, mImageUrls);
+        recyclerView.setAdapter(adapter);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (t.onOptionsItemSelected(item))
+            return true;
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onBackPressed() {
@@ -184,8 +175,44 @@ public class DashBoard extends AppCompatActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
+
+    private void getImages() {
+        Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
+//        mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
+//        mNames.add("Havasu Falls");
+//
+//        mImageUrls.add("https://i.redd.it/tpsnoz5bzo501.jpg");
+//        mNames.add("Trondheim");
+//
+//        mImageUrls.add("https://i.redd.it/qn7f9oqu7o501.jpg");
+//        mNames.add("Portugal");
+//
+//        mImageUrls.add("https://i.redd.it/j6myfqglup501.jpg");
+//        mNames.add("Rocky Mountain National Park");
+//
+//
+//        mImageUrls.add("https://i.redd.it/0h2gm1ix6p501.jpg");
+//        mNames.add("Mahahual");
+//
+//        mImageUrls.add("https://i.redd.it/k98uzl68eh501.jpg");
+//        mNames.add("Frozen Lake");
+//
+//
+//        mImageUrls.add("https://i.redd.it/glin0nwndo501.jpg");
+//        mNames.add("White Sands Desert");
+//
+//        mImageUrls.add("https://i.redd.it/obx4zydshg601.jpg");
+//        mNames.add("Austrailia");
+//
+//        mImageUrls.add("https://i.imgur.com/ZcLLrkY.jpg");
+//        mNames.add("Washington");
+
+//        initRecyclerView();
+
+    }
+
 }

@@ -69,6 +69,8 @@ public class CreateJoinGroup extends AppCompatActivity {
                                 status.setText("Group Created with name\n"+docId);
                                 rootRef.collection("Groups").document(docId).update("Members", FieldValue.arrayUnion(regEmail)) ;
                                 rootRef.collection("Users").document(regEmail).update("Groups Created", FieldValue.arrayUnion(docId)) ;
+                                rootRef.collection("Users").document(regEmail).update("Groups", FieldValue.arrayUnion(docId)) ;
+
                             }
                         } else {
                             System.out.println("%%%%%%%%%%%%%555b  EXCEPTION OCCURED: "+task.getException().getMessage());
@@ -97,7 +99,7 @@ public class CreateJoinGroup extends AppCompatActivity {
                         if (document.exists()) {
 //                            rootRef.collection("Groups").document(groupName).update("Members","erygersfgrt4g4rfgyg");
                             rootRef.collection("Groups").document(groupName).update("Members", FieldValue.arrayUnion(user)) ;
-                            rootRef.collection("Users").document(user).update("Groups Joined", FieldValue.arrayUnion(groupName)) ;
+                            rootRef.collection("Users").document(user).update("Groups", FieldValue.arrayUnion(groupName)) ;
                             status.setText( "Cant Find Group with name\n"+groupName);
                             //System.out.println("%%%%%%%%%%%%%555b  DOCUMENT EXISTS");
                             //status.setText("Group Found with name\n"+groupName);
