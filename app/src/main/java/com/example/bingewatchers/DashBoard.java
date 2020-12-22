@@ -51,7 +51,7 @@ public class DashBoard extends AppCompatActivity {
         user = findViewById(R.id.user);
         setTitle("DashBoard");
         list=findViewById(R.id.list) ;
-        goToGroup=findViewById(R.id.goToGroup) ;
+       // goToGroup=findViewById(R.id.goToGroup) ;
         nv = (NavigationView)findViewById(R.id.nv);
 
         dl = (DrawerLayout)findViewById(R.id.activity_nav);
@@ -79,9 +79,13 @@ public class DashBoard extends AppCompatActivity {
                     case R.id.profile:
                         Toast.makeText(DashBoard.this, "My Account", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.groups:
+                    case R.id.groups:{
+
                         Toast.makeText(DashBoard.this, "Settings", Toast.LENGTH_SHORT).show();
+                        Intent i =new Intent(DashBoard.this,CreateJoinGroup.class) ;
+                        startActivity(i) ;
                         break;
+                    }
                     case R.id.logout: {
                         Toast.makeText(DashBoard.this, "My Cart", Toast.LENGTH_SHORT).show();
                         mAuth.signOut();
@@ -105,13 +109,13 @@ public class DashBoard extends AppCompatActivity {
 //                startActivity(new Intent(DashBoard.this, MainActivity.class));
 //            }
 //        });
-        goToGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i =new Intent(DashBoard.this,CreateJoinGroup.class) ;
-                startActivity(i) ;
-            }
-        });
+//        goToGroup.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i =new Intent(DashBoard.this,CreateJoinGroup.class) ;
+//                startActivity(i) ;
+//            }
+//        });
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
