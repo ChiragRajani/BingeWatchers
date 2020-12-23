@@ -43,8 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         System.out.println("-----------"+mNames);
 
 
-        Glide.with(mContext)
-                .asBitmap()
+        Glide.with(mContext).asDrawable()
                 .load(mImageUrls.get(position))
 //                .load("https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854519.jpg")
                 .into(holder.image);

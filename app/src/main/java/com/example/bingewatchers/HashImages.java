@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 class HashImages {
-    Map<String, String> imgs = new HashMap<>();
+    Map<String,String> imgs = new HashMap<>();
 
     HashImages() {
         imgs.put("a", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854456.jpg");

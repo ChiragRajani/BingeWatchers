@@ -36,6 +36,7 @@ public class DashBoard extends AppCompatActivity {
     Button goToGroup;
     TextView user, list, viewEmail, viewUsername;
     FirebaseFirestore db;
+     SwipeRefreshLayout pullToRefresh ;
     boolean doubleBackToExitPressedOnce = false;
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
@@ -49,7 +50,7 @@ public class DashBoard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
 
-        final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
+       pullToRefresh = findViewById(R.id.pullToRefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -57,7 +58,7 @@ public class DashBoard extends AppCompatActivity {
                 mImageUrls=new ArrayList<>();
                 getGroups(); // your code
                 System.out.println("REEEFRESSSSHED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                pullToRefresh.setRefreshing(false);
+
             }
         });
 
@@ -130,7 +131,7 @@ public class DashBoard extends AppCompatActivity {
 
                     mNames = (ArrayList<String>) document.get("Groups");
                     System.out.println("888888888888888888888 " + mNames);
-
+                    pullToRefresh.setRefreshing(false);
 
                     viewEmail.setText(document.get("Name").toString());
 
