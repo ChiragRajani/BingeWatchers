@@ -10,9 +10,6 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
-
 import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -39,6 +36,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
+
+
         Log.d(TAG, "onBindViewHolder: called.");
 
         System.out.println("-----------"+mNames);
@@ -46,14 +45,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Glide.with(mContext)
                 .asBitmap()
-                .load(mImageUrls)
+                .load(mImageUrls.get(position))
+//                .load("https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854519.jpg")
                 .into(holder.image);
 
+
+        System.out.println("POSITION"+position);
+        System.out.println("================!!!!!!!!!!!!!!!================="+mNames.size());
         holder.name.setText(mNames.get(position));
+
 
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Log.d(TAG, "onClick: clicked on an image: " + mNames.get(position));
                 Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
             }

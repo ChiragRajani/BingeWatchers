@@ -53,6 +53,8 @@ public class DashBoard extends AppCompatActivity {
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                mNames=new ArrayList<>();
+                mImageUrls=new ArrayList<>();
                 getGroups(); // your code
                 System.out.println("REEEFRESSSSHED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 pullToRefresh.setRefreshing(false);
@@ -74,6 +76,7 @@ public class DashBoard extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        user.setText("Hello User\n" + mAuth.getCurrentUser().getEmail());
         user.setText("Hello User\n" + mAuth.getCurrentUser().getEmail());
 
         getGroups();
@@ -133,13 +136,15 @@ public class DashBoard extends AppCompatActivity {
 
                     messages[0] = document.getData();
                     Map kv = new HashImages().getHash1();
+                    if (mNames != null) {
+                        for (String i : mNames) {
+                            String o = i.substring(0, 1);
+                            System.out.println(i);
+                            mImageUrls.add(kv.get(o).toString());
+                        }
 
-                    for (String i : mNames) {
-                        String o = i.substring(0, 1);
-                        System.out.println(i);
-                        mImageUrls.add(kv.get(o).toString());
+                        initRecyclerView1(mNames, mImageUrls);
                     }
-                    initRecyclerView1(mNames,mImageUrls);
 
                 } else {
                     System.out.println("error ");
