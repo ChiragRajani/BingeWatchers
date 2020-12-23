@@ -169,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
             System.out.println("no user is logged i");
         }
+
 //        System.out.println("in on start   :   " + currentUser.toString());
 //        updateUI(currentUser);
     }

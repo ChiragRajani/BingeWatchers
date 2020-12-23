@@ -47,6 +47,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .load(mImageUrls.get(position))
 //                .load("https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854519.jpg")
                 .into(holder.image);
+        DashBoard.nDialog.dismiss();
 
 
         System.out.println("POSITION"+position);
@@ -80,4 +81,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             name = itemView.findViewById(R.id.name);
         }
     }
+
+
 }

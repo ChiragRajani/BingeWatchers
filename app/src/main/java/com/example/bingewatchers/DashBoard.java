@@ -1,6 +1,7 @@
 package com.example.bingewatchers;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,6 +35,8 @@ public class DashBoard extends AppCompatActivity {
     private static final String TAG = "DashBoard";
     FirebaseAuth mAuth;
     Button goToGroup;
+    static ProgressDialog nDialog;
+
     TextView user, list, viewEmail, viewUsername;
     FirebaseFirestore db;
      SwipeRefreshLayout pullToRefresh ;
@@ -49,22 +52,16 @@ public class DashBoard extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
-
-       pullToRefresh = findViewById(R.id.pullToRefresh);
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mNames=new ArrayList<>();
-                mImageUrls=new ArrayList<>();
-                getGroups(); // your code
-                System.out.println("REEEFRESSSSHED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
-            }
-        });
-
+        nDialog = new ProgressDialog(DashBoard.this);
+        nDialog.setMessage("Fetching......Wait");
+        nDialog.setTitle("Fetching Data");
+        nDialog.setIndeterminate(true);
+        nDialog.setCancelable(false);
+        nDialog.show();
+       pullToRefresh = findViewById(R.id.pullToRefresh) ;
         user = findViewById(R.id.user);
         setTitle("DashBoard");
-        list = findViewById(R.id.list);
+        //list = findViewById(R.id.list);
         goToGroup = findViewById(R.id.goToGroup);
         nv = findViewById(R.id.nv);
         dl = findViewById(R.id.activity_nav);
@@ -77,6 +74,16 @@ public class DashBoard extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mNames=new ArrayList<>();
+                mImageUrls=new ArrayList<>();
+                getGroups(); // your code
+                System.out.println("REEEFRESSSSHED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+            }
+        });
         user.setText("Hello User\n" + mAuth.getCurrentUser().getEmail());
         user.setText("Hello User\n" + mAuth.getCurrentUser().getEmail());
 
@@ -145,6 +152,7 @@ public class DashBoard extends AppCompatActivity {
                         }
 
                         initRecyclerView1(mNames, mImageUrls);
+
                     }
 
                 } else {

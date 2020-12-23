@@ -1,7 +1,6 @@
 package com.example.bingewatchers;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -14,17 +13,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firestore.v1.GetDocumentRequestOrBuilder;
+import com.google.firebase.firestore.Query;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 public class CreateJoinGroup extends AppCompatActivity {
     private TextInputEditText createGroupName,joinGroupName ;
@@ -43,6 +39,7 @@ public class CreateJoinGroup extends AppCompatActivity {
         status=findViewById(R.id.status) ;
         db = FirebaseFirestore.getInstance();
         mAuth= FirebaseAuth.getInstance() ;
+
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -138,6 +135,7 @@ public class CreateJoinGroup extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
 //    public boolean onSupportNavigateUp() {
 //        finish();
