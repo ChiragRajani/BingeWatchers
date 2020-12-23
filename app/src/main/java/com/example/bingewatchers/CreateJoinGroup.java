@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -43,6 +44,8 @@ public class CreateJoinGroup extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         mAuth= FirebaseAuth.getInstance() ;
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,4 +130,16 @@ public class CreateJoinGroup extends AppCompatActivity {
         }
     });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
+//    public boolean onSupportNavigateUp() {
+//        finish();
+//        return true;
+//    }
