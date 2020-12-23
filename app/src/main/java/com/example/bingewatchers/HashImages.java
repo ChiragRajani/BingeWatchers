@@ -7,7 +7,7 @@ class HashImages {
     Map<String, String> imgs = new HashMap<>();
 
     HashImages() {
-        imgs.put("a", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-600w-1788854456.jpg");
+        imgs.put("a", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854456.jpg");
         imgs.put("b", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854465.jpg");
         imgs.put("c", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854474.jpg");
         imgs.put("d", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854480.jpg");
@@ -16,10 +16,10 @@ class HashImages {
         imgs.put("g", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854459.jpg");
         imgs.put("h", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854468.jpg");
         imgs.put("i", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854462.jpg");
-        imgs.put("j", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-600w-1788854477.jpg");
+        imgs.put("j", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854477.jpg");
         imgs.put("k", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854486.jpg");
         imgs.put("l", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854453.jpg");
-        imgs.put("m", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-600w-1788854471.jpg");
+        imgs.put("m", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854471.jpg");
         imgs.put("n", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854531.jpg");
         imgs.put("o", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854528.jpg");
         imgs.put("p", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854525.jpg");
