@@ -75,13 +75,16 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:menu="@menu/nav_menu"
-        style="@style/Widget.MaterialComponents.AppBarLayout.PrimarySurface"
+        style="@style/Widget.MaterialComponents.AppBarLayout.Surface"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         android:id="@+id/nv"
-        android:background="@color/white"
         android:forceHasOverlappingRendering="true"
         tools:ignore="MissingConstraints">
+<!--        android:background="#202020"-->
+
+<!--        app:itemTextColor="#e4e4e4"-->
+
 
     </com.google.android.material.navigation.NavigationView>
 
