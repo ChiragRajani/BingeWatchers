@@ -2,6 +2,7 @@ package com.example.bingewatchers;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +16,7 @@ public class ChatWindow extends AppCompatActivity {
 TextView grpName ;
 Button show ;
     private BottomSheetBehavior sheetBehavior;
-    private LinearLayout bottom_sheet;
+    private ConstraintLayout bottom_sheet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
