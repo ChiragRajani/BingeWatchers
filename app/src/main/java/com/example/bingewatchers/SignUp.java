@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,12 +39,13 @@ public class SignUp extends AppCompatActivity {
     FirebaseFirestore db;
     String regPwd, regName,regDOB;
     static String regEmail;
+    static ProgressBar pgbar ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
+        pgbar=findViewById(R.id.progress_horizontal) ;
         email = findViewById(R.id.username);
         pwd = findViewById(R.id.password);
         btn = findViewById(R.id.submit);
@@ -55,7 +57,7 @@ public class SignUp extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                pgbar.setVisibility(ProgressBar.VISIBLE);
                 regEmail = email.getText().toString();
                 regPwd = pwd.getText().toString();
                 regDOB = dob.getText().toString();

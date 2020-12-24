@@ -1,6 +1,7 @@
 package com.example.bingewatchers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View view) {
 
                 Log.d(TAG, "onClick: clicked on an image: " + mNames.get(position));
+                Intent i=new Intent(mContext, ChatWindow.class) ;
+                i.putExtra("Group Name",mNames.get(position)) ;
+                mContext.startActivity(i);
                 Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
             }
         });

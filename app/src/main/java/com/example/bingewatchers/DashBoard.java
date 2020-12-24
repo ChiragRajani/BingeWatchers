@@ -111,8 +111,9 @@ public class DashBoard extends AppCompatActivity {
                     case R.id.logout: {
                         Toast.makeText(DashBoard.this, "My Cart", Toast.LENGTH_SHORT).show();
                         mAuth.signOut();
-                        startActivity(new Intent(DashBoard.this, MainActivity.class));
-                        break;
+                        Intent i=new Intent(DashBoard.this, MainActivity.class) ;
+                        i.putExtra("from","logout") ;
+                        startActivity(i);
                     }
                     default:
                         return true;

@@ -2,6 +2,7 @@ package com.example.bingewatchers;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -30,12 +32,19 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(getIntent().getSerializableExtra("from")!=null)
+            System.out.println("478666666666666666666666666666666666 Data recieved"+getIntent().getSerializableExtra("from"));
+        else
+        {
+            System.out.println("5444444444444444444444444444444444444 empty dataaaaaaaaaaaaaaa"+getIntent().toString());
+            startActivity(new Intent(MainActivity.this, SplashScreen.class));
+        }
 
-//        startActivity(new Intent(MainActivity.this, SplashScreen.class));
 
         System.out.println("in on create   :   ");
         email = findViewById(R.id.username);
