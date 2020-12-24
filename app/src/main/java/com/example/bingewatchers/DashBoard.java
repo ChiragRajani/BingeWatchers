@@ -33,13 +33,13 @@ import java.util.Map;
 
 public class DashBoard extends AppCompatActivity {
     private static final String TAG = "DashBoard";
+    static ProgressDialog nDialog;
+    static int p = 0;
     FirebaseAuth mAuth;
     Button goToGroup;
-    static ProgressDialog nDialog;
-
     TextView user, list, viewEmail, viewUsername;
     FirebaseFirestore db;
-     SwipeRefreshLayout pullToRefresh ;
+    SwipeRefreshLayout pullToRefresh;
     boolean doubleBackToExitPressedOnce = false;
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
@@ -52,13 +52,16 @@ public class DashBoard extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
+
+//        startActivity(new Intent(DashBoard.this, SplashScreen.class));
+//        finish();
         nDialog = new ProgressDialog(DashBoard.this);
         nDialog.setMessage("Fetching......Wait");
         nDialog.setTitle("Fetching Data");
         nDialog.setIndeterminate(true);
         nDialog.setCancelable(false);
-        nDialog.show();
-       pullToRefresh = findViewById(R.id.pullToRefresh) ;
+//        nDialog.show();
+        pullToRefresh = findViewById(R.id.pullToRefresh);
         user = findViewById(R.id.user);
         setTitle("DashBoard");
         //list = findViewById(R.id.list);
@@ -77,14 +80,14 @@ public class DashBoard extends AppCompatActivity {
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mNames=new ArrayList<>();
-                mImageUrls=new ArrayList<>();
+                mNames = new ArrayList<>();
+                mImageUrls = new ArrayList<>();
                 getGroups(); // your code
                 System.out.println("REEEFRESSSSHED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
             }
         });
-        user.setText("Hello User\n" + mAuth.getCurrentUser().getEmail());
+
         user.setText("Hello User\n" + mAuth.getCurrentUser().getEmail());
 
         getGroups();

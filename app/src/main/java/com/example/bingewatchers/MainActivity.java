@@ -4,7 +4,6 @@ package com.example.bingewatchers;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,41 +11,40 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MyActivity";
     private EditText email, pwd;
     private Button btn;
     private TextView reg;
     private FirebaseAuth mAuth;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
-    private static final String TAG = "MyActivity";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        startActivity(new Intent(MainActivity.this, SplashScreen.class));
+
         System.out.println("in on create   :   ");
         email = findViewById(R.id.username);
         pwd = findViewById(R.id.password);
         btn = findViewById(R.id.submit);
         reg = findViewById(R.id.reg);
-       // toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-      //  initNavigationDrawer();
+        //  initNavigationDrawer();
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -141,9 +139,7 @@ public class MainActivity extends AppCompatActivity {
                             }
 //                                Intent i = new Intent(MainActivity.this, DashBoard.class);
 //                                startActivity(i);
-                            }
-
-                        else {
+                        } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(MainActivity.this, "Authentication failed." + task.getException().getMessage(),
@@ -157,26 +153,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         // FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
-            Intent i = new Intent(MainActivity.this, DashBoard.class);
-            startActivity(i);
-            System.out.println(" user logged in"+currentUser.getEmail());
-        } else {
 
+            Intent i = new Intent(MainActivity.this, DashBoard.class);
+
+            startActivity(i);
+            System.out.println(" user logged in" + currentUser.getEmail());
+        } else {
+       
             System.out.println("no user is logged i");
         }
 
 //        System.out.println("in on start   :   " + currentUser.toString());
 //        updateUI(currentUser);
     }
+
     public void onBackPressed() {
 
-            super.onBackPressed();
-            finishAffinity();
-        }
-
+        super.onBackPressed();
+        finishAffinity();
     }
+
+}
