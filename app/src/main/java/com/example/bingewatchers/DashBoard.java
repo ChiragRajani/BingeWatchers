@@ -52,6 +52,7 @@ public class DashBoard extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
+        setTitle("DashBoard");
 
 //        startActivity(new Intent(DashBoard.this, SplashScreen.class));
 //        finish();
@@ -63,7 +64,6 @@ public class DashBoard extends AppCompatActivity {
 //        nDialog.show();
         pullToRefresh = findViewById(R.id.pullToRefresh);
         user = findViewById(R.id.user);
-        setTitle("DashBoard");
         //list = findViewById(R.id.list);
         goToGroup = findViewById(R.id.goToGroup);
         nv = findViewById(R.id.nv);

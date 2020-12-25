@@ -25,26 +25,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom">
+
     <EditText
         android:id="@+id/grpName"
-        android:layout_width="300dp"
+        android:layout_width="324dp"
         android:layout_height="78dp"
         android:layout_gravity="bottom"
-        android:hint="TextView"
+        android:hint="Type a message"
         android:textColor="#000000"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:paddingLeft="18dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/show"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="0dp"
         android:clickable="true"
         android:gravity="end"
-        app:srcCompat="@drawable/ic_add" />
+        app:srcCompat="@drawable/ic_add"
+        android:padding="0dp"/>
 </LinearLayout>
 
 
