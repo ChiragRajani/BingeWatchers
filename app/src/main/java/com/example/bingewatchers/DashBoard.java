@@ -34,13 +34,13 @@ import java.util.Map;
 public class DashBoard extends AppCompatActivity {
     private static final String TAG = "DashBoard";
     static ProgressDialog nDialog;
-    static int p = 0;
     FirebaseAuth mAuth;
     Button goToGroup;
-    TextView user, list, viewEmail, viewUsername;
+    TextView user, viewEmail, viewUsername;
     FirebaseFirestore db;
     SwipeRefreshLayout pullToRefresh;
     boolean doubleBackToExitPressedOnce = false;
+    String name;
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
     private DrawerLayout dl;
@@ -111,8 +111,8 @@ public class DashBoard extends AppCompatActivity {
                     case R.id.logout: {
                         Toast.makeText(DashBoard.this, "My Cart", Toast.LENGTH_SHORT).show();
                         mAuth.signOut();
-                        Intent i=new Intent(DashBoard.this, MainActivity.class) ;
-                        i.putExtra("from","logout") ;
+                        Intent i = new Intent(DashBoard.this, MainActivity.class);
+                        i.putExtra("from", "logout");
                         startActivity(i);
                     }
                     default:
@@ -129,7 +129,7 @@ public class DashBoard extends AppCompatActivity {
         System.out.println("||||||||||||||| curent user is " + email);
 
         DocumentReference docRef = db.collection("Users").document(email);
-        System.out.println("3453333333333333  " + docRef.toString());
+
         final Map<String, Object>[] messages = new Map[]{null};
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @SuppressLint("SetTextI18n")
@@ -139,13 +139,12 @@ public class DashBoard extends AppCompatActivity {
                     //if read successful
 
                     DocumentSnapshot document = task.getResult();
-
                     mNames = (ArrayList<String>) document.get("Groups");
-                    System.out.println("888888888888888888888 " + mNames);
+
                     pullToRefresh.setRefreshing(false);
-
-                    viewEmail.setText(document.get("Name").toString());
-
+                    name = document.get("Name").toString();
+                    viewEmail.setText(name);
+                    System.out.println("888888888888888888888 " + name);
                     messages[0] = document.getData();
                     Map kv = new HashImages().getHash1();
                     if (mNames != null) {
@@ -155,7 +154,7 @@ public class DashBoard extends AppCompatActivity {
                             mImageUrls.add(kv.get(o).toString());
                         }
 
-                        initRecyclerView1(mNames, mImageUrls);
+                        initRecyclerView1(mNames, mImageUrls, name);
 
                     }
 
@@ -168,13 +167,13 @@ public class DashBoard extends AppCompatActivity {
 
     }
 
-    private void initRecyclerView1(ArrayList<String> mNames1, ArrayList<String> mImageUrls1) {
+    private void initRecyclerView1(ArrayList<String> mNames1, ArrayList<String> mImageUrls1, String name) {
         Log.d(TAG, "initRecyclerView: init recyclerview");
-        System.out.println("9999999999999999999999" + mNames1);
+        Log.d(TAG, "9999999999999999999999" + mNames1);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames1, mImageUrls1);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames1, mImageUrls1, name);
         recyclerView.setAdapter(adapter);
     }
 

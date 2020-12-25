@@ -15,37 +15,32 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.pchmn.materialchips.ChipsInput;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SignUp extends AppCompatActivity {
 
+    private static final String TAG = "MyActivity";
+    static EditText dob;
+    static String regEmail;
+    static ProgressBar pgbar;
     private TextInputEditText email, pwd, name;
-    static EditText dob ;
     private Button btn;
     private FirebaseAuth mAuth;
-    private static final String TAG = "MyActivity";
-    FirebaseFirestore db;
-    String regPwd, regName,regDOB;
-    static String regEmail;
-    static ProgressBar pgbar ;
+    private FirebaseFirestore db;
+    private String regPwd, regName, regDOB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        pgbar=findViewById(R.id.progress_horizontal) ;
+        pgbar = findViewById(R.id.progress_horizontal);
         email = findViewById(R.id.username);
         pwd = findViewById(R.id.password);
         btn = findViewById(R.id.submit);
@@ -70,7 +65,6 @@ public class SignUp extends AppCompatActivity {
                 user.put("Date of Birth", regDOB);
                 user.put("Name", regName);
                 createAccount(regEmail, regPwd, user);
-
 
                 email.setText("");
                 pwd.setText("");
@@ -114,7 +108,7 @@ public class SignUp extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             Toast.makeText(SignUp.this, "Account Created", Toast.LENGTH_SHORT);
-                           //Snackbar.makeText(SignUp.this," ", Snackbar.LENGTH_SHORT).show();
+                            //Snackbar.makeText(SignUp.this," ", Snackbar.LENGTH_SHORT).show();
                             updateUserinDB(userInfo);
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent i = new Intent(SignUp.this, GenreSelection.class);

@@ -14,6 +14,8 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +75,7 @@ public class GenreSelection extends AppCompatActivity {
             }
         });
     }
-    Map<String,Object> liste(List<Integer> ids){
+    Map<String,Object> liste(@NotNull List<Integer> ids){
         List<String> genreL=new ArrayList<>();
         Map<String, Object> genreM = new HashMap<>();
         for(int i : ids){

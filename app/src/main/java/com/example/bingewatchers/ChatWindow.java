@@ -19,20 +19,21 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 
 public class ChatWindow extends AppCompatActivity {
-    EditText grpName;
-    String notgrpname;
-    FloatingActionButton show;
+    private EditText grpName;
+    private FloatingActionButton show;
 
-    DatabaseReference myRef;
-    FirebaseAuth mAuth;
-    int btnFunc = 0;
-    String message;
+    private DatabaseReference myRef;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private BottomSheetBehavior sheetBehavior;
     private ConstraintLayout bottom_sheet;
+    private int btnFunc = 0;
+    private String message, name, notgrpname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +47,10 @@ public class ChatWindow extends AppCompatActivity {
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
 
         notgrpname = getIntent().getSerializableExtra("Group Name").toString();
+        name = getIntent().getSerializableExtra("Name").toString();
         myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname);
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
         message = grpName.getText().toString();
 
 
@@ -59,18 +62,15 @@ public class ChatWindow extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
-
                     if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
                         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//
                     } else {
                         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-//
                     }
                 }
                 if (btnFunc == 1) {
 
-                    messageToBeSent obj = new messageToBeSent(message, Calendar.getInstance().getTime().toString(), mAuth.getCurrentUser().getEmail());
+                    messageToBeSent obj = new messageToBeSent(name, message, Calendar.getInstance().getTime().toString(), mAuth.getCurrentUser().getEmail());
                     myRef.push().setValue(obj);
                     Toast.makeText(ChatWindow.this, "Message Sent", Toast.LENGTH_LONG).show();
                     grpName.setText("");
@@ -89,7 +89,6 @@ public class ChatWindow extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 message = grpName.getText().toString();
                 if (message.equals("")) {
-
 
                     btnFunc = 0;
                     show.setImageDrawable(
@@ -118,11 +117,11 @@ public class ChatWindow extends AppCompatActivity {
                     case BottomSheetBehavior.STATE_SETTLING:
                         break;
                     case BottomSheetBehavior.STATE_EXPANDED: {
-//
+
                     }
                     break;
                     case BottomSheetBehavior.STATE_COLLAPSED: {
-//
+
                     }
                     break;
                 }

@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         if (getIntent().getSerializableExtra("from") != null)
             System.out.println("478666666666666666666666666666666666 Data recieved" + getIntent().getSerializableExtra("from"));
         else {
