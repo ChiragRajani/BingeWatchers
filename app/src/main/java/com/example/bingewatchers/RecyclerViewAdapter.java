@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -22,11 +24,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<String> mNames;
     private ArrayList<String> mImageUrls;
     private Context mContext;
+    private String name;
 
-    public RecyclerViewAdapter(Context context, ArrayList<String> names, ArrayList<String> imageUrls) {
+    public RecyclerViewAdapter(Context context, ArrayList<String> names, ArrayList<String> imageUrls, String name) {
         mNames = names;
         mImageUrls = imageUrls;
         mContext = context;
+        this.name = name;
     }
 
     @Override
@@ -41,27 +45,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Log.d(TAG, "onBindViewHolder: called.");
 
-        System.out.println("-----------"+mNames);
+        System.out.println("-----------" + mNames);
 
 
         Glide.with(mContext).asDrawable()
                 .load(mImageUrls.get(position))
                 .into(holder.image);
         DashBoard.nDialog.dismiss();
-
-
-        System.out.println("POSITION"+position);
-        System.out.println("================!!!!!!!!!!!!!!!================="+mNames.size());
         holder.name.setText(mNames.get(position));
-
 
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Log.d(TAG, "onClick: clicked on an image: " + mNames.get(position));
-                Intent i=new Intent(mContext, ChatWindow.class) ;
-                i.putExtra("Group Name",mNames.get(position)) ;
+                Intent i = new Intent(mContext, ChatWindow.class);
+                i.putExtra("Group Name", mNames.get(position));
+                i.putExtra("Name", name);
                 mContext.startActivity(i);
 
 //                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
@@ -74,7 +74,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mImageUrls.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView image;
         TextView name;
