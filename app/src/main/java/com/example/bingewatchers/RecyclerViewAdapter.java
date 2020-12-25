@@ -46,7 +46,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Glide.with(mContext).asDrawable()
                 .load(mImageUrls.get(position))
-//                .load("https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854519.jpg")
                 .into(holder.image);
         DashBoard.nDialog.dismiss();
 
@@ -64,7 +63,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Intent i=new Intent(mContext, ChatWindow.class) ;
                 i.putExtra("Group Name",mNames.get(position)) ;
                 mContext.startActivity(i);
-                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
+
+//                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
             }
         });
     }
