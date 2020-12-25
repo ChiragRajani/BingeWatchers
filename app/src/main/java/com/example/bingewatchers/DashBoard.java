@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -31,6 +32,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class DashBoard extends AppCompatActivity {
     private static final String TAG = "DashBoard";
     static ProgressDialog nDialog;
@@ -40,7 +43,11 @@ public class DashBoard extends AppCompatActivity {
     FirebaseFirestore db;
     SwipeRefreshLayout pullToRefresh;
     boolean doubleBackToExitPressedOnce = false;
+
     String name;
+    CircleImageView dp_view;
+    View headerView;
+
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
     private DrawerLayout dl;
@@ -68,8 +75,9 @@ public class DashBoard extends AppCompatActivity {
         goToGroup = findViewById(R.id.goToGroup);
         nv = findViewById(R.id.nv);
         dl = findViewById(R.id.activity_nav);
-        View headerView = nv.getHeaderView(0);
+         headerView = nv.getHeaderView(0);
         viewEmail = headerView.findViewById(R.id.email_id);
+        dp_view = headerView.findViewById(R.id.dp_view);
         viewUsername = headerView.findViewById(R.id.username);
         t = new ActionBarDrawerToggle(this, dl, R.string.drawer_open, R.string.drawer_close);
         dl.addDrawerListener(t);
@@ -93,6 +101,7 @@ public class DashBoard extends AppCompatActivity {
         getGroups();
 
         viewUsername.setText(mAuth.getCurrentUser().getEmail());
+        System.out.println("**********************" + mAuth.getCurrentUser().getEmail());
 
 
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -144,6 +153,16 @@ public class DashBoard extends AppCompatActivity {
                     pullToRefresh.setRefreshing(false);
                     name = document.get("Name").toString();
                     viewEmail.setText(name);
+                    String[] nm = name.split(" ");
+
+                    //        https://ui-avatars.com/api/background=random?rounded=true
+//                    https://ui-avatars.com/api/background=random?name=c+j
+                    String url = "https://ui-avatars.com/api/background=random?name=" + nm[0] + "+" + nm[1];
+                    Glide.with(DashBoard.this).asDrawable()
+                            .load(url)
+                            .into(dp_view);
+
+
                     System.out.println("888888888888888888888 " + name);
                     messages[0] = document.getData();
                     Map kv = new HashImages().getHash1();
