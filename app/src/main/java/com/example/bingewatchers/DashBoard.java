@@ -75,7 +75,7 @@ public class DashBoard extends AppCompatActivity {
         goToGroup = findViewById(R.id.goToGroup);
         nv = findViewById(R.id.nv);
         dl = findViewById(R.id.activity_nav);
-         headerView = nv.getHeaderView(0);
+        headerView = nv.getHeaderView(0);
         viewEmail = headerView.findViewById(R.id.email_id);
         dp_view = headerView.findViewById(R.id.dp_view);
         viewUsername = headerView.findViewById(R.id.username);
@@ -153,15 +153,17 @@ public class DashBoard extends AppCompatActivity {
                     pullToRefresh.setRefreshing(false);
                     name = document.get("Name").toString();
                     viewEmail.setText(name);
-                    String[] nm = name.split(" ");
+
+                    name = document.get("Name").toString();
 
                     //        https://ui-avatars.com/api/background=random?rounded=true
-//                    https://ui-avatars.com/api/background=random?name=c+j
-                    String url = "https://ui-avatars.com/api/background=random?name=" + nm[0] + "+" + nm[1];
+                    //        https://ui-avatars.com/api/background=random?name=c+j
+//                    https://picsum.photos/
+                    String url = "https://ui-avatars.com/api/background=random?name=" + name;
+                    System.out.println("______URL______" + url);
                     Glide.with(DashBoard.this).asDrawable()
                             .load(url)
                             .into(dp_view);
-
 
                     System.out.println("888888888888888888888 " + name);
                     messages[0] = document.getData();
