@@ -60,7 +60,7 @@ public class ChatWindow extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (grpName.getText().toString().equals("")) {
                     show.setImageDrawable(
-                            ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_add));
+                            ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_arrow_upward));
                     show.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -74,6 +74,8 @@ public class ChatWindow extends AppCompatActivity {
                         }
                     });
                 } else {
+                    System.out.println("55555555555555555555555555555555555555555555555 query is "+charSequence.toString());
+                    new parsing(getApplicationContext(),charSequence.toString()).execute() ;
                     show.setImageDrawable(
                             ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_send));
                     show.setOnClickListener(new View.OnClickListener() {
