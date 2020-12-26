@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="10dp"
+    android:outlineAmbientShadowColor="@color/black">
+
+    <TextView
+        android:id="@+id/movieName"
+        android:layout_width="317dp"
+        android:layout_height="92dp"
+        android:text="MovieName"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/movieYear"
+        android:layout_width="56dp"
+        android:layout_height="83dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+
+        android:text="Year"
+        android:textSize="17sp"
+
+        android:textStyle="bold|italic" />
+
+</RelativeLayout>

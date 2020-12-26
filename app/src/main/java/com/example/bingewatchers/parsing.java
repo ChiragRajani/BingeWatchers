@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.widget.ListView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -23,16 +24,19 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class parsing extends AsyncTask{
+    @SuppressLint("StaticFieldLeak")
     private Context context;
-
+    private  ListView list;
     private String query  ;
+    ListViewAdapter adapter;
     static JSONObject kl;
     static  ArrayList<Movie> he=new ArrayList<>() ;
     private int req  ;
-    public parsing(Context context,String query,int req) {
+    public parsing(Context context, String query, int req, ListView list) {
         this.context = context;
         this.query=query ;
         this.req=req ;
+        this.list=list ;
     }
     @Override
     protected ArrayList<Movie> doInBackground(Object[] objects) {
@@ -81,7 +85,7 @@ public class parsing extends AsyncTask{
 
 
                             if(subparent.getString("media_type").equals("movie")) {
-                                System.out.println("------------ ITS A MOVIE------------------------------");
+                             //   System.out.println("------------ ITS A MOVIE------------------------------");
                                 he.add(new Movie(subparent.getString("media_type"), subparent.getString("original_language"), subparent.getString("title"),
                                         subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("release_date")));
 //
@@ -121,7 +125,19 @@ public class parsing extends AsyncTask{
         //System.out.println("4444444444444444444444444444444444444444444444iit"+kl);
 
      //   return he;
+
         return he;
+    }
+
+    @Override
+    protected void onPostExecute(Object o) {
+        super.onPostExecute(o);
+        adapter = new ListViewAdapter(context, he);
+
+        list.setAdapter(adapter);
+        he=new ArrayList<>() ;
+        adapter=null ;
+
     }
 
 }
@@ -143,4 +159,11 @@ class Movie{
         this.language=language ;
 
     }
+    public String getMovieName(){
+        return title ;
+    }
+    public String getMovieDate(){
+        return date ;
+    }
+
 }
