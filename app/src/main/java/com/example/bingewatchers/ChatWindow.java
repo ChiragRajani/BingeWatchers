@@ -29,11 +29,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public class ChatWindow extends AppCompatActivity {
+public class ChatWindow<ArrayList> extends AppCompatActivity {
     private EditText grpName;
     private FloatingActionButton show;
     private String TAG = "CHAT WINDOW";
@@ -48,7 +50,7 @@ public class ChatWindow extends AppCompatActivity {
     private String message, name, notgrpname;
     ListView list;
    ListViewAdapter adapter;
-    ArrayList<String> msgs = new ArrayList<>();
+    //ArrayList<String> msgs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +62,13 @@ public class ChatWindow extends AppCompatActivity {
         bottom_sheet = findViewById(R.id.bottom_sheet);
         show = findViewById(R.id.show);
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
-
+        list=findViewById(R.id.listview) ;
         notgrpname = getIntent().getSerializableExtra("Group Name").toString();
         name = getIntent().getSerializableExtra("Name").toString();
         myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname);
         DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname).child("message");
         mAuth = FirebaseAuth.getInstance();
+        movieName=findViewById(R.id.movieName) ;
         db = FirebaseFirestore.getInstance();
         message = grpName.getText().toString();
 
@@ -77,36 +80,28 @@ public class ChatWindow extends AppCompatActivity {
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
+
                     HashMap obj = (HashMap) postSnapshot.getValue();
 //                    msgs.add(new messageToBeSent(obj.get("name"),));
                     System.out.println(obj.get("message"));
-                    msgs.add(obj.get("message").toString());
+                   // msgs.add(obj.get("message").toString());
+//
+//                    MessagesListAdapter<Message> adapter = new MessagesListAdapter<>(obj.get("senderEmail").toString(), null);
+//                    msgs.setAdapter(adapter);
 
-                    MessagesListAdapter<Message> adapter = new MessagesListAdapter<>(obj.get("senderEmail").toString(), null);
-                    msgs.setAdapter(adapter);
-
-
-                }
-
-
-                String value;
+  }
+                 String value;
                 //value = dataSnapshot.getValue(messageToBeSent.class);
                 //System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"+value);
 //                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"+dataSnapshot.getValue(messageToBeSent.class).getMessage());
 //                Log.d(TAG, "Value is: " + value.getMessage());
             }
-
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
-//        MessagesListAdapter<Message> adapter = new MessagesListAdapter<>(senderId, null);
-//        messagesList.setAdapter(adapter);
-
-
         show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,7 +134,6 @@ public class ChatWindow extends AppCompatActivity {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 message = grpName.getText().toString();
@@ -152,7 +146,6 @@ public class ChatWindow extends AppCompatActivity {
                 } else {
                     btnFunc = 1;
                     System.out.println("55555555555555555555555555555555555555555555555 query is " + charSequence.toString());
-
                     new parsing(getApplicationContext(), charSequence.toString(), 0,list).execute();
                     System.out.println("55555555555555555555555555555555555555555555555 query is "+charSequence.toString());
                   //  new parsing(getApplicationContext(),charSequence.toString(),0).execute() ;
@@ -166,26 +159,27 @@ public class ChatWindow extends AppCompatActivity {
 
             }
         });
-//list.setOnItemClickListener(new o
-//    @Override
-//    public void onClick(View view) {
-//        Toast.makeText(getBaseContext(),"clicked "+list.getSelectedItem(),Toast.LENGTH_SHORT).show();
-//    }
-//});
+list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        String selected = ((TextView) view.findViewById(R.id.movieName)).getText().toString();
+        Toast.makeText(getApplicationContext(),selected,Toast.LENGTH_SHORT).show();
+        movieName.setText(selected);
+        list.setAdapter(null);
+    }
+});
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+        sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback()
 
-        sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View view, int newState) {
+            {
+                @Override
+                public void onStateChanged (@NonNull View view,int newState){
                 switch (newState) {
                     case BottomSheetBehavior.STATE_HIDDEN:
                     case BottomSheetBehavior.STATE_DRAGGING:
                     case BottomSheetBehavior.STATE_SETTLING:
-                    case BottomSheetBehavior.STATE_COLLAPSED:
-
-                    {
+                    case BottomSheetBehavior.STATE_COLLAPSED: {
                         list.setAdapter(null);
                         break;
                     }
@@ -198,29 +192,32 @@ public class ChatWindow extends AppCompatActivity {
                 }
             }
 
-            @Override
-            public void onSlide(@NonNull View view, float v) {
+                @Override
+                public void onSlide (@NonNull View view,float v){
                 Toast.makeText(ChatWindow.this, "SLIDING!!", Toast.LENGTH_SHORT).show();
             }
-        });
+            });
 
-movieName.addTextChangedListener(new TextWatcher() {
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+movieName.addTextChangedListener(new
 
-    }
+            TextWatcher() {
+                @Override
+                public void beforeTextChanged (CharSequence charSequence,int i, int i1, int i2){
 
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        System.out.println("666666666666666666666666666666666666666666666"+charSequence.toString());
-        new parsing(getApplicationContext(),charSequence.toString(),0,list).execute() ;
+                }
 
-    }
+                @Override
+                public void onTextChanged (CharSequence charSequence,int i, int i1, int i2){
+                    System.out.println("666666666666666666666666666666666666666666666" + charSequence.toString());
+                    new parsing(getApplicationContext(), charSequence.toString(), 0, list).execute();
 
-    @Override
-    public void afterTextChanged(Editable editable) {
+                }
 
-    }
-});
-    }
+                @Override
+                public void afterTextChanged (Editable editable){
+
+                }
+            });
+
+        }
 }
