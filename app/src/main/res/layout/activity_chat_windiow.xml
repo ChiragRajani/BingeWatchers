@@ -7,50 +7,49 @@
     android:background="#E7E7E7"
     tools:context=".MainActivity">
 
+    <com.stfalcon.chatkit.messages.MessagesList
+        android:id="@+id/messagesList"
+        android:layout_width="match_parent"
+        android:layout_height="648dp"
+        android:layout_above="@+id/grpName" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-<!--        <Button-->
-<!--            android:id="@+id/show"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_margin="16dp"-->
-<!--            android:text="Open Persistent Bottom Sheet" />-->
 
     </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom">
-    <EditText
-        android:id="@+id/grpName"
-        android:layout_width="300dp"
-        android:layout_height="78dp"
-        android:layout_gravity="bottom"
-        android:hint="TextView"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        android:textStyle="bold" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/show"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="0dp"
-        android:clickable="true"
-        android:gravity="end"
-        app:srcCompat="@drawable/ic_baseline_arrow_upward" />
-</LinearLayout>
+        android:layout_gravity="bottom">
+
+        <EditText
+            android:id="@+id/grpName"
+            android:layout_width="300dp"
+            android:layout_height="78dp"
+            android:layout_gravity="bottom"
+            android:hint="TextView"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="0dp"
+            android:clickable="true"
+            android:gravity="end"
+            app:srcCompat="@drawable/ic_baseline_arrow_upward" />
+    </LinearLayout>
 
 
     <include layout="@layout/suggest_sheet" />
-
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
