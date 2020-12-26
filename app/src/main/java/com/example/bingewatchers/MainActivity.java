@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private Button btn;
     private TextView reg;
     private FirebaseAuth mAuth;
-    private DrawerLayout drawerLayout;
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-
         super.onBackPressed();
         finishAffinity();
     }
