@@ -4,29 +4,34 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
-
-import java.util.ArrayList;
+import java.util.Map;
 
 public class ChatWindow extends AppCompatActivity {
     private EditText grpName;
     private FloatingActionButton show;
-
+    private String TAG = "CHAT WINDOW";
     private DatabaseReference myRef;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -49,9 +54,35 @@ public class ChatWindow extends AppCompatActivity {
         notgrpname = getIntent().getSerializableExtra("Group Name").toString();
         name = getIntent().getSerializableExtra("Name").toString();
         myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname);
+        DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname).child("message");
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         message = grpName.getText().toString();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+//                String value = dataSnapshot.getValue(String.class);
+//                Log.d(TAG, "Value is: " + value);
+
+                String value = dataSnapshot.getValue().toString();
+                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"+value);
+//                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"+dataSnapshot.getValue(messageToBeSent.class).getMessage());
+//                Log.d(TAG, "Value is: " + value.getMessage());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+//        MessagesListAdapter<Message> adapter = new MessagesListAdapter<>(senderId, null);
+//        messagesList.setAdapter(adapter);
 
 
         show.setOnClickListener(new View.OnClickListener() {
@@ -98,8 +129,8 @@ public class ChatWindow extends AppCompatActivity {
 
                 } else {
                     btnFunc = 1;
-                    System.out.println("55555555555555555555555555555555555555555555555 query is "+charSequence.toString());
-                    new parsing(getApplicationContext(),charSequence.toString(),0).execute() ;
+                    System.out.println("55555555555555555555555555555555555555555555555 query is " + charSequence.toString());
+                    new parsing(getApplicationContext(), charSequence.toString(), 0).execute();
                     show.setImageDrawable(
                             ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_send));
                 }
