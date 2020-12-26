@@ -21,6 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 
+import java.util.ArrayList;
+
 public class ChatWindow extends AppCompatActivity {
     private EditText grpName;
     private FloatingActionButton show;
@@ -62,8 +64,10 @@ public class ChatWindow extends AppCompatActivity {
 
                     if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
                         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//                show.setText("Close sheet");
                     } else {
                         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//                show.setText("Expand sheet");
                     }
                 }
                 if (btnFunc == 1) {
@@ -94,6 +98,8 @@ public class ChatWindow extends AppCompatActivity {
 
                 } else {
                     btnFunc = 1;
+                    System.out.println("55555555555555555555555555555555555555555555555 query is "+charSequence.toString());
+                    new parsing(getApplicationContext(),charSequence.toString(),0).execute() ;
                     show.setImageDrawable(
                             ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_send));
                 }
