@@ -48,6 +48,7 @@ public class ChatWindow extends AppCompatActivity {
     private String message, name, notgrpname;
     ListView list;
    ListViewAdapter adapter;
+    ArrayList<String> msgs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +57,9 @@ public class ChatWindow extends AppCompatActivity {
 
 
         grpName = findViewById(R.id.grpName);
-        movieName=findViewById(R.id.movieName);
         bottom_sheet = findViewById(R.id.bottom_sheet);
         show = findViewById(R.id.show);
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
-        list=findViewById(R.id.listview) ;
-      //  movieName.setOnQueryTextListener((SearchView.OnQueryTextListener) this);
 
         notgrpname = getIntent().getSerializableExtra("Group Name").toString();
         name = getIntent().getSerializableExtra("Name").toString();
@@ -77,8 +75,19 @@ public class ChatWindow extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
 
-//                String value = dataSnapshot.getValue(String.class);
-//                Log.d(TAG, "Value is: " + value);
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    HashMap obj = (HashMap) postSnapshot.getValue();
+//                    msgs.add(new messageToBeSent(obj.get("name"),));
+                    System.out.println(obj.get("message"));
+                    msgs.add(obj.get("message").toString());
+
+                    MessagesListAdapter<Message> adapter = new MessagesListAdapter<>(obj.get("senderEmail").toString(), null);
+                    msgs.setAdapter(adapter);
+
+
+                }
+
 
                 String value;
                 //value = dataSnapshot.getValue(messageToBeSent.class);
@@ -116,7 +125,7 @@ public class ChatWindow extends AppCompatActivity {
                 }
                 if (btnFunc == 1) {
 
-                    messageToBeSent obj = new messageToBeSent(name, message, Calendar.getInstance().getTime().toString(), mAuth.getCurrentUser().getEmail(), "message");
+                    Message obj = new Message(name, message, Calendar.getInstance().getTime(), mAuth.getCurrentUser().getEmail(), "message");
                     myRef.push().setValue(obj);
                     Toast.makeText(ChatWindow.this, "Message Sent", Toast.LENGTH_LONG).show();
                     grpName.setText("");
@@ -166,15 +175,6 @@ public class ChatWindow extends AppCompatActivity {
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selected = ((TextView) view.findViewById(R.id.movieName)).getText().toString().trim();
-                Toast.makeText(getBaseContext(),"clicked: "+selected,Toast.LENGTH_SHORT).show();
-                movieName.setText(selected.trim());
-                list.setAdapter(null);
-
-            }
-        });
 
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
