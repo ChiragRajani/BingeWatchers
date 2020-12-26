@@ -24,9 +24,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.stfalcon.chatkit.messages.MessagesListAdapter;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Map;
+import java.util.HashMap;
 
 public class ChatWindow extends AppCompatActivity {
     private EditText grpName;
@@ -39,6 +41,7 @@ public class ChatWindow extends AppCompatActivity {
     private ConstraintLayout bottom_sheet;
     private int btnFunc = 0;
     private String message, name, notgrpname;
+    ArrayList<String> msgs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +68,20 @@ public class ChatWindow extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
 
-//                String value = dataSnapshot.getValue(String.class);
-//                Log.d(TAG, "Value is: " + value);
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                String value = dataSnapshot.getValue().toString();
-                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"+value);
-//                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"+dataSnapshot.getValue(messageToBeSent.class).getMessage());
-//                Log.d(TAG, "Value is: " + value.getMessage());
+                    HashMap obj = (HashMap) postSnapshot.getValue();
+//                    msgs.add(new messageToBeSent(obj.get("name"),));
+                    System.out.println(obj.get("message"));
+                    msgs.add(obj.get("message").toString());
+
+                    MessagesListAdapter<Message> adapter = new MessagesListAdapter<>(obj.get("senderEmail").toString(), null);
+                    msgs.setAdapter(adapter);
+
+
+                }
+
+
             }
 
             @Override
@@ -103,7 +113,7 @@ public class ChatWindow extends AppCompatActivity {
                 }
                 if (btnFunc == 1) {
 
-                    messageToBeSent obj = new messageToBeSent(name, message, Calendar.getInstance().getTime().toString(), mAuth.getCurrentUser().getEmail(), "message");
+                    Message obj = new Message(name, message, Calendar.getInstance().getTime(), mAuth.getCurrentUser().getEmail(), "message");
                     myRef.push().setValue(obj);
                     Toast.makeText(ChatWindow.this, "Message Sent", Toast.LENGTH_LONG).show();
                     grpName.setText("");
