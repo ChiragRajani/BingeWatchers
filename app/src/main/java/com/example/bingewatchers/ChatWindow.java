@@ -3,6 +3,7 @@ package com.example.bingewatchers;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,6 +15,8 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class ChatWindow extends AppCompatActivity {
     EditText grpName;
@@ -55,7 +58,6 @@ public class ChatWindow extends AppCompatActivity {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (grpName.getText().toString().equals("")) {
@@ -75,7 +77,7 @@ public class ChatWindow extends AppCompatActivity {
                     });
                 } else {
                     System.out.println("55555555555555555555555555555555555555555555555 query is "+charSequence.toString());
-                    new parsing(getApplicationContext(),charSequence.toString()).execute() ;
+                     new parsing(getApplicationContext(),charSequence.toString(),0).execute() ;
                     show.setImageDrawable(
                             ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_send));
                     show.setOnClickListener(new View.OnClickListener() {
