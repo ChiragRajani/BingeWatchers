@@ -89,7 +89,6 @@ public class ChatWindow extends AppCompatActivity {
 
                 }
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
 
