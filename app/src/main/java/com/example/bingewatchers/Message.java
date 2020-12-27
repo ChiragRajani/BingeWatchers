@@ -1,42 +1,35 @@
 package com.example.bingewatchers;
 
-import com.stfalcon.chatkit.commons.models.IMessage;
-import com.stfalcon.chatkit.commons.models.IUser;
+//import com.stfalcon.chatkit.commons.models.IMessage;
+//import com.stfalcon.chatkit.commons.models.IUser;
 
 import java.net.URL;
 import java.util.Date;
 
-public class Message implements IMessage {
+public class Message {
     public String message, senderEmail, name, type;
-    Date time;
+    String time;
     URL url;
 
     public Message() {
     }
 
 
-    public Message(String message, Date time, String senderEmail) {
+    public Message(String message, String time, String senderEmail) {
         this.message = message;
         this.time = time;
         this.senderEmail = senderEmail;
     }
-//
-//    public Message(String name, String message, Date time, String senderEmail, String type) {
-//        this.name = name;
-//        this.message = message;
-//        this.time = time;
-//        this.senderEmail = senderEmail;
-//        this.type = type;
-//    }
-//
-//    public Message(String message, String time, String senderEmail, URL url) {
-//        this.message = message;
-//        this.time = time;
-//        this.url = url;
-//        this.senderEmail = senderEmail;
-//    }
 
-    public Message(String name, String message, Date time, String email, String type) {
+
+    public Message(String message, String time, String senderEmail, URL url) {
+        this.message = message;
+        this.time = time;
+        this.url = url;
+        this.senderEmail = senderEmail;
+    }
+
+    public Message(String name, String message, String time, String email, String type) {
         this.type = type;
         this.message = message;
         this.name=name;
@@ -44,25 +37,44 @@ public class Message implements IMessage {
         this.senderEmail = email;
     }
 
-
-    @Override
-    public String getId() {
-        return senderEmail;
-    }
-
-    @Override
-    public String getText() {
+    public String getMessage() {
         return message;
     }
 
-    @Override
-    public IUser getUser() {
-        return null;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    @Override
-    public Date getCreatedAt() {
+    public String getSenderEmail() {
+        return senderEmail;
+    }
+
+    public void setSenderEmail(String senderEmail) {
+        this.senderEmail = senderEmail;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTime() {
         return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }
 

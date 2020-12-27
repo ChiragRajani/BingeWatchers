@@ -45,6 +45,10 @@ public class ListViewAdapter extends BaseAdapter {
 
     public View getView(final int position, View view, ViewGroup parent) {
         final ViewHolder holder;
+
+
+
+
         if (view == null) {
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.search_list_layout, null);

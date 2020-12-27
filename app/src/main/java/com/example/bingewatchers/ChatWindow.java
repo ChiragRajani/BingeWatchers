@@ -19,6 +19,9 @@ import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import com.example.bingewatchers.ListViewAdapter;
+import com.example.bingewatchers.R;
+import com.example.bingewatchers.parsing;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,8 +36,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-
+import java.util.* ;
 public class ChatWindow<ArrayList> extends AppCompatActivity {
     private EditText grpName;
     private FloatingActionButton show;
@@ -44,13 +49,15 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
     private FirebaseFirestore db;
     //EditText grpName;
     EditText movieName;
+    ListView chatList ;
+
     private BottomSheetBehavior sheetBehavior;
     private ConstraintLayout bottom_sheet;
     private int btnFunc = 0;
     private String message, name, notgrpname;
     ListView list;
    ListViewAdapter adapter;
-    //ArrayList<String> msgs = new ArrayList<>();
+   java.util.ArrayList<Message> chats=new java.util.ArrayList<>() ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +77,10 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         movieName=findViewById(R.id.movieName) ;
         db = FirebaseFirestore.getInstance();
+        chatList=findViewById(R.id.chatsList) ;
+      java.util.ArrayList<Message> chats=new java.util.ArrayList<>();
         message = grpName.getText().toString();
-
+        ChatListAdapter chatAdapter =new ChatListAdapter(this,chats);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -79,22 +88,12 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                 // whenever data at this location is updated.
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-
-
-                    HashMap obj = (HashMap) postSnapshot.getValue();
-//                    msgs.add(new messageToBeSent(obj.get("name"),));
-                    System.out.println(obj.get("message"));
-                   // msgs.add(obj.get("message").toString());
-//
-//                    MessagesListAdapter<Message> adapter = new MessagesListAdapter<>(obj.get("senderEmail").toString(), null);
-//                    msgs.setAdapter(adapter);
-
-  }
-                 String value;
-                //value = dataSnapshot.getValue(messageToBeSent.class);
-                //System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"+value);
-//                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"+dataSnapshot.getValue(messageToBeSent.class).getMessage());
-//                Log.d(TAG, "Value is: " + value.getMessage());
+                    Message obj = postSnapshot.getValue(Message.class);
+                    System.out.println("7777777777777777777777777" + obj.getName());
+                    chats.add(obj);
+                    System.out.println("44444444444444444 ADDEDS MESSAGE  " + obj.getMessage());
+                    chatList.setAdapter(chatAdapter);
+                }
             }
             @Override
             public void onCancelled(DatabaseError error) {
@@ -120,7 +119,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                 }
                 if (btnFunc == 1) {
 
-                    Message obj = new Message(name, message, Calendar.getInstance().getTime(), mAuth.getCurrentUser().getEmail(), "message");
+                    Message obj = new Message(name, message, Calendar.getInstance().getTime().toString(), mAuth.getCurrentUser().getEmail(), "message");
                     myRef.push().setValue(obj);
                     Toast.makeText(ChatWindow.this, "Message Sent", Toast.LENGTH_LONG).show();
                     grpName.setText("");
@@ -146,7 +145,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                 } else {
                     btnFunc = 1;
                     System.out.println("55555555555555555555555555555555555555555555555 query is " + charSequence.toString());
-                    new parsing(getApplicationContext(), charSequence.toString(), 0,list).execute();
+                   // new parsing(getApplicationContext(), charSequence.toString(), 0,list).execute();
                     System.out.println("55555555555555555555555555555555555555555555555 query is "+charSequence.toString());
                   //  new parsing(getApplicationContext(),charSequence.toString(),0).execute() ;
                   //   new parsing(getApplicationContext(),charSequence.toString(),0).execute() ;
