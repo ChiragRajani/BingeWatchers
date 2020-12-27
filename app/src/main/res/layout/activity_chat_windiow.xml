@@ -10,25 +10,25 @@
     <ListView
         android:id="@+id/chatsList"
         android:layout_width="match_parent"
-        android:layout_height="294dp" />
+        android:layout_height="match_parent" />
 
 
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="fill_parent"
-        android:layout_height="350dp"
+<!--    <ListView-->
+<!--        android:id="@+id/listview"-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="0dp"-->
 
 
-        android:layout_below="@+id/movieName"
-        android:maxHeight="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.187"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953"
-        android:layout_marginTop="300dp"
-        tools:ignore="MissingConstraints" />
+<!--        android:layout_below="@+id/movieName"-->
+<!--        android:maxHeight="100dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.187"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.953"-->
+<!--        android:layout_marginTop="300dp"-->
+<!--        tools:ignore="MissingConstraints" />-->
 
     <LinearLayout
         android:layout_width="match_parent"

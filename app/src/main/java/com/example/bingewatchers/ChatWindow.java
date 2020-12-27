@@ -69,7 +69,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         bottom_sheet = findViewById(R.id.bottom_sheet);
         show = findViewById(R.id.show);
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
-        list=findViewById(R.id.listview) ;
+        //list=findViewById(R.id.listview) ;
         notgrpname = getIntent().getSerializableExtra("Group Name").toString();
         name = getIntent().getSerializableExtra("Name").toString();
         myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname);
@@ -93,6 +93,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                     chats.add(obj);
                     System.out.println("44444444444444444 ADDEDS MESSAGE  " + obj.getMessage());
                     chatList.setAdapter(chatAdapter);
+
                 }
             }
             @Override
@@ -158,16 +159,16 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
             }
         });
-list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        String selected = ((TextView) view.findViewById(R.id.movieName)).getText().toString();
-        Toast.makeText(getApplicationContext(),selected,Toast.LENGTH_SHORT).show();
-        movieName.setText(selected);
-        list.setAdapter(null);
-    }
-});
-
+//list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//    @Override
+//    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//        String selected = ((TextView) view.findViewById(R.id.movieName)).getText().toString();
+//        Toast.makeText(getApplicationContext(),selected,Toast.LENGTH_SHORT).show();
+//        movieName.setText(selected);
+//        list.setAdapter(null);
+//    }
+//});
+//
 
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback()
 

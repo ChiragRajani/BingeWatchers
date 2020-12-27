@@ -50,8 +50,12 @@ public class ChatListAdapter extends BaseAdapter {
         final ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            if (Chats.get(position).getSenderEmail().equals(mAuth.getCurrentUser().getEmail()))
+
+            if (Chats.get(position).getSenderEmail().equals(mAuth.getCurrentUser().getEmail().toString().trim()))
+            {
                 view = inflater.inflate(R.layout.chat_list_own, null);
+                System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  chat theme matched"+Chats.get(position).getSenderEmail().equals(mAuth.getCurrentUser().getEmail().toString().trim()));
+            }
             else
             {
                 view = inflater.inflate(R.layout.chat_list_other, null);
@@ -59,7 +63,7 @@ public class ChatListAdapter extends BaseAdapter {
             // Locate the TextViews in listview_item.xml
             holder.senderEmail = (TextView) view.findViewById(R.id.senderEmail);
             holder.message = (TextView) view.findViewById(R.id.message);
-            holder.date=(TextView)view.findViewById(R.id.date) ;
+           // holder.date=(TextView)view.findViewById(R.id.date) ;
             holder.time=(TextView)view.findViewById(R.id.time)  ;
             view.setTag(holder);
         } else {
@@ -67,38 +71,32 @@ public class ChatListAdapter extends BaseAdapter {
         }
         // Set the results into TextViews
         if(Chats !=null) {
-            if (Chats.get(position).getSenderEmail().equals(mAuth.getCurrentUser().getEmail()))
-                holder.senderEmail.setText("Me");
-            else
-                holder.senderEmail.setText(Chats.get(position).getName());
-            holder.message.setText(Chats.get(position).getMessage());
-            holder.date.setText(Chats.get(position).getTime().substring(0,10));
-            holder.time.setText(Chats.get(position).getTime().substring(10,19));
+          try{
+              if (Chats.get(position).getSenderEmail().equals(mAuth.getCurrentUser().getEmail().trim()))
+              {
+                  holder.message.setText(Chats.get(position).getMessage());
+              }
+              else
+              {
+                  holder.message.setText(Chats.get(position).getMessage());
+                  holder.senderEmail.setText(Chats.get(position).getName());
+              }
+          }catch (NullPointerException e)
+          {
+              e.printStackTrace();
+          }
+            //holder.date.setText(Chats.get(position).getTime().substring(0,10));
+          //  holder.time.setText(Chats.get(position).getTime().substring(10,19));
         }
+
         return view;
     }
-
-    // Filter Class
-//    public void filter(String charText) {
-//        charText = charText.toLowerCase(Locale.getDefault());
-//        Chats.clear();
-//        if (charText.length() == 0) {
-//            Chats.addAll(arraylist);
-//        } else {
-//            for (Movie wp : arraylist) {
-//                if (wp.getMovieName().toLowerCase(Locale.getDefault()).contains(charText)) {
-//                    Chats.add(wp);
-//                }
-//            }
-//        }
-//        notifyDataSetChanged();
-//    }
 
     public class ViewHolder {
 
         TextView senderEmail;
         TextView message;
-        TextView date ;
+        //TextView date ;
         TextView time ;
 
     }
