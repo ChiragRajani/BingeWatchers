@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.gson.JsonArray;
@@ -31,6 +32,7 @@ public class parsing extends AsyncTask{
     ListViewAdapter adapter;
     static JSONObject kl;
     static  ArrayList<Movie> he=new ArrayList<>() ;
+    static  ArrayList<Movie> he1=new ArrayList<>() ;
     private int req  ;
     public parsing(Context context, String query, int req, ListView list) {
         this.context = context;
@@ -42,6 +44,9 @@ public class parsing extends AsyncTask{
     protected ArrayList<Movie> doInBackground(Object[] objects) {
 
         try {
+            ArrayList<Movie> he1 = new ArrayList<>();
+
+
             System.out.println("444444444444444444444444444444444444444444444444444 QUERY FOR&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
             //System.out.println("Number recieved is     " + MainActivity.number);
             //String url = "http://in.carregistrationapi.com/api/reg.asmx/CheckIndia?RegistrationNumber=" + MainActivity.number + "&username=Aditya123";
@@ -106,7 +111,8 @@ public class parsing extends AsyncTask{
 //                                        + subparent.getString("first_air_date"));
 
                             }
-
+//                            he1.add(he.get(0));
+//                            he1.add(he.get(1));
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -139,6 +145,8 @@ public class parsing extends AsyncTask{
         adapter=null ;
 
     }
+
+
 
 }
 

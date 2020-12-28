@@ -8,14 +8,16 @@
     android:orientation="vertical"
     tools:context=".SignUp"
     tools:ignore="MissingClass">
+
     <ProgressBar
         android:id="@+id/progress_horizontal"
-        android:indeterminateOnly="false"
-        android:minHeight="24dip"
-        android:maxHeight="24dip"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:indeterminateOnly="false"
+        android:maxHeight="24dip"
+        android:minHeight="24dip"
         tools:ignore="MissingConstraints" />
+
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="377dp"
@@ -64,6 +66,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="377dp"
         android:layout_height="77dp"
+        app:endIconMode="password_toggle"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="252dp"
         android:gravity="center_horizontal"
@@ -76,15 +79,13 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
-
             android:layout_width="350dp"
             android:layout_height="70dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_centerHorizontal="true"
             android:ems="10"
-
-
+            android:inputType="textPassword"
             android:textAllCaps="true"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="28dp"
