@@ -71,6 +71,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
         //list=findViewById(R.id.listview) ;
         notgrpname = getIntent().getSerializableExtra("Group Name").toString();
+        setTitle(notgrpname);
         name = getIntent().getSerializableExtra("Name").toString();
         myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname);
         DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname).child("message");
