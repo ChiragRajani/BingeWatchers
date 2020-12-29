@@ -35,6 +35,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
     EditText movieName;
     EditText movieReview;
     ListView chatList;
+
     ListView list;
     java.util.ArrayList<Message> chats = new java.util.ArrayList<>();
     java.util.ArrayList<Movie> he = new java.util.ArrayList<>();
@@ -80,7 +81,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         message = grpName.getText().toString();
 
         ChatListAdapter chatAdapter = new ChatListAdapter(this, chats); //for sending messages
-        ChatListAdapter chatAdapterImg = new ChatListAdapter(this, chats, 1); //for suggestions
+
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -89,16 +90,20 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                 // whenever data at this location is updated.
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Message obj = postSnapshot.getValue(Message.class);
-                    System.out.println("============================" + obj.getName());
-                    chats.add(obj);
 
-                    System.out.println("============================TYPE" + obj.getType());
-                    System.out.println("============================Email" + obj.getSenderEmail());
-                    System.out.println("                    ADDED MESSAGE  " + obj.getMessage());
+                    Message obj = postSnapshot.getValue(Message.class);
+                    Log.d(TAG, "============================" + obj.getName());
+                    chats.add(obj);
                     chatList.setAdapter(chatAdapter);
+                    Log.d(TAG, "============================TYPE" + obj.getType());
+                    Log.d(TAG, "============================Email" + obj.getSenderEmail());
+                    Log.d(TAG, "                    ADDED MESSAGE  " + obj.getMessage());
+//                    obj = null;
+
 
                 }
+
+
             }
 
             @Override
@@ -196,7 +201,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                         mAuth.getCurrentUser().getEmail(), "https://image.tmdb.org/t/p/w500" + y.getPoster(),
                         "Suggestion");
                 myRef.push().setValue(obj);
-                System.out.println("###### URL #######" + url);
+                Log.d(TAG, "###### URL #######" + url);
                 chats = new java.util.ArrayList<>();
 //                chatAdapter=null;
             }
@@ -238,7 +243,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (x == 0) {
-                    System.out.println("666666666666666666666666666666666666666666666" + charSequence.toString());
+                    Log.d(TAG, "666666666666666666666666666666666666666666666" + charSequence.toString());
                     new parsing(getApplicationContext(), charSequence.toString(), 0, list).execute();
                 }
                 x = 0;
