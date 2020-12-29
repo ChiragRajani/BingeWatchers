@@ -1,38 +1,28 @@
 package com.example.bingewatchers;
 
-//import com.stfalcon.chatkit.commons.models.IMessage;
-//import com.stfalcon.chatkit.commons.models.IUser;
-
-import java.net.URL;
-import java.util.Date;
 
 public class Message {
     public String message, senderEmail, name, type;
     String time;
-    URL url;
+    String url;
 
     public Message() {
     }
 
 
-    public Message(String message, String time, String senderEmail) {
+    public Message(String name, String message, String time, String senderEmail, String url, String type) {
         this.message = message;
         this.time = time;
-        this.senderEmail = senderEmail;
-    }
-
-
-    public Message(String message, String time, String senderEmail, URL url) {
-        this.message = message;
-        this.time = time;
+        this.name = name;
         this.url = url;
         this.senderEmail = senderEmail;
+        this.type = type;
     }
 
     public Message(String name, String message, String time, String email, String type) {
         this.type = type;
         this.message = message;
-        this.name=name;
+        this.name = name;
         this.time = time;
         this.senderEmail = email;
     }
@@ -75,6 +65,10 @@ public class Message {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }
 
