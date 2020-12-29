@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,16 +32,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Calendar;
 
 public class ChatWindow<ArrayList> extends AppCompatActivity {
-
+    //EditText grpName;
     EditText movieName;
-    EditText movieReview;
     ListView chatList;
-
     ListView list;
+    ListViewAdapter adapter;
     java.util.ArrayList<Message> chats = new java.util.ArrayList<>();
     java.util.ArrayList<Movie> he = new java.util.ArrayList<>();
+    Button btnSug;
+    EditText movieReview;
     private EditText grpName;
-    private Button btnSug;
     private FloatingActionButton show;
     private String TAG = "CHAT WINDOW";
     private DatabaseReference myRef;
@@ -49,9 +50,8 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
     private BottomSheetBehavior sheetBehavior;
     private ConstraintLayout bottom_sheet;
     private int btnFunc = 0;
-    private int x = 0;
-    private int i1;
     private String message, name, notgrpname;
+    private int i1, x = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,22 +66,21 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         list = findViewById(R.id.listview);
         notgrpname = getIntent().getSerializableExtra("Group Name").toString();
         setTitle(notgrpname);
-
         name = getIntent().getSerializableExtra("Name").toString();
         myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname);
+        DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname).child("message");
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+
 
         btnSug = findViewById(R.id.buttonSug);
-        movieName = findViewById(R.id.movieName);
         movieReview = findViewById(R.id.movieReview);
+        movieName = findViewById(R.id.movieName);
 
+        db = FirebaseFirestore.getInstance();
         chatList = findViewById(R.id.chatsList);
-        chats = new java.util.ArrayList<>();
+        java.util.ArrayList<Message> chats = new java.util.ArrayList<>();
         message = grpName.getText().toString();
-
-        ChatListAdapter chatAdapter = new ChatListAdapter(this, chats); //for sending messages
-
+        ChatListAdapter chatAdapter = new ChatListAdapter(this, chats);
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -90,20 +89,13 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                 // whenever data at this location is updated.
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-
                     Message obj = postSnapshot.getValue(Message.class);
-                    Log.d(TAG, "============================" + obj.getName());
+                    System.out.println("7777777777777777777777777" + obj.getName());
                     chats.add(obj);
+                    System.out.println("44444444444444444 ADDEDS MESSAGE  " + obj.getMessage());
                     chatList.setAdapter(chatAdapter);
-                    Log.d(TAG, "============================TYPE" + obj.getType());
-                    Log.d(TAG, "============================Email" + obj.getSenderEmail());
-                    Log.d(TAG, "                    ADDED MESSAGE  " + obj.getMessage());
-//                    obj = null;
-
 
                 }
-
-
             }
 
             @Override
@@ -111,8 +103,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                 // Failed to read value
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
-        }); //Retrieving messages
-
+        });
         show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,7 +129,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
                 }
             }
-        });  //Send msg button
+        });
 
         grpName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -157,9 +148,9 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
                 } else {
                     btnFunc = 1;
-//                    System.out.println("55555555555555555555555555555555555555555555555 query is " + charSequence.toString());
+                    System.out.println("55555555555555555555555555555555555555555555555 query is " + charSequence.toString());
                     // new parsing(getApplicationContext(), charSequence.toString(), 0,list).execute();
-//                    System.out.println("55555555555555555555555555555555555555555555555 query is " + charSequence.toString());
+                    System.out.println("55555555555555555555555555555555555555555555555 query is " + charSequence.toString());
                     //  new parsing(getApplicationContext(),charSequence.toString(),0).execute() ;
                     //   new parsing(getApplicationContext(),charSequence.toString(),0).execute() ;
                     show.setImageDrawable(
@@ -171,7 +162,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
 
             }
-        });   //Message typed listener
+        });
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -180,33 +171,44 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                 i1 = i;
                 he = parsing.he1;
                 Movie y = he.get(i);
-                String mvieName = y.getMovieName();
-                movieName.setText(mvieName);
+                String selected = ((TextView) view.findViewById(R.id.movieName)).getText().toString();
+//                String mvieName = y.getMovieName();
+                Toast.makeText(ChatWindow.this, selected, Toast.LENGTH_SHORT).show();
+                movieName.setText(selected);
                 list.setAdapter(null);
             }
-        }); //Suggestion List
+        });
 
         btnSug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try {
 
-                Movie y = he.get(i1);
-                String mvieName = y.getMovieName();
-                String url = "https://image.tmdb.org/t/p/w500" + y.getPoster();
+                    Movie y = he.get(i1);
+                    String mvieName = y.getMovieName();
+                    String url = "https://image.tmdb.org/t/p/w500" + y.getPoster();
 //                String selected = ((TextView) view.findViewById(R.id.movieName)).getText().toString();
 
-                String desc = mvieName + "(" + y.getMovieDate().substring(0, 4) + ")\n\n" + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview.getText().toString();
+                    String desc = mvieName + "(" + y.getMovieDate().substring(0, 4) + ")\n\n" + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview.getText().toString();
 
-                Message obj = new Message(name, desc, Calendar.getInstance().getTime().toString(),
-                        mAuth.getCurrentUser().getEmail(), "https://image.tmdb.org/t/p/w500" + y.getPoster(),
-                        "Suggestion");
-                myRef.push().setValue(obj);
-                Log.d(TAG, "###### URL #######" + url);
-                chats = new java.util.ArrayList<>();
-//                chatAdapter=null;
+                    Message obj = new Message(name, desc, Calendar.getInstance().getTime().toString(),
+                            mAuth.getCurrentUser().getEmail(), "https://image.tmdb.org/t/p/w500" + y.getPoster(),
+                            "Suggestion");
+                    myRef.push().setValue(obj);
+                    Log.d(TAG, "###### URL #######" + url);
+
+                    movieReview.setText("");
+                    movieName.setText("");
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
+                } catch (IndexOutOfBoundsException|NullPointerException e) {
+                    Toast.makeText(ChatWindow.this, "Movie Name Cannot Be Empty!!", Toast.LENGTH_SHORT).show();
+
+                }
             }
         }); //Suggest button
-
 
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -230,9 +232,9 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
             @Override
             public void onSlide(@NonNull View view, float v) {
-
+                Toast.makeText(ChatWindow.this, "SLIDING!!", Toast.LENGTH_SHORT).show();
             }
-        });  //Bottom sheet behaviour
+        });
 
         movieName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -253,7 +255,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
 
             }
-        });  //Movie Name Suggestion
+        });
 
     }
 }

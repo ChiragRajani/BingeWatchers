@@ -1,6 +1,7 @@
 package com.example.bingewatchers;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +12,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -51,29 +54,31 @@ public class DashBoard extends AppCompatActivity {
     private static final String TAG = "DashBoard";
     static ProgressDialog nDialog;
     FirebaseAuth mAuth;
-    private BottomSheetBehavior sheetBehavior;
-    private ConstraintLayout bottom_sheet;
-    Button goToGroup,suggest;
-    TextView user, viewEmail, viewUsername,movieName,notif_status,movieReview;
+    Button goToGroup, suggest;
+    TextView user, viewEmail, viewUsername, movieName, notif_status;
+    EditText movieReview1;
     FirebaseFirestore db;
-    Switch inform ;
-    FirebaseFirestore rootRef ;
-
+    Switch inform;
+    FirebaseFirestore rootRef;
     ListView list;
     ListViewAdapter adapter;
+    java.util.ArrayList<Movie> he = new java.util.ArrayList<>();
     SwipeRefreshLayout pullToRefresh;
     boolean doubleBackToExitPressedOnce = false;
-    int SWITCH_CHECKED_STATUS=1 ; // 1 if it is checked and 0 if its not
+    int SWITCH_CHECKED_STATUS = 1; // 1 if it is checked and 0 if its not
     String name;
     CircleImageView dp_view;
     View headerView;
-    DatabaseReference myRef ;
+    DatabaseReference myRef;
+    int i1 = 0, x = 0;
+    private BottomSheetBehavior sheetBehavior;
+    private ConstraintLayout bottom_sheet;
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private NavigationView nv;
-int x=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -86,26 +91,29 @@ int x=0;
         nDialog.setIndeterminate(true);
         nDialog.setCancelable(false);
 //        nDialog.show();
-        suggest=findViewById(R.id.button) ;
+        suggest = findViewById(R.id.button);
         rootRef = FirebaseFirestore.getInstance();
-        inform=findViewById(R.id.notif_info) ;
+        inform = findViewById(R.id.notif_info);
         list = findViewById(R.id.listview);
         notif_status = findViewById(R.id.notif_status);
         pullToRefresh = findViewById(R.id.pullToRefresh);
-        movieReview=findViewById(R.id.movieReview) ;
+
+
         user = findViewById(R.id.user);
         bottom_sheet = findViewById(R.id.watched_movie);
-        sheetBehavior=BottomSheetBehavior.from(bottom_sheet) ;
+        sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
         //list = findViewById(R.id.list);
         goToGroup = findViewById(R.id.goToGroup);
         nv = findViewById(R.id.nv);
         dl = findViewById(R.id.activity_nav);
         headerView = nv.getHeaderView(0);
         viewEmail = headerView.findViewById(R.id.email_id);
-        myRef = FirebaseDatabase.getInstance().getReference("Group Chats") ;
+        myRef = FirebaseDatabase.getInstance().getReference("Group Chats");
         dp_view = headerView.findViewById(R.id.dp_view);
         viewUsername = headerView.findViewById(R.id.username);
-        movieName=findViewById(R.id.movieName) ;
+
+        movieReview1 = (EditText) findViewById(R.id.movieReview);
+        movieName = findViewById(R.id.movieName);
         t = new ActionBarDrawerToggle(this, dl, R.string.drawer_open, R.string.drawer_close);
         dl.addDrawerListener(t);
         t.syncState();
@@ -113,7 +121,7 @@ int x=0;
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         inform.setChecked(true);
-        notif_status.setText("Notification will be sent to everyone") ;
+        notif_status.setText("Notification will be sent to everyone");
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -147,7 +155,7 @@ int x=0;
                         break;
                     }
                     case R.id.logout: {
-                        Toast.makeText(DashBoard.this, "My Cart", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DashBoard.this, "Logout", Toast.LENGTH_SHORT).show();
                         mAuth.signOut();
                         Intent i = new Intent(DashBoard.this, MainActivity.class);
                         i.putExtra("from", "logout");
@@ -162,13 +170,12 @@ int x=0;
         inform.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked){
-                    SWITCH_CHECKED_STATUS=1 ;
-                    notif_status.setText("Tell in every group also") ;
-                }
-                else{
-                    SWITCH_CHECKED_STATUS=0 ;
-                    notif_status.setText("Just add into your profile") ;
+                if (isChecked) {
+                    SWITCH_CHECKED_STATUS = 1;
+                    notif_status.setText("Tell in every group also");
+                } else {
+                    SWITCH_CHECKED_STATUS = 0;
+                    notif_status.setText("Just add into your profile");
                 }
 
             }
@@ -199,40 +206,63 @@ int x=0;
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
                 x = 1;
-                String selected = ((TextView) view.findViewById(R.id.movieName)).getText().toString();
-                Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT).show();
-                movieName.setText(selected);
+                i1 = i;
+                he = parsing.he1;
+                Movie y = he.get(i);
+                String mvieName = y.getMovieName();
+                movieName.setText(mvieName);
                 list.setAdapter(null);
             }
         });
+
+
         suggest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(SWITCH_CHECKED_STATUS==1){
-                    for(String groupName:mNames){
-                        myRef.child(groupName);
-                        String message=name+" ("+mAuth.getCurrentUser().getEmail()+" ) Suggested the movie "+movieName.getText()+ " and his review was ' "+movieReview.getText() +" '" ;
-                        Message obj = new Message(name, message, Calendar.getInstance().getTime().toString(), mAuth.getCurrentUser().getEmail(), "message");
+                if (SWITCH_CHECKED_STATUS == 1) {
+                    for (String groupName : mNames) {
+                        try {
 
-                        System.out.println("77547474747474747474747474747474747  "+obj.getMessage()+" in "+groupName);
-                        System.out.println("77547474747474747474747474747474747  "+obj.getSenderEmail()+" in "+groupName);
-                        System.out.println("77547474747474747474747474747474747  "+obj.getType()+" in "+groupName);
+                            Movie y = he.get(i1);
+                            String mvieName = y.getMovieName();
 
-                        myRef.child(groupName).push().setValue(obj);
+                            String desc = mvieName + "(" + y.getMovieDate().substring(0, 4) + ")\n\n"
+                                    + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview1.getText();
+
+                            Message obj = new Message(name, desc, Calendar.getInstance().getTime().toString(),
+                                    mAuth.getCurrentUser().getEmail(), "https://image.tmdb.org/t/p/w500" + y.getPoster(),
+                                    "Suggestion");
+
+                            myRef.child(groupName).push().setValue(obj);
+                            Log.d(TAG, "###### URL #######1" + movieReview1.getText().toString());
+
+                            movieReview1.setText("");
+                            movieName.setText("");
+                            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                            Toast.makeText(DashBoard.this, "Message Sent to all groups", Toast.LENGTH_SHORT).show();
+
+                        } catch (IndexOutOfBoundsException | NullPointerException e) {
+                            Toast.makeText(DashBoard.this, "Movie Name Cannot Be Empty!!", Toast.LENGTH_SHORT).show();
+
+                        }
                     }
                 }
-                else{
-                    rootRef.collection("Users").document(mAuth.getCurrentUser().getEmail()).update("Movies Watched", FieldValue.arrayUnion(movieName.getText().toString()));
-                }
+                rootRef.collection("Users").document(mAuth.getCurrentUser().getEmail()).update("Movies Watched", FieldValue.arrayUnion(movieName.getText().toString()));
 
             }
         });
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add_button, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     public void getGroups() {
         mAuth = FirebaseAuth.getInstance();
         String email = mAuth.getCurrentUser().getEmail();
@@ -246,7 +276,6 @@ int x=0;
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-
 
 
                     //if read successful

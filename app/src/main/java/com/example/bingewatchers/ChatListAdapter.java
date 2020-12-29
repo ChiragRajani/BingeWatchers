@@ -1,7 +1,6 @@
 package com.example.bingewatchers;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +17,12 @@ import java.util.List;
 public class ChatListAdapter extends BaseAdapter {
 
     // Declare Variables
-    public static String TAG = "CHAT LIST ADAPTER";
+
     Context mContext;
     LayoutInflater inflater;
     FirebaseAuth mAuth;
     private List<Message> Chats = null;
     private ArrayList<Message> arraylist;
-
 
     public ChatListAdapter(Context context, ArrayList<Message> Chats) {
         mContext = context;
@@ -32,10 +30,8 @@ public class ChatListAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(mContext);
         mAuth = FirebaseAuth.getInstance();
         this.arraylist = new ArrayList<Message>();
-        this.arraylist = Chats;
-//        this.arraylist.addAll(Chats);
+        this.arraylist.addAll(Chats);
     }
-
 
     @Override
     public int getCount() {
@@ -56,83 +52,66 @@ public class ChatListAdapter extends BaseAdapter {
         final ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            if (Chats.get(position).getType().trim().equals("Suggestion")) {
+            if (Chats.get(position).getSenderEmail().equals(mAuth.getCurrentUser().getEmail())) {
+                if (Chats.get(position).getType().equals("message")) {
+                    view = inflater.inflate(R.layout.chat_list_own, null);
+                    holder.message = (TextView) view.findViewById(R.id.message);
 
-                Log.d(TAG,
-                        "        COMPARE                  " + Chats.get(position).getSenderEmail() + "==" + mAuth.getCurrentUser().getEmail().toString());
-
-                if (Chats.get(position).getSenderEmail().trim().equals(mAuth.getCurrentUser().getEmail().toString().trim())) {
+                    holder.message.setText(Chats.get(position).getMessage());
+                } else {
                     view = inflater.inflate(R.layout.chat_list_suggestion, null);
-
-                    holder.pictureS = (ImageView) view.findViewById(R.id.picture_text);
+                    holder.poster = view.findViewById(R.id.picture_text);
                     holder.message = (TextView) view.findViewById(R.id.message);
 
                     holder.message.setText(Chats.get(position).getMessage());
                     Glide.with(mContext).asBitmap()
                             .load(Chats.get(position).getUrl())
-                            .into(holder.pictureS);
+                            .into(holder.poster);
+                }
+            } else {
+                if (Chats.get(position).getType().equals("message")) {
+                    view = inflater.inflate(R.layout.chat_list_other, null);
+                    holder.message = (TextView) view.findViewById(R.id.message);
+                    holder.senderEmail = (TextView) view.findViewById(R.id.senderEmail);
 
-//                    System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  IMAGE" + Chats.get(position).getSenderEmail().equals(mAuth.getCurrentUser().getEmail().toString().trim()));
+                    holder.message.setText(Chats.get(position).getMessage());
+                    holder.senderEmail.setText(Chats.get(position).getName());
                 } else {
                     view = inflater.inflate(R.layout.chat_list_suggestion_other, null);
-
-                    holder.pictureS = (ImageView) view.findViewById(R.id.picture_text);
+                    holder.poster = view.findViewById(R.id.picture_text);
                     holder.message = (TextView) view.findViewById(R.id.message);
                     holder.senderEmail = (TextView) view.findViewById(R.id.senderEmail);
+
+                    holder.message.setText(Chats.get(position).getMessage());
+                    holder.senderEmail.setText(Chats.get(position).getName());
 
                     Glide.with(mContext).asBitmap()
                             .load(Chats.get(position).getUrl())
-                            .into(holder.pictureS);
-                    holder.message.setText(Chats.get(position).getMessage());
-                    holder.senderEmail.setText(Chats.get(position).getName());
+                            .into(holder.poster);
                 }
-                // Locate the TextViews in listview_item.xml
-//
-//                holder.pictureS = (ImageView) view.findViewById(R.id.picture_text);
-//                holder.message = (TextView) view.findViewById(R.id.message);
-                Log.d(TAG, "}}}}}}}}}}}}}}}}}}" + Chats.get(position).getUrl());
-                Log.d(TAG, "}}}}}}}}}}}}}}}}}}" + Chats.get(position).getSenderEmail());
-
-
-            } else {
-                if (Chats.get(position).getSenderEmail().equals(mAuth.getCurrentUser().getEmail().toString().trim())) {
-                    view = inflater.inflate(R.layout.chat_list_own, null);
-                    Log.d(TAG, Chats.get(position).getSenderEmail() + " == " + (mAuth.getCurrentUser().getEmail().toString().trim()));
-
-                    holder.message = (TextView) view.findViewById(R.id.message);
-
-                    holder.message.setText(Chats.get(position).getMessage());
-
-
-                } else {
-                    view = inflater.inflate(R.layout.chat_list_other, null);
-
-                    holder.senderEmail = (TextView) view.findViewById(R.id.senderEmail);
-                    holder.message = (TextView) view.findViewById(R.id.message);
-
-                    holder.message.setText(Chats.get(position).getMessage());
-                    holder.senderEmail.setText(Chats.get(position).getName());
-                }
-                // Locate the TextViews in listview_item.xml
-
             }
-            view.setTag(holder);
-        } else {
-            holder = (ViewHolder) view.getTag();
+        }
+            return view;
         }
 
-//        Chats = new ArrayList<>();
-//        notifyDataSetChanged();
-        return view;
+        @Override
+        public int getViewTypeCount () {
+
+            return getCount();
+        }
+
+        @Override
+        public int getItemViewType ( int position){
+
+            return position;
+        }
+
+
+        public class ViewHolder {
+
+            TextView senderEmail;
+            TextView message;
+            ImageView poster;
+
+        }
     }
-
-    public class ViewHolder {
-
-        TextView senderEmail;
-        TextView message;
-        //TextView date ;
-        TextView time;
-        ImageView pictureS;
-
-    }
-}

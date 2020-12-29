@@ -12,6 +12,7 @@
     <TextView
         android:id="@+id/senderEmail"
         android:layout_marginLeft="15dp"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="4dp"
@@ -29,6 +30,6 @@
         android:layout_below="@+id/senderEmail"
 
         android:textSize="18dp"
-        android:text="How are you doing? This is a long message that should probably wrap."
+        android:text="check"
         />
 </RelativeLayout>
