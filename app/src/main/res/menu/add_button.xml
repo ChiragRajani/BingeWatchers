@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/add_button"
+        android:title="Watched A Movie"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_movie_add"
+        />
+</menu>
