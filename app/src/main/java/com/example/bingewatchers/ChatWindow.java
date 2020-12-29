@@ -177,7 +177,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                 Movie y = he.get(i);
                 String mvieName = y.getMovieName();
                 movieName.setText(mvieName);
-
+                list.setAdapter(null);
             }
         }); //Suggestion List
 

@@ -43,7 +43,7 @@
     </LinearLayout>
 
 
-    <include layout="@layout/suggest_sheet" />
+    <include layout="@layout/suggest_sheet_in_group" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
