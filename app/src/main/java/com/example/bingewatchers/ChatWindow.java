@@ -84,8 +84,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                     chats.add(obj);
                     System.out.println("44444444444444444 ADDEDS MESSAGE  " + obj.getMessage());
                     chatList.setAdapter(chatAdapter);
-
-                }
+                  }
             }
 
             @Override
@@ -111,6 +110,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                     }
                 }
                 if (btnFunc == 1) {
+
 
                     Message obj = new Message(name, message, Calendar.getInstance().getTime().toString(), mAuth.getCurrentUser().getEmail(), "message");
                     myRef.push().setValue(obj);
@@ -162,11 +162,8 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT).show();
                 movieName.setText(selected);
                 list.setAdapter(null);
-
             }
         });
-
-
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View view, int newState) {

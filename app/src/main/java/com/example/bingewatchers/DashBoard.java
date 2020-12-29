@@ -5,16 +5,24 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,13 +31,18 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -38,53 +51,69 @@ public class DashBoard extends AppCompatActivity {
     private static final String TAG = "DashBoard";
     static ProgressDialog nDialog;
     FirebaseAuth mAuth;
-    Button goToGroup;
-    TextView user, viewEmail, viewUsername;
+    private BottomSheetBehavior sheetBehavior;
+    private ConstraintLayout bottom_sheet;
+    Button goToGroup,suggest;
+    TextView user, viewEmail, viewUsername,movieName,notif_status,movieReview;
     FirebaseFirestore db;
+    Switch inform ;
+    FirebaseFirestore rootRef ;
+
+    ListView list;
+    ListViewAdapter adapter;
     SwipeRefreshLayout pullToRefresh;
     boolean doubleBackToExitPressedOnce = false;
-
+    int SWITCH_CHECKED_STATUS=1 ; // 1 if it is checked and 0 if its not
     String name;
     CircleImageView dp_view;
     View headerView;
-
+    DatabaseReference myRef ;
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private NavigationView nv;
-
+int x=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
         setTitle("DashBoard");
-
-//        startActivity(new Intent(DashBoard.this, SplashScreen.class));
-//        finish();
         nDialog = new ProgressDialog(DashBoard.this);
         nDialog.setMessage("Fetching......Wait");
         nDialog.setTitle("Fetching Data");
         nDialog.setIndeterminate(true);
         nDialog.setCancelable(false);
 //        nDialog.show();
+        suggest=findViewById(R.id.button) ;
+        rootRef = FirebaseFirestore.getInstance();
+        inform=findViewById(R.id.notif_info) ;
+        list = findViewById(R.id.listview);
+        notif_status = findViewById(R.id.notif_status);
         pullToRefresh = findViewById(R.id.pullToRefresh);
+        movieReview=findViewById(R.id.movieReview) ;
         user = findViewById(R.id.user);
+        bottom_sheet = findViewById(R.id.watched_movie);
+        sheetBehavior=BottomSheetBehavior.from(bottom_sheet) ;
         //list = findViewById(R.id.list);
         goToGroup = findViewById(R.id.goToGroup);
         nv = findViewById(R.id.nv);
         dl = findViewById(R.id.activity_nav);
         headerView = nv.getHeaderView(0);
         viewEmail = headerView.findViewById(R.id.email_id);
+        myRef = FirebaseDatabase.getInstance().getReference("Group Chats") ;
         dp_view = headerView.findViewById(R.id.dp_view);
         viewUsername = headerView.findViewById(R.id.username);
+        movieName=findViewById(R.id.movieName) ;
         t = new ActionBarDrawerToggle(this, dl, R.string.drawer_open, R.string.drawer_close);
         dl.addDrawerListener(t);
         t.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        inform.setChecked(true);
+        notif_status.setText("Notification will be sent to everyone") ;
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -130,8 +159,80 @@ public class DashBoard extends AppCompatActivity {
                 return true;
             }
         });
-    }
+        inform.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked){
+                    SWITCH_CHECKED_STATUS=1 ;
+                    notif_status.setText("Tell in every group also") ;
+                }
+                else{
+                    SWITCH_CHECKED_STATUS=0 ;
+                    notif_status.setText("Just add into your profile") ;
+                }
 
+            }
+        });
+        movieName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                if (x == 0) {
+                    System.out.println("666666666666666666666666666666666666666666666" + charSequence.toString());
+                    new parsing(getApplicationContext(), charSequence.toString(), 0, list).execute();
+
+                }
+                x = 0;
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                x = 1;
+                String selected = ((TextView) view.findViewById(R.id.movieName)).getText().toString();
+                Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT).show();
+                movieName.setText(selected);
+                list.setAdapter(null);
+            }
+        });
+        suggest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(SWITCH_CHECKED_STATUS==1){
+                    for(String groupName:mNames){
+                        myRef.child(groupName);
+                        String message=name+" ("+mAuth.getCurrentUser().getEmail()+" ) Suggested the movie "+movieName.getText()+ " and his review was ' "+movieReview.getText() +" '" ;
+                        Message obj = new Message(name, message, Calendar.getInstance().getTime().toString(), mAuth.getCurrentUser().getEmail(), "message");
+
+                        System.out.println("77547474747474747474747474747474747  "+obj.getMessage()+" in "+groupName);
+                        System.out.println("77547474747474747474747474747474747  "+obj.getSenderEmail()+" in "+groupName);
+                        System.out.println("77547474747474747474747474747474747  "+obj.getType()+" in "+groupName);
+
+                        myRef.child(groupName).push().setValue(obj);
+                    }
+                }
+                else{
+                    rootRef.collection("Users").document(mAuth.getCurrentUser().getEmail()).update("Movies Watched", FieldValue.arrayUnion(movieName.getText().toString()));
+                }
+
+            }
+        });
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_button, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
     public void getGroups() {
         mAuth = FirebaseAuth.getInstance();
         String email = mAuth.getCurrentUser().getEmail();
@@ -145,6 +246,9 @@ public class DashBoard extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
+
+
+
                     //if read successful
 
                     DocumentSnapshot document = task.getResult();
@@ -199,10 +303,21 @@ public class DashBoard extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        int id = item.getItemId();
         if (t.onOptionsItemSelected(item))
             return true;
 
+
+        if (id == R.id.add_button) {
+
+            if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//                show.setText("Close sheet");
+            } else {
+                sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//                show.setText("Expand sheet");
+            }
+        }
         return super.onOptionsItemSelected(item);
     }
 

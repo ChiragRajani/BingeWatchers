@@ -87,9 +87,7 @@ public class parsing extends AsyncTask{
                     {
                         JSONObject subparent = (JSONObject) parent.get(i);
                         try {
-
-
-                            if(subparent.getString("media_type").equals("movie")) {
+                                if(subparent.getString("media_type").equals("movie")) {
                              //   System.out.println("------------ ITS A MOVIE------------------------------");
                                 he.add(new Movie(subparent.getString("media_type"), subparent.getString("original_language"), subparent.getString("title"),
                                         subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("release_date")));
@@ -165,7 +163,6 @@ class Movie{
         this.rating=rating ;
         this.title=title ;
         this.language=language ;
-
     }
     public String getMovieName(){
         return title ;

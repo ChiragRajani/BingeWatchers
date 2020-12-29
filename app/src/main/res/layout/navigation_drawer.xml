@@ -12,6 +12,7 @@
     android:id="@+id/pullToRefresh"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/activity_nav"
         android:layout_width="match_parent"
@@ -61,7 +62,13 @@
         </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        <include layout="@layout/watched_movie_sheet" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -81,5 +88,4 @@
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
-
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
