@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:padding="15dp"
+        android:paddingTop="0dp"
         android:background="@drawable/their_message"
         android:gravity="start"
         android:orientation="vertical">

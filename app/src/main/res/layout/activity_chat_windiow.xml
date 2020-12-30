@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E7E7E7"
+    android:background="@drawable/light_popcorn"
+
     tools:context=".MainActivity">
 
     <ListView
@@ -12,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@null"
+        android:dividerHeight="10.0sp"
         android:layout_marginBottom="70dp"
         android:smoothScrollbar="true"
         android:scrollingCache="false"

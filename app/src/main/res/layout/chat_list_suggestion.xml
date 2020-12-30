@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="end"
         android:padding="15dp"
+        android:paddingTop="0dp"
 
         android:orientation="vertical"
         android:background="@drawable/my_message"

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:gravity="start"
-    android:paddingTop="15dp"
+
     android:paddingRight="80dp">
 
     <LinearLayout
