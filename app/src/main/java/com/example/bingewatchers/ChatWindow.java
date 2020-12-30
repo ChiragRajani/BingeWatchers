@@ -1,10 +1,13 @@
 package com.example.bingewatchers;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,12 +19,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,11 +43,15 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
     EditText movieName;
     ListView chatList;
     ListView list;
+    private DrawerLayout dl;
+    private ActionBarDrawerToggle t;
     ListViewAdapter adapter;
     java.util.ArrayList<Message> chats = new java.util.ArrayList<>();
     java.util.ArrayList<Movie> he = new java.util.ArrayList<>();
     Button btnSug;
     EditText movieReview;
+    NavigationView nv ;
+    View headerView;
     private EditText grpName;
     private FloatingActionButton show;
     private String TAG = "CHAT WINDOW";
@@ -58,8 +68,6 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_windiow);
-
-
         grpName = findViewById(R.id.grpName);
         bottom_sheet = findViewById(R.id.bottom_sheet);
         show = findViewById(R.id.show);
@@ -67,13 +75,15 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         list = findViewById(R.id.listview);
         notgrpname = getIntent().getSerializableExtra("Group Name").toString();
         setTitle(notgrpname);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         name = getIntent().getSerializableExtra("Name").toString();
         myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname);
         DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname).child("message");
         mAuth = FirebaseAuth.getInstance();
+        //t = new ActionBarDrawerToggle(this, dl, R.string.drawer_open, R.string.drawer_close);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         btnSug = findViewById(R.id.buttonSug);
         movieReview = findViewById(R.id.movieReview);
         movieName = findViewById(R.id.movieName);
@@ -84,6 +94,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         message = grpName.getText().toString();
         ChatListAdapter chatAdapter = new ChatListAdapter(this, chats);
 
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -93,9 +104,13 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Message obj = postSnapshot.getValue(Message.class);
                     System.out.println("7777777777777777777777777" + obj.getName());
-                    chats.add(obj);
-                    System.out.println("44444444444444444 ADDEDS MESSAGE  " + obj.getMessage());
-                    chatList.setAdapter(chatAdapter);
+                    if (obj.getType()!=null)
+                    {
+                        chats.add(obj);
+                        System.out.println("44444444444444444 ADDEDS MESSAGE  " + obj.getMessage());
+                        chatList.setAdapter(chatAdapter);
+                    }
+
 
                 }
             }
@@ -272,4 +287,21 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         finish();
         return true;
     }
+//getActionBar().setDrawerListener(toggle);
+
+//...
+public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.group_info, menu);
+    return super.onCreateOptionsMenu(menu);
+}
+public boolean onOptionsItemSelected(MenuItem item) {
+    int id = item.getItemId();
+
+    if (id == R.id.group_info) {
+        Intent i= new Intent(ChatWindow.this,GroupInfo.class) ;
+        i.putExtra("Group Name",notgrpname) ;
+        startActivity(i);
+    }
+    return super.onOptionsItemSelected(item);
+}
 }

@@ -50,7 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //                .load(("https://ui-avatars.com/api/background=random?name=" + mNames.get(position)))
                 .load(mImageUrls.get(position))
                 .into(holder.image);
-        DashBoard.nDialog.dismiss();
+
         holder.name.setText(mNames.get(position));
 
         holder.image.setOnClickListener(new View.OnClickListener() {

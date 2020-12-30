@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -85,20 +86,12 @@ public class DashBoard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
         setTitle("DashBoard");
-        nDialog = new ProgressDialog(DashBoard.this);
-        nDialog.setMessage("Fetching......Wait");
-        nDialog.setTitle("Fetching Data");
-        nDialog.setIndeterminate(true);
-        nDialog.setCancelable(false);
-//        nDialog.show();
         suggest = findViewById(R.id.button);
         rootRef = FirebaseFirestore.getInstance();
         inform = findViewById(R.id.notif_info);
         list = findViewById(R.id.listview);
         notif_status = findViewById(R.id.notif_status);
         pullToRefresh = findViewById(R.id.pullToRefresh);
-
-
         user = findViewById(R.id.user);
         bottom_sheet = findViewById(R.id.watched_movie);
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
@@ -352,6 +345,11 @@ public class DashBoard extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (dl.isDrawerOpen(GravityCompat.START)) {
+            dl.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             finishAffinity();

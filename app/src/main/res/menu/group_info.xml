@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/group_info"
+        android:title="Watched A Movie"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_outline_info_24"
+        android:iconTint="@color/white"
+        />
+</menu>
