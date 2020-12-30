@@ -52,6 +52,9 @@ dependencies {
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     implementation 'com.google.firebase:firebase-firestore:22.0.1'
+    implementation 'com.github.mahimrocky:ShowMoreText:1.0.2'
+    implementation 'com.github.mahimrocky:ShowMoreText:1.0.2'
+
     implementation ('com.google.api-client:google-api-client:1.23.0'){
         exclude group:'com.google.guava'
     }

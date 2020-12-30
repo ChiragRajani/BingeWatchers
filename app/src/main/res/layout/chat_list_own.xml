@@ -7,18 +7,41 @@
     android:paddingLeft="60dp"
     android:clipToPadding="false">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/message"
-        android:gravity="end"
-        android:background="@drawable/my_message"
-        android:textColor="#fff"
-        android:padding="10dp"
-        android:elevation="2dp"
-        android:textSize="18dp"
-        android:layout_alignParentRight="true"
-        android:text="Placeholder message"
-        />
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="0dp"
+        android:padding="15dp"
+        android:background="@drawable/my_message">
 
+        <com.skyhope.showmoretextview.ShowMoreTextView
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="15dp"
+
+            android:elevation="2dp"
+            android:gravity="end"
+            android:padding="10dp"
+
+            android:text="Placeholder message"
+            android:textColor="#fff"
+            android:textSize="18dp"
+            />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="45dp"
+            android:textSize="15dp"
+
+            android:layout_marginBottom="10dp"
+            android:text="TextVie"
+            android:textColor="@color/white" />
+    </LinearLayout>
 </RelativeLayout>

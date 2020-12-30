@@ -10,10 +10,15 @@
     <ListView
         android:id="@+id/chatsList"
         android:layout_width="match_parent"
-        android:layout_height="644dp"
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:layout_marginBottom="70dp"
+        android:smoothScrollbar="true"
+        android:scrollingCache="false"
+        android:animationCache="true"
         android:transcriptMode="alwaysScroll"
     android:stackFromBottom="true" />
-
+<!--    listView.setScrollingCacheEnabled(false)-->
 <!--  <ListView&ndash;&gt;-->
 <!--        android:id="@+id/chatsList"-->
 <!--        android:layout_width="match_parent"-->

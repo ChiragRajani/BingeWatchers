@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -71,7 +72,8 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname).child("message");
         mAuth = FirebaseAuth.getInstance();
 
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         btnSug = findViewById(R.id.buttonSug);
         movieReview = findViewById(R.id.movieReview);
         movieName = findViewById(R.id.movieName);
@@ -220,6 +222,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                     case BottomSheetBehavior.STATE_COLLAPSED: {
                         list.setAdapter(null);
                         break;
+
                     }
                     case BottomSheetBehavior.STATE_EXPANDED: {
                         InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -256,6 +259,17 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
             }
         });
+//        public boolean onOptionsItemSelected(MenuItem item) {
+//            if (item.getItemId() == android.R.id.home) {
+//                finish();
+//            }
+//            return super.onOptionsItemSelected(item);
+//        }
 
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

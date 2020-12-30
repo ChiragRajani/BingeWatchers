@@ -10,10 +10,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
+        android:padding="15dp"
+        android:background="@drawable/their_message"
         android:gravity="start"
         android:orientation="vertical">
 
-        <TextView
+
+    <TextView
             android:id="@+id/senderEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,17 +31,24 @@
             android:layout_marginBottom="0dp"
             android:gravity="top" />
 
-        <TextView
+        <com.skyhope.showmoretextview.ShowMoreTextView
             android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/their_message"
+
             android:padding="15dp"
             android:elevation="2dp"
             android:gravity="bottom"
             android:text="How are you doing? This is a long message that should probably wrap."
             android:textSize="18dp" />
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="TEXT VIEW"
 
+            android:textSize="15dp" />
     </LinearLayout>
 
 </RelativeLayout>

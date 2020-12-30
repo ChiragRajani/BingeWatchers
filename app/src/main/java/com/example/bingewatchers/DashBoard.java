@@ -230,7 +230,7 @@ public class DashBoard extends AppCompatActivity {
                             String mvieName = y.getMovieName();
 
                             String desc = mvieName + "(" + y.getMovieDate().substring(0, 4) + ")\n\n"
-                                    + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview1.getText();
+                                    + y.getDescription() + "\n\n" + name + "'s Review:" +movieReview1.getText().toString();
 
                             Message obj = new Message(name, desc, Calendar.getInstance().getTime().toString(),
                                     mAuth.getCurrentUser().getEmail(), "https://image.tmdb.org/t/p/w500" + y.getPoster(),
@@ -239,8 +239,6 @@ public class DashBoard extends AppCompatActivity {
                             myRef.child(groupName).push().setValue(obj);
                             Log.d(TAG, "###### URL #######1" + movieReview1.getText().toString());
 
-                            movieReview1.setText("");
-                            movieName.setText("");
                             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                             InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
@@ -251,6 +249,8 @@ public class DashBoard extends AppCompatActivity {
 
                         }
                     }
+                    movieReview1.setText("");
+                    movieName.setText("");
                 }
                 rootRef.collection("Users").document(mAuth.getCurrentUser().getEmail()).update("Movies Watched", FieldValue.arrayUnion(movieName.getText().toString()));
 
