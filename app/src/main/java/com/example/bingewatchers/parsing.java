@@ -3,7 +3,17 @@ package com.example.bingewatchers;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +29,9 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class parsing extends AsyncTask {
+    private static final String TAG = "PARSING";
     static JSONObject kl;
+    View view;
     static ArrayList<Movie> he = new ArrayList<>();
     static ArrayList<Movie> he1 = new ArrayList<>();
     ListViewAdapter adapter;
@@ -27,17 +39,22 @@ public class parsing extends AsyncTask {
     private Context context;
     private ListView list;
     private String query;
-    private int req;
+    private int req=1;
 
     public parsing(Context context, String query, int req, ListView list) {
         this.context = context;
         this.query = query;
-        this.req = req;
+//        this.req = req;
         this.list = list;
     }
 
     public parsing() {
 
+    }
+
+    public parsing(Context context, String query, int i) {
+        this.context = context;
+        this.query = query;
     }
 
     public static ArrayList<Movie> getHe() {
@@ -52,8 +69,6 @@ public class parsing extends AsyncTask {
 
             System.out.println("444444444444444444444444444444444444444444444444444 QUERY FOR&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
             String url2 = " https://api.themoviedb.org/3/search/multi?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&query=" + query + "&page=1&include_adult=false";
-//            String url2 = " https://shrouded-falls-48764.herokuapp.com/vehicle-info/MP04SV8479";
-            //String url = "https://www.w3schools.com/xml/plant_catalog.xml";
 
             URL url = new URL(url2);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -93,22 +108,12 @@ public class parsing extends AsyncTask {
                             //   System.out.println("------------ ITS A MOVIE------------------------------");
                             he.add(new Movie(subparent.getString("media_type"), subparent.getString("original_language"), subparent.getString("title"),
                                     subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("release_date"), subparent.getString("poster_path")));
-//
-//                                System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-//                                System.out.println("this:          "+subparent.getString("media_type") + "\nthis:          " + subparent.getString("original_language") + "\nthis:          " +
-//                                        subparent.getString("title") + "\nthis:          " + subparent.getString("vote_average") + "\nthis:          " +
-//                                        subparent.getString("overview") + "\nthis:          " + subparent.getString("release_date"));
+
                         }
                         if (subparent.getString("media_type").equals("tv")) {
                             //System.out.println("------------ ITS A Tv series------------------------------");
                             he.add(new Movie(subparent.getString("media_type"), subparent.getString("original_language"), subparent.getString("name"),
                                     subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("first_air_date"), subparent.getString("poster_path")));
-
-//                                System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-//                                System.out.println("this:          "+subparent.getString("media_type") + "\nthis:          " + subparent.getString("original_language") +
-//                                        "\nthis:          " + subparent.getString("name") + "\nthis:          " +
-//                                        subparent.getString("vote_average") + "\nthis:          " + subparent.getString("overview") + "\nthis:          "
-//                                        + subparent.getString("first_air_date"));
 
                         }
 
@@ -136,12 +141,45 @@ public class parsing extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        adapter = new ListViewAdapter(context, he);
-        he1 = he;
-        list.setAdapter(adapter);
-        he = new ArrayList<>();
-        adapter = null;
+        initRecyclerView1(he);
 
+
+        if (req == 0) {
+            adapter = new ListViewAdapter(context, he);
+            he1 = he;
+            list.setAdapter(adapter);
+            he = new ArrayList<>();
+            adapter = null;
+        } else {
+
+        }
+
+    }
+
+    private void initRecyclerView1(ArrayList<Movie> he) {
+        try {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            view = inflater.inflate(R.layout.navigation_drawer, null);
+            Log.d(TAG, "initRecyclerView: init recyclerview"+he.get(0).getMovieName());
+            ImageView img = view.findViewById(R.id.image_view);
+            TextView name = view.findViewById(R.id.name);
+            name.setText("yaha movie name");
+//            name.setText(he.get(0).getMovieName());
+            Glide.with(context).asDrawable()
+                    .load(he.get(0).getPoster())
+                    .into(img);
+
+
+//            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+//            RecyclerView recyclerView = view.findViewById(R.id.recc_recycler);
+//            recyclerView.setLayoutManager(layoutManager);
+//            Recommendation_Adapter adapter = new Recommendation_Adapter(context, he);
+//            recyclerView.setAdapter(adapter);
+
+
+        } catch (Exception ne) {
+            System.out.println("222222222222222222222222222" + ne.getCause());
+        }
     }
 }
 
@@ -194,7 +232,7 @@ class Movie {
     }
 
     public String getPoster() {
-        return poster;
+        return "https://image.tmdb.org/t/p/w500" + poster;
     }
 
 }

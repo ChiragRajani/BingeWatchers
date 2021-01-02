@@ -36,17 +36,18 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.6.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
 
-    //chatkit
-    implementation 'com.github.stfalcon:chatkit:0.3.3'
+    //CardView
+    implementation "androidx.cardview:cardview:1.0.0"
 
-
+    //Refresh
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'com.google.firebase:firebase-auth:20.0.1'
     implementation 'com.google.android.material:material:1.2.1'
-   // implementation 'com.google.api-client:google-api-client:1.23.0'
+    // implementation 'com.google.api-client:google-api-client:1.23.0'
     implementation 'com.github.pchmn:MaterialChipsInput:1.0.8'
     implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
@@ -55,8 +56,8 @@ dependencies {
     implementation 'com.github.mahimrocky:ShowMoreText:1.0.2'
     implementation 'com.github.mahimrocky:ShowMoreText:1.0.2'
 
-    implementation ('com.google.api-client:google-api-client:1.23.0'){
-        exclude group:'com.google.guava'
+    implementation('com.google.api-client:google-api-client:1.23.0') {
+        exclude group: 'com.google.guava'
     }
     implementation "androidx.drawerlayout:drawerlayout:1.1.1"
     implementation 'androidx.annotation:annotation:1.1.0'

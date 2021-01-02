@@ -203,7 +203,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
                     Movie y = he.get(i1);
                     String mvieName = y.getMovieName();
-                    String url = "https://image.tmdb.org/t/p/w500" + y.getPoster();
+                    String url =  y.getPoster();
 //                String selected = ((TextView) view.findViewById(R.id.movieName)).getText().toString();
 
                     String desc = mvieName + "(" + y.getMovieDate().substring(0, 4) + ")\n\n" + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview.getText().toString();

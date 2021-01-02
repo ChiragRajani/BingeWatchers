@@ -1,0 +1,83 @@
+package com.example.bingewatchers;
+
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+
+public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_Adapter.ViewHolder> {
+    private static final String TAG = "RecyclerViewAdapter";
+
+    //vars
+    private Context mContext;
+    ArrayList<Movie> he;
+
+    public Recommendation_Adapter(Context mContext, ArrayList<Movie> he) {
+        this.mContext = mContext;
+        this.he = he;
+    }
+
+    @NonNull
+    @Override
+    public Recommendation_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.suggestions_dashboard, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull Recommendation_Adapter.ViewHolder holder, int position) {
+
+        Log.d(TAG, "onBindViewHolder: called.");
+
+        Glide.with(mContext).asDrawable()
+                .load(he.get(position).getPoster())
+                .into(holder.image);
+        DashBoard.nDialog.dismiss();
+        holder.name.setText(he.get(position).getMovieName());
+
+//        holder.image.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Log.d(TAG, "onClick: clicked on an image: " + mNames.get(position));
+//                Intent i = new Intent(mContext, ChatWindow.class);
+//                i.putExtra("Group Name", mNames.get(position));
+//                i.putExtra("Name", name);
+//                mContext.startActivity(i);
+//
+////                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+    }
+
+    @NonNull
+
+
+    @Override
+    public int getItemCount() {
+        return he.size();
+    }
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView image;
+        TextView name;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            image = itemView.findViewById(R.id.image_view);
+            name = itemView.findViewById(R.id.name);
+        }
+    }
+}

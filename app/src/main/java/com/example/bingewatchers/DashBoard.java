@@ -26,7 +26,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +53,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DashBoard extends AppCompatActivity {
     private static final String TAG = "DashBoard";
     static ProgressDialog nDialog;
+    static SwipeRefreshLayout.OnRefreshListener refreshListener;
     FirebaseAuth mAuth;
     Button goToGroup, suggest;
     TextView user, viewEmail, viewUsername, movieName, notif_status;
@@ -64,13 +64,12 @@ public class DashBoard extends AppCompatActivity {
     ListView list;
     ListViewAdapter adapter;
     java.util.ArrayList<Movie> he = new java.util.ArrayList<>();
-  static  SwipeRefreshLayout pullToRefresh;
+    SwipeRefreshLayout pullToRefresh;
     boolean doubleBackToExitPressedOnce = false;
     int SWITCH_CHECKED_STATUS = 1; // 1 if it is checked and 0 if its not
     String name;
     CircleImageView dp_view;
     View headerView;
-  static   SwipeRefreshLayout.OnRefreshListener refreshListener;
     DatabaseReference myRef;
     int i1 = 0, x = 0;
     private BottomSheetBehavior sheetBehavior;
@@ -87,15 +86,31 @@ public class DashBoard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
         setTitle("DashBoard");
+
+        new parsing(DashBoard.this, "Bhopal ", 1).execute();
+
+
+
+        nDialog = new ProgressDialog(DashBoard.this);
+        nDialog.setMessage("Fetching......Wait");
+        nDialog.setTitle("Fetching Data");
+        nDialog.setIndeterminate(true);
+        nDialog.setCancelable(false);
+//        nDialog.show();
         suggest = findViewById(R.id.button);
         rootRef = FirebaseFirestore.getInstance();
         inform = findViewById(R.id.notif_info);
         list = findViewById(R.id.listview);
         notif_status = findViewById(R.id.notif_status);
         pullToRefresh = findViewById(R.id.pullToRefresh);
+
+
         user = findViewById(R.id.user);
-        bottom_sheet = findViewById(R.id.watched_movie);
-        sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
+
+//        bottom_sheet = findViewById(R.id.watched_movie);
+//        sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
+
+
         //list = findViewById(R.id.list);
         goToGroup = findViewById(R.id.goToGroup);
         nv = findViewById(R.id.nv);
@@ -114,10 +129,9 @@ public class DashBoard extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        inform.setChecked(true);
-        notif_status.setText("Notification will be sent to everyone");
 
-
+//        inform.setChecked(true);
+//        notif_status.setText("Notification will be sent to everyone");
 
         refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -129,23 +143,10 @@ public class DashBoard extends AppCompatActivity {
             }
         };
         pullToRefresh.setOnRefreshListener(refreshListener);
-        pullToRefresh.setOnRefreshListener(refreshListener)  ;
-//            @Override
-//            public void onRefresh() {
-//                mNames = new ArrayList<>();
-//                mImageUrls = new ArrayList<>();
-//                getGroups(); // your code
-//                System.out.println("REEEFRESSSSHED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//
-//            }
-//        });
-        user.setText("Hello User\n" + mAuth.getCurrentUser().getEmail());
 
-       getGroups();
-
+        getGroups();
         viewUsername.setText(mAuth.getCurrentUser().getEmail());
         System.out.println("**********************" + mAuth.getCurrentUser().getEmail());
-
 
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -173,95 +174,97 @@ public class DashBoard extends AppCompatActivity {
                 return true;
             }
         });
-        inform.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    SWITCH_CHECKED_STATUS = 1;
-                    notif_status.setText("Tell in every group also");
-                } else {
-                    SWITCH_CHECKED_STATUS = 0;
-                    notif_status.setText("Just add into your profile");
-                }
 
-            }
-        });
-        movieName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//        inform.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+//                if (isChecked) {
+//                    SWITCH_CHECKED_STATUS = 1;
+//                    notif_status.setText("Tell in every group also");
+//                } else {
+//                    SWITCH_CHECKED_STATUS = 0;
+//                    notif_status.setText("Just add into your profile");
+//                }
+//
+//            }
+//        });
 
-            }
+//        movieName.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                if (x == 0) {
+//                    System.out.println("666666666666666666666666666666666666666666666" + charSequence.toString());
+//                    new parsing(getApplicationContext(), charSequence.toString(), 0, list).execute();
+//
+//                }
+//                x = 0;
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//
+//            }
+//        });
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//
+//                x = 1;
+//                i1 = i;
+//                he = parsing.he1;
+//                Movie y = he.get(i);
+//                String mvieName = y.getMovieName();
+//                movieName.setText(mvieName);
+//                list.setAdapter(null);
+//            }
+//        });
 
-                if (x == 0) {
-                    System.out.println("666666666666666666666666666666666666666666666" + charSequence.toString());
-                    new parsing(getApplicationContext(), charSequence.toString(), 0, list).execute();
-
-                }
-                x = 0;
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
-                x = 1;
-                i1 = i;
-                he = parsing.he1;
-                Movie y = he.get(i);
-                String mvieName = y.getMovieName();
-                movieName.setText(mvieName);
-                list.setAdapter(null);
-            }
-        });
-
-
-        suggest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SWITCH_CHECKED_STATUS == 1) {
-                    for (String groupName : mNames) {
-                        try {
-
-                            Movie y = he.get(i1);
-                            String mvieName = y.getMovieName();
-
-                            String desc = mvieName + "(" + y.getMovieDate().substring(0, 4) + ")\n\n"
-                                    + y.getDescription() + "\n\n" + name + "'s Review:" +movieReview1.getText().toString();
-
-                            Message obj = new Message(name, desc, Calendar.getInstance().getTime().toString(),
-                                    mAuth.getCurrentUser().getEmail(), "https://image.tmdb.org/t/p/w500" + y.getPoster(),
-                                    "Suggestion");
-
-                            myRef.child(groupName).push().setValue(obj);
-                            Log.d(TAG, "###### URL #######1" + movieReview1.getText().toString());
-
-                            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                            Toast.makeText(DashBoard.this, "Message Sent to all groups", Toast.LENGTH_SHORT).show();
-
-                        } catch (IndexOutOfBoundsException | NullPointerException e) {
-                            Toast.makeText(DashBoard.this, "Movie Name Cannot Be Empty!!", Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-                    movieReview1.setText("");
-                    movieName.setText("");
-                }
-                rootRef.collection("Users").document(mAuth.getCurrentUser().getEmail()).update("Movies Watched", FieldValue.arrayUnion(movieName.getText().toString()));
-
-            }
-        });
+//        suggest.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (SWITCH_CHECKED_STATUS == 1) {
+//                    for (String groupName : mNames) {
+//                        try {
+//
+//                            Movie y = he.get(i1);
+//                            String mvieName = y.getMovieName();
+//
+//                            String desc = mvieName + "(" + y.getMovieDate().substring(0, 4) + ")\n\n"
+//                                    + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview1.getText().toString();
+//
+//                            Message obj = new Message(name, desc, Calendar.getInstance().getTime().toString(),
+//                                    mAuth.getCurrentUser().getEmail(), "https://image.tmdb.org/t/p/w500" + y.getPoster(),
+//                                    "Suggestion");
+//
+//                            myRef.child(groupName).push().setValue(obj);
+//                            Log.d(TAG, "###### URL #######1" + movieReview1.getText().toString());
+//
+//                            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//                            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+//                            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+//                            Toast.makeText(DashBoard.this, "Message Sent to all groups", Toast.LENGTH_SHORT).show();
+//
+//                        } catch (IndexOutOfBoundsException | NullPointerException e) {
+//                            Toast.makeText(DashBoard.this, "Movie Name Cannot Be Empty!!", Toast.LENGTH_SHORT).show();
+//
+//                        }
+//                    }
+//                    movieReview1.setText("");
+//                    movieName.setText("");
+//                }
+//                rootRef.collection("Users").document(mAuth.getCurrentUser().getEmail()).update("Movies Watched", FieldValue.arrayUnion(movieName.getText().toString()));
+//
+//            }
+//        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -282,8 +285,6 @@ public class DashBoard extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-
-
                     //if read successful
 
                     DocumentSnapshot document = task.getResult();
@@ -292,7 +293,7 @@ public class DashBoard extends AppCompatActivity {
                     pullToRefresh.setRefreshing(false);
                     name = document.get("Name").toString();
                     viewEmail.setText(name);
-
+                    user.setText("Welcome " + name+"! Your groups here,");
                     name = document.get("Name").toString();
 
                     //        https://ui-avatars.com/api/background=random?rounded=true
@@ -324,6 +325,7 @@ public class DashBoard extends AppCompatActivity {
             }
 
         });
+
     }
 
     private void initRecyclerView1(ArrayList<String> mNames1, ArrayList<String> mImageUrls1, String name) {
@@ -335,6 +337,8 @@ public class DashBoard extends AppCompatActivity {
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames1, mImageUrls1, name);
         recyclerView.setAdapter(adapter);
     }
+
+
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -357,11 +361,6 @@ public class DashBoard extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (dl.isDrawerOpen(GravityCompat.START)) {
-            dl.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             finishAffinity();
@@ -378,6 +377,5 @@ public class DashBoard extends AppCompatActivity {
             }
         }, 2000);
     }
-
 
 }
