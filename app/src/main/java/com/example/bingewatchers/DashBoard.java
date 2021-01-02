@@ -64,12 +64,13 @@ public class DashBoard extends AppCompatActivity {
     ListView list;
     ListViewAdapter adapter;
     java.util.ArrayList<Movie> he = new java.util.ArrayList<>();
-    SwipeRefreshLayout pullToRefresh;
+  static  SwipeRefreshLayout pullToRefresh;
     boolean doubleBackToExitPressedOnce = false;
     int SWITCH_CHECKED_STATUS = 1; // 1 if it is checked and 0 if its not
     String name;
     CircleImageView dp_view;
     View headerView;
+  static   SwipeRefreshLayout.OnRefreshListener refreshListener;
     DatabaseReference myRef;
     int i1 = 0, x = 0;
     private BottomSheetBehavior sheetBehavior;
@@ -115,20 +116,32 @@ public class DashBoard extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         inform.setChecked(true);
         notif_status.setText("Notification will be sent to everyone");
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+
+
+        refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mNames = new ArrayList<>();
                 mImageUrls = new ArrayList<>();
                 getGroups(); // your code
-                System.out.println("REEEFRESSSSHED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
+                System.out.println("REEEFRESSSSHED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");  //Do your stuff here
             }
-        });
-
+        };
+        pullToRefresh.setOnRefreshListener(refreshListener);
+        pullToRefresh.setOnRefreshListener(refreshListener)  ;
+//            @Override
+//            public void onRefresh() {
+//                mNames = new ArrayList<>();
+//                mImageUrls = new ArrayList<>();
+//                getGroups(); // your code
+//                System.out.println("REEEFRESSSSHED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//
+//            }
+//        });
         user.setText("Hello User\n" + mAuth.getCurrentUser().getEmail());
 
-        getGroups();
+       getGroups();
 
         viewUsername.setText(mAuth.getCurrentUser().getEmail());
         System.out.println("**********************" + mAuth.getCurrentUser().getEmail());
@@ -311,7 +324,6 @@ public class DashBoard extends AppCompatActivity {
             }
 
         });
-
     }
 
     private void initRecyclerView1(ArrayList<String> mNames1, ArrayList<String> mImageUrls1, String name) {
@@ -366,5 +378,6 @@ public class DashBoard extends AppCompatActivity {
             }
         }, 2000);
     }
+
 
 }

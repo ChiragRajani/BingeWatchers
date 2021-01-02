@@ -80,8 +80,10 @@ public class CreateJoinGroup extends AppCompatActivity {
 
                         createGroupName.setText("");
                         joinGroupName.setText("");
+                        DashBoard.refreshListener.onRefresh();
                     }
                 });
+
             }
         });
 
@@ -118,6 +120,7 @@ public class CreateJoinGroup extends AppCompatActivity {
 
                         createGroupName.setText("");
                         joinGroupName.setText("");
+                        DashBoard.refreshListener.onRefresh();
                     }
                 });
             }
@@ -131,6 +134,7 @@ public class CreateJoinGroup extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 }
 //    public boolean onSupportNavigateUp() {
