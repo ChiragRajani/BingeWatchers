@@ -79,52 +79,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-//    public void initNavigationDrawer() {
-//
-//        NavigationView navigationView = (NavigationView)findViewById(R.id.navigation_view);
-//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(MenuItem menuItem) {
-//
-//                int id = menuItem.getItemId();
-//
-//                switch (id){
-//                    case R.id.home:
-//                        Toast.makeText(getApplicationContext(),"Home",Toast.LENGTH_SHORT).show();
-//              //          drawerLayout.closeDrawers();
-//                        break;
-//                    case R.id.Groups:
-//                        Toast.makeText(getApplicationContext(),"Settings",Toast.LENGTH_SHORT).show();
-//                        break;
-//
-//                    case R.id.logout:
-//                        finish();
-//
-//                }
-//                return true;
-//            }
-//        });
-//        View header = navigationView.getHeaderView(0);
-//        TextView tv_email = (TextView)header.findViewById(R.id.tv_email);
-//        tv_email.setText("raj.amalw@learn2crack.com");
-//        drawerLayout = (DrawerLayout)findViewById(R.id.drawer);
-//
-//        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close){
-//
-//            @Override
-//            public void onDrawerClosed(View v){
-//                super.onDrawerClosed(v);
-//            }
-//
-//            @Override
-//            public void onDrawerOpened(View v) {
-//                super.onDrawerOpened(v);
-//            }
-//        };
-//        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-//        actionBarDrawerToggle.syncState();
-//    }
-
     private void signIn(String email1, String password) {
         mAuth.signInWithEmailAndPassword(email1, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -164,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser != null) {
 
             Intent i = new Intent(MainActivity.this, DashBoard.class);
-
             startActivity(i);
             System.out.println(" user logged in" + currentUser.getEmail());
         } else {

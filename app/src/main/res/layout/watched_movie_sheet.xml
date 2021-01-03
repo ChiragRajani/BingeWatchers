@@ -9,6 +9,8 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:paddingBottom="0dp"
+    app:layout_constraintCircleRadius="20dp"
+    android:theme="@style/BottomSheetItem"
     app:behavior_hideable="false"
     app:behavior_peekHeight="0dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -136,12 +138,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="72dp"
-        android:layout_height="15dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="16dp"
-        android:drawableRight="@drawable/ic_keyboard_arrow_down"
+        android:id="@+id/hideSheet"
+        android:layout_width="74dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="24dp"
+        android:drawableRight="@drawable/ic_round_keyboard_arrow_down_24"
         android:textSize="80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -10,9 +10,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
@@ -31,20 +28,28 @@ import java.util.ArrayList;
 public class parsing extends AsyncTask {
     private static final String TAG = "PARSING";
     static JSONObject kl;
-    View view;
     static ArrayList<Movie> he = new ArrayList<>();
     static ArrayList<Movie> he1 = new ArrayList<>();
+    View view;
     ListViewAdapter adapter;
     @SuppressLint("StaticFieldLeak")
     private Context context;
+    @SuppressLint("StaticFieldLeak")
     private ListView list;
     private String query;
-    private int req=1;
+    @SuppressLint("StaticFieldLeak")
+    ImageView img ;
+    @SuppressLint("StaticFieldLeak")
+    TextView name;
+    private int req = 1;
+    LayoutInflater inflater ;
+
+
 
     public parsing(Context context, String query, int req, ListView list) {
         this.context = context;
         this.query = query;
-//        this.req = req;
+        this.req = req;
         this.list = list;
     }
 
@@ -55,11 +60,10 @@ public class parsing extends AsyncTask {
     public parsing(Context context, String query, int i) {
         this.context = context;
         this.query = query;
-    }
-
-    public static ArrayList<Movie> getHe() {
-        System.out.println("HE FROM DO IN BACKGROUND!!" + he);
-        return he;
+        inflater = LayoutInflater.from(context);
+        view = inflater.inflate(R.layout.navigation_drawer, null);
+        name = view.findViewById(R.id.name12);
+        img = view.findViewById(R.id.image_view12);
     }
 
     @Override
@@ -91,19 +95,12 @@ public class parsing extends AsyncTask {
             } else {
                 kl = null;
             }
-            //  System.out.println(kl.toString().replace("\\/","")) ;
             System.out.println("================ doInBackground COMPLETED");
-//        if(req==0)
-//            sendFullDetails(kl);
-//        else
-//            sendNameDetails(kl);
             JSONArray parent = kl.getJSONArray("results");
             try {
                 for (int i = 0; i < parent.length(); i++) {
                     JSONObject subparent = (JSONObject) parent.get(i);
                     try {
-
-
                         if (subparent.getString("media_type").equals("movie")) {
                             //   System.out.println("------------ ITS A MOVIE------------------------------");
                             he.add(new Movie(subparent.getString("media_type"), subparent.getString("original_language"), subparent.getString("title"),
@@ -131,9 +128,9 @@ public class parsing extends AsyncTask {
         } catch (IOException | JSONException | NullPointerException e) {
             e.printStackTrace();
         }
-        //System.out.println("4444444444444444444444444444444444444444444444iit"+kl);
+     //   Log.d(TAG, "initRecyclerView: init     " + he.size());
 
-        //   return he;
+
 
         return he;
     }
@@ -141,8 +138,8 @@ public class parsing extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
+        he1 = he;
         initRecyclerView1(he);
-
 
         if (req == 0) {
             adapter = new ListViewAdapter(context, he);
@@ -158,11 +155,8 @@ public class parsing extends AsyncTask {
 
     private void initRecyclerView1(ArrayList<Movie> he) {
         try {
-            LayoutInflater inflater = LayoutInflater.from(context);
-            view = inflater.inflate(R.layout.navigation_drawer, null);
-            Log.d(TAG, "initRecyclerView: init recyclerview"+he.get(0).getMovieName());
-            ImageView img = view.findViewById(R.id.image_view);
-            TextView name = view.findViewById(R.id.name);
+              Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.size());
+           Log.d(TAG,he.get(0).getMovieDate()) ;
             name.setText("yaha movie name");
 //            name.setText(he.get(0).getMovieName());
             Glide.with(context).asDrawable()
@@ -178,7 +172,7 @@ public class parsing extends AsyncTask {
 
 
         } catch (Exception ne) {
-            System.out.println("222222222222222222222222222" + ne.getCause());
+            System.out.println("222222222222222222222222222" + ne.getMessage());
         }
     }
 }

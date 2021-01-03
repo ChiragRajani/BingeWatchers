@@ -29,8 +29,9 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
 
     @NonNull
     @Override
-    public Recommendation_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.suggestions_dashboard, parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).
+                inflate(R.layout.suggestions_dashboard, parent, false);
         return new ViewHolder(view);
     }
 
@@ -42,7 +43,7 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
         Glide.with(mContext).asDrawable()
                 .load(he.get(position).getPoster())
                 .into(holder.image);
-        DashBoard.nDialog.dismiss();
+
         holder.name.setText(he.get(position).getMovieName());
 
 //        holder.image.setOnClickListener(new View.OnClickListener() {
@@ -59,10 +60,6 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
 //            }
 //        });
     }
-
-    @NonNull
-
-
     @Override
     public int getItemCount() {
         return he.size();

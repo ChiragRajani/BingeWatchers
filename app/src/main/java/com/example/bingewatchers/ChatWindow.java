@@ -51,6 +51,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
     Button btnSug;
     EditText movieReview;
     NavigationView nv ;
+    TextView hideSheet ;
     View headerView;
     private EditText grpName;
     private FloatingActionButton show;
@@ -93,7 +94,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         java.util.ArrayList<Message> chats = new java.util.ArrayList<>();
         message = grpName.getText().toString();
         ChatListAdapter chatAdapter = new ChatListAdapter(this, chats);
-
+        hideSheet=findViewById(R.id.hideSheet) ;
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -274,6 +275,12 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
             }
         });
+        hideSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
 //        public boolean onOptionsItemSelected(MenuItem item) {
 //            if (item.getItemId() == android.R.id.home) {
 //                finish();
@@ -302,6 +309,9 @@ public boolean onOptionsItemSelected(MenuItem item) {
         i.putExtra("Group Name",notgrpname) ;
         startActivity(i);
     }
+    if (item.getItemId() == android.R.id.home) {
+                finish();
+            }
     return super.onOptionsItemSelected(item);
 }
 }
