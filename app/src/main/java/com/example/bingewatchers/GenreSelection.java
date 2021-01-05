@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GenreSelection extends AppCompatActivity {
-   private ChipGroup chipGroup ;
+    private ChipGroup chipGroup;
     private Button btn;
     String email = SignUp.regEmail;
     private FirebaseAuth mAuth;
@@ -38,51 +38,73 @@ public class GenreSelection extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         btn = findViewById(R.id.submit);
-        chipGroup= findViewById(R.id.chipGroup);
+        chipGroup = findViewById(R.id.chipGroup);
         contactList = new ArrayList<>();
 
-        contactList.add("Absurdist");
-        contactList.add("Action" );
+//        contactList.add("Absurdist");
+//        contactList.add("Action" );
+//        contactList.add("Adventure");
+//        contactList.add("Comedy");
+//        contactList.add("Crime");
+//        contactList.add("Drama");
+//        contactList.add("Fantasy");
+//        contactList.add("Historical");
+//        contactList.add("Horror" );
+//        contactList.add("Magical realism");
+//        contactList.add("Mystery" );
+//        contactList.add("Paranoid fiction");
+//        contactList.add("Philosophical");
+//        contactList.add("Political");
+//        contactList.add("Romance");
+//        contactList.add("Saga") ;
+//        contactList.add("Satire");
+//        contactList.add("Science"  );
+//        contactList.add("Social") ;
+//        contactList.add("Speculative" );
+//        contactList.add("Thrille");
+//        contactList.add("Urban");
+//        contactList.add("Wester");
+
+
+        contactList.add("Action");
         contactList.add("Adventure");
+        contactList.add("Animation");
         contactList.add("Comedy");
         contactList.add("Crime");
+        contactList.add("Documentary");
         contactList.add("Drama");
+        contactList.add("Family");
         contactList.add("Fantasy");
-        contactList.add("Historical");
-        contactList.add("Horror" );
-        contactList.add("Magical realism");
-        contactList.add("Mystery" );
-        contactList.add("Paranoid fiction");
-        contactList.add("Philosophical");
-        contactList.add("Political");
+        contactList.add("History");
+        contactList.add("Horror");
+        contactList.add("Music");
+        contactList.add("Mystery");
         contactList.add("Romance");
-        contactList.add("Saga") ;
-        contactList.add("Satire");
-        contactList.add("Science"  );
-        contactList.add("Social") ;
-        contactList.add("Speculative" );
-        contactList.add("Thrille");
-        contactList.add("Urban");
-        contactList.add("Wester");
+        contactList.add("Science Fiction");
+        contactList.add("TV Movie");
+        contactList.add("Thriller");
+        contactList.add("War");
+        contactList.add("Western");
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("------------------------------------");
                 List<Integer> ids = chipGroup.getCheckedChipIds();
-                System.out.println("-----------------------------------"+ids);
+                System.out.println("-----------------------------------" + ids);
                 addGenres(email, liste(ids));
             }
         });
     }
-    Map<String,Object> liste(@NotNull List<Integer> ids){
-        List<String> genreL=new ArrayList<>();
+
+    Map<String, Object> liste(@NotNull List<Integer> ids) {
+        List<String> genreL = new ArrayList<>();
         Map<String, Object> genreM = new HashMap<>();
-        for(int i : ids){
-            int y= i-1;
+        for (int i : ids) {
+            int y = i - 1;
             genreL.add(contactList.get(y));
         }
-        genreM.put("Genres",genreL);
+        genreM.put("Genres", genreL);
         System.out.println(genreM);
         return genreM;
     }
@@ -101,9 +123,10 @@ public class GenreSelection extends AppCompatActivity {
         Log.d(TAG, "===========Genres Added");
         Toast.makeText(GenreSelection.this, "Genres updated", Toast.LENGTH_LONG);
     }
+
     public void onBackPressed() {
 
         super.onBackPressed();
-        startActivity(new Intent(getApplicationContext(),DashBoard.class));
+        startActivity(new Intent(getApplicationContext(), DashBoard.class));
     }
 }

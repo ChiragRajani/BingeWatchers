@@ -56,48 +56,23 @@
                     android:orientation="horizontal" />
 
 
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="69dp"
-                    android:layout_below="@+id/recyclerView"
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="69dp"
+                                    android:layout_below="@+id/recyclerView"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginTop="40dp"
+                                    android:text="Recommendations"
+                                    android:textSize="22dp"
+                                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recc_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginTop="40dp"
-                    android:text="Recommendations"
-                    android:textSize="22dp"
-                    android:textStyle="bold" />
-
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/recc_recycler"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_alignParentBottom="true"-->
-<!--                    android:orientation="horizontal" />-->
-
-                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/card_view"
-                    android:layout_width="150dp"
-                    android:layout_height="180dp"
-                    android:backgroundTint="#262833"
-                    card_view:cardCornerRadius="4dp">
-
-                    <ImageView
-                        android:id="@+id/image_view12"
-                        android:layout_width="match_parent"
-                        android:layout_height="160dp"
-                        android:src="@drawable/dark_popcorn" />
-
-                    <TextView
-                        android:id="@+id/name12"
-                        android:layout_width="match_parent"
-                        android:layout_height="20dp"
-                        android:layout_gravity="bottom"
-                        android:text="OKAY"
-                        android:textColor="@color/white"
-                        android:textSize="15dp" />
-
-                </androidx.cardview.widget.CardView>
-
+                    android:orientation="horizontal" />
 
 
             </LinearLayout>
@@ -108,6 +83,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <include layout="@layout/watched_movie_sheet" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

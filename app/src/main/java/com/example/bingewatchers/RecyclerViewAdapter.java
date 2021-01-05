@@ -44,7 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
         Log.d(TAG, "onBindViewHolder: called.");
-        Log.d(TAG,"-----------" + mNames);
+        Log.d(TAG, "-----------" + mNames);
 
         Glide.with(mContext).asDrawable()
 //                .load(("https://ui-avatars.com/api/background=random?name=" + mNames.get(position)))

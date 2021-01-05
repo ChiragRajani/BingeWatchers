@@ -30,13 +30,12 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.suggestions_dashboard, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.suggestions_dashboard, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Recommendation_Adapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Log.d(TAG, "onBindViewHolder: called.");
 
@@ -60,8 +59,10 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
 //            }
 //        });
     }
+
     @Override
     public int getItemCount() {
+
         return he.size();
     }
 

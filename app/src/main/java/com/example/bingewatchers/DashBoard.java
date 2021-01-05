@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +45,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
@@ -56,7 +59,7 @@ public class DashBoard extends AppCompatActivity {
     static SwipeRefreshLayout.OnRefreshListener refreshListener;
     FirebaseAuth mAuth;
     Button goToGroup, suggest;
-    TextView user, viewEmail, viewUsername, movieName, notif_status,hideSheet;
+    TextView user, viewEmail, viewUsername, movieName, notif_status, hideSheet;
     EditText movieReview1;
     FirebaseFirestore db;
     Switch inform;
@@ -68,6 +71,7 @@ public class DashBoard extends AppCompatActivity {
     boolean doubleBackToExitPressedOnce = false;
     int SWITCH_CHECKED_STATUS = 1; // 1 if it is checked and 0 if its not
     String name;
+    ArrayList<String> genres = new ArrayList<>();
     CircleImageView dp_view;
     View headerView;
     DatabaseReference myRef;
@@ -80,6 +84,7 @@ public class DashBoard extends AppCompatActivity {
     private ActionBarDrawerToggle t;
     private NavigationView nv;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -87,8 +92,12 @@ public class DashBoard extends AppCompatActivity {
         setContentView(R.layout.navigation_drawer);
         setTitle("DashBoard");
 
-        new parsing(DashBoard.this, "Bhopal ", 1).execute();
+        new parsing(DashBoard.this, "Avengers ", 1).execute();
+//        https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=18
+//        https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=18%7C32%7C24
 
+
+        initRecyclerView12(parsing.he);
 
 
         nDialog = new ProgressDialog(DashBoard.this);
@@ -116,7 +125,7 @@ public class DashBoard extends AppCompatActivity {
         nv = findViewById(R.id.nv);
         dl = findViewById(R.id.activity_nav);
         headerView = nv.getHeaderView(0);
-        hideSheet=findViewById(R.id.hideSheet) ;
+        hideSheet = findViewById(R.id.hideSheet);
         viewEmail = headerView.findViewById(R.id.email_id);
         myRef = FirebaseDatabase.getInstance().getReference("Group Chats");
         dp_view = headerView.findViewById(R.id.dp_view);
@@ -217,8 +226,6 @@ public class DashBoard extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
                 x = 1;
                 i1 = i;
                 he = parsing.he1;
@@ -275,6 +282,30 @@ public class DashBoard extends AppCompatActivity {
         });
     }
 
+
+    private void initRecyclerView12(@NotNull ArrayList<Movie> he) {
+
+        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.size());
+//        Log.d(TAG, he.get(0).getMovieName());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerView = findViewById(R.id.recc_recycler);
+        recyclerView.setLayoutManager(layoutManager);
+        Recommendation_Adapter adapter = new Recommendation_Adapter(this, he);
+        recyclerView.setAdapter(adapter);
+
+
+    } //For Recommendations
+
+    private void initRecyclerView1(ArrayList<String> mNames1, ArrayList<String> mImageUrls1, String name) {
+        Log.d(TAG, "initRecyclerView: init recyclerview");
+        Log.d(TAG, "9999999999999999999999" + mNames1);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(layoutManager);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames1, mImageUrls1, name);
+        recyclerView.setAdapter(adapter);
+    } //For group displays
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add_button, menu);
         return super.onCreateOptionsMenu(menu);
@@ -300,15 +331,17 @@ public class DashBoard extends AppCompatActivity {
 
                     pullToRefresh.setRefreshing(false);
                     name = document.get("Name").toString();
+                    genres = (ArrayList<String>) document.get("Genres");
+
                     viewEmail.setText(name);
-                    user.setText("Welcome " + name+"! Your groups here,");
-                    name = document.get("Name").toString();
+                    user.setText("Welcome " + name + "! Your groups here,");
+//                    name = document.get("Name").toString();
 
                     //        https://ui-avatars.com/api/background=random?rounded=true
                     //        https://ui-avatars.com/api/background=random?name=c+j
 //                    https://picsum.photos/
                     String url = "https://ui-avatars.com/api/background=random?name=" + name;
-                    System.out.println("______URL______" + url);
+                    Log.d(TAG, "______URL______" + url);
                     Glide.with(DashBoard.this).asDrawable()
                             .load(url)
                             .into(dp_view);
@@ -335,18 +368,6 @@ public class DashBoard extends AppCompatActivity {
         });
 
     }
-
-    private void initRecyclerView1(ArrayList<String> mNames1, ArrayList<String> mImageUrls1, String name) {
-        Log.d(TAG, "initRecyclerView: init recyclerview");
-        Log.d(TAG, "9999999999999999999999" + mNames1);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(layoutManager);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames1, mImageUrls1, name);
-        recyclerView.setAdapter(adapter);
-    }
-
-
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

@@ -10,7 +10,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.annotation.GlideModule;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,8 +66,8 @@ public class parsing extends AsyncTask {
         this.query = query;
         inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.navigation_drawer, null);
-        name = view.findViewById(R.id.name12);
-        img = view.findViewById(R.id.image_view12);
+//        name = view.findViewById(R.id.name12);
+//        img = view.findViewById(R.id.image_view12);
     }
 
     @Override
@@ -72,7 +76,8 @@ public class parsing extends AsyncTask {
         try {
 
             System.out.println("444444444444444444444444444444444444444444444444444 QUERY FOR&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-            String url2 = " https://api.themoviedb.org/3/search/multi?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&query=" + query + "&page=1&include_adult=false";
+            String url2 = "https://api.themoviedb.org/3/search/multi?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&query=" + query + "&page=1&include_adult=false";
+
 
             URL url = new URL(url2);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -138,8 +143,19 @@ public class parsing extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        he1 = he;
-        initRecyclerView1(he);
+
+//        initRecyclerView1(he1);
+        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getType());
+        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getLanguage());
+        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getLanguage());
+        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getMovieName());
+        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getRating());
+        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getDescription());
+        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getMovieDate());
+        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getPoster());
+
+
+//        ic Movie(String type, String language, String title, String rating, String description, String date, String poster)
 
         if (req == 0) {
             adapter = new ListViewAdapter(context, he);
@@ -153,28 +169,28 @@ public class parsing extends AsyncTask {
 
     }
 
-    private void initRecyclerView1(ArrayList<Movie> he) {
-        try {
-              Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.size());
-           Log.d(TAG,he.get(0).getMovieDate()) ;
-            name.setText("yaha movie name");
-//            name.setText(he.get(0).getMovieName());
-            Glide.with(context).asDrawable()
-                    .load(he.get(0).getPoster())
-                    .into(img);
-
-
+//    private void initRecyclerView1(ArrayList<Movie> he) {
+//        try {
+//              Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.size());
+//           Log.d(TAG,he.get(0).getMovieName()) ;
+////            name.setText("yaha movie name");
+////            name.setText(he.get(0).getMovieName());
+////            Glide.with(context).asDrawable()
+////                    .load(he.get(0).getPoster())
+////                    .into(img);
+//
+//
 //            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
 //            RecyclerView recyclerView = view.findViewById(R.id.recc_recycler);
 //            recyclerView.setLayoutManager(layoutManager);
 //            Recommendation_Adapter adapter = new Recommendation_Adapter(context, he);
 //            recyclerView.setAdapter(adapter);
-
-
-        } catch (Exception ne) {
-            System.out.println("222222222222222222222222222" + ne.getMessage());
-        }
-    }
+//
+//
+//        } catch (Exception ne) {
+//            System.out.println("222222222222222222222222222" + ne.getMessage());
+//        }
+//    }
 }
 
 class Movie {
@@ -199,6 +215,11 @@ class Movie {
 
     public Movie() {
 
+    }
+
+    public Movie(String movieName, String poster) {
+        this.poster = poster;
+        this.title = movieName;
     }
 
     public String getMovieName() {
