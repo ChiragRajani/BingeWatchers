@@ -12,14 +12,16 @@
         android:theme="@style/Theme.BingeWatchers">
         <activity android:name=".GroupInfo"></activity>
         <activity android:name=".ChatWindow" />
-        <activity android:name=".SplashScreen" />
-        <activity android:name=".CreateJoinGroup" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".CreateJoinGroup" />
+        <activity android:name=".MainActivity">
+
         </activity>
         <activity android:name=".GenreSelection" />
         <activity android:name=".SignUp" />
