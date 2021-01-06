@@ -1,9 +1,7 @@
 package com.example.bingewatchers;
 
 import android.content.Context;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,7 @@ import java.util.List;
 public class ChatListAdapter extends BaseAdapter {
 
     // Declare Variables
-
+    String TAG = "CHAtLISTADAPTER";
     Context mContext;
     LayoutInflater inflater;
     FirebaseAuth mAuth;
@@ -58,6 +56,7 @@ public class ChatListAdapter extends BaseAdapter {
         if (view == null) {
             holder = new ViewHolder();
             if (Chats.get(position).getSenderEmail().equals(mAuth.getCurrentUser().getEmail())) {
+                Log.d(TAG, "!!!!!!!! SAME HAIN DONO!!   !!!!!!!!!!!!!!!!!!!!");
                 if (Chats.get(position).getType().equals("message")) {
                     view = inflater.inflate(R.layout.chat_list_own, null);
                     holder.message = view.findViewById(R.id.message);
@@ -66,7 +65,8 @@ public class ChatListAdapter extends BaseAdapter {
                     holder.time.setText(Chats.get(position).getTime().substring(10, 16));
                     holder.message.setText(Chats.get(position).getMessage());
 
-                }    if(Chats.get(position).getType().equals("Suggestion")) {
+                }
+                if (Chats.get(position).getType().equals("Suggestion")) {
                     view = inflater.inflate(R.layout.chat_list_suggestion, null);
                     holder.poster = view.findViewById(R.id.picture_text);
                     holder.message = view.findViewById(R.id.message);
@@ -78,9 +78,8 @@ public class ChatListAdapter extends BaseAdapter {
                             .load(Chats.get(position).getUrl())
                             .into(holder.poster);
                 }
-             else
-                  {
-                      view = inflater.inflate(R.layout.chat_activity_message, null);
+                if (Chats.get(position).getType().equals("activity")) {
+                    view = inflater.inflate(R.layout.chat_activity_message, null);
                     holder.message = view.findViewById(R.id.message);
                     holder.time = (TextView) view.findViewById(R.id.time);
 
@@ -98,9 +97,8 @@ public class ChatListAdapter extends BaseAdapter {
                     holder.time.setText(Chats.get(position).getTime().substring(10, 16));
                     holder.message.setText(Chats.get(position).getMessage());
                     holder.senderEmail.setText(Chats.get(position).getName());
-                } else
-                    if(Chats.get(position).getType().equals("Suggestion"))
-                    {
+
+                } else if (Chats.get(position).getType().equals("Suggestion")) {
                     view = inflater.inflate(R.layout.chat_list_suggestion_other, null);
                     holder.poster = view.findViewById(R.id.picture_text);
                     holder.message = view.findViewById(R.id.message);
@@ -115,15 +113,15 @@ public class ChatListAdapter extends BaseAdapter {
                             .load(Chats.get(position).getUrl())
                             .into(holder.poster);
                 }
-                  else {
-                        view = inflater.inflate(R.layout.chat_activity_message, null);
-                        holder.message = view.findViewById(R.id.message);
-                        holder.time = (TextView) view.findViewById(R.id.time);
+                if (Chats.get(position).getType().equals("activity")) {
+                    view = inflater.inflate(R.layout.chat_activity_message, null);
+                    holder.message = view.findViewById(R.id.message);
+                    holder.time = (TextView) view.findViewById(R.id.time);
 
-                        holder.time.setText(Chats.get(position).getTime().substring(10, 16));
-                        holder.message.setText(Chats.get(position).getMessage());
+                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
+                    holder.message.setText(Chats.get(position).getMessage());
 
-                    }
+                }
             }
             holder.message.setShowingLine(6);
 

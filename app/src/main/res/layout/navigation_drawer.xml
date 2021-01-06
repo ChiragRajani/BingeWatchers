@@ -47,35 +47,30 @@
                     android:gravity="top"
                     android:textSize="24dp"
                     android:textStyle="bold" />
-                <com.cooltechworks.views.shimmer.ShimmerRecyclerView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+                <androidx.recyclerview.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/recyclerView"
-                    app:shimmer_demo_layout_manager_type="linear_horizontal"
-                    app:shimmer_demo_angle="20"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:orientation="horizontal" />
 
 
-                                <TextView
-                                    android:id="@+id/textView3"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="69dp"
-                                    android:layout_below="@+id/recyclerView"
-                                    android:layout_alignParentBottom="true"
-                                    android:layout_marginTop="40dp"
-                                    android:text="Recommendations"
-                                    android:textSize="22dp"
-                                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="69dp"
+                    android:layout_below="@+id/recyclerView"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="40dp"
+                    android:text="Recommendations"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
 
-                <com.cooltechworks.views.shimmer.ShimmerRecyclerView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+                <androidx.recyclerview.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/recc_recycler"
-                    app:shimmer_demo_layout_manager_type="linear_horizontal"
-                    app:shimmer_demo_angle="20"
                     android:layout_width="match_parent"
-                    android:nestedScrollingEnabled="false"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:orientation="horizontal" />

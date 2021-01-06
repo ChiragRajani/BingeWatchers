@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +18,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class GenreSearch extends AsyncTask {
     private static final String TAG = "GenreSearch";
@@ -32,7 +36,9 @@ public class GenreSearch extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-
+        Collections.shuffle(ge);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        DashBoard.groupRecycler.setLayoutManager(layoutManager);
         DashBoard.adapter12 = new Recommendation_Adapter(mContext, ge);
         DashBoard.groupRecycler.setAdapter(DashBoard.adapter12);
 
@@ -42,7 +48,8 @@ public class GenreSearch extends AsyncTask {
     protected ArrayList<Movie> doInBackground(Object[] objects) {
         try {
 
-            String url2 = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre;
+            String url2 = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre+"&with_original_language=hi%7Cen";
+//            String url2 = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre+"&with_original_language=hi";
             Log.d(TAG, genre + " " + url2);
 
             URL url = new URL(url2);
@@ -74,7 +81,7 @@ public class GenreSearch extends AsyncTask {
 
                         //   System.out.println("------------ ITS A MOVIE------------------------------");
 
-                        ge.add(new Movie(subparent.getString("original_title"), subparent.getString("poster_path")));
+                        ge.add(new Movie(subparent.getString("title"), subparent.getString("poster_path")));
 //     ge.add(new Movie("MOVIE", subparent.getString("original_language"), subparent.getString("original_title"),
 //                                    subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("release_date"), subparent.getString("poster_path")));
 

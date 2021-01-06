@@ -68,8 +68,8 @@ public class parsing extends AsyncTask {
         try {
 
             System.out.println("444444444444444444444444444444444444444444444444444 QUERY FOR&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-            String url2 = "https://api.themoviedb.org/3/search/multi?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&query=" + query + "&page=1&include_adult=false";
 
+            String url2 = "https://api.themoviedb.org/3/search/multi?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&query=" + query + "&page=1&include_adult=false";
 
             URL url = new URL(url2);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -223,7 +223,7 @@ class Movie {
     }
 
     public String getPoster() {
-        return "https://image.tmdb.org/t/p/w500" + poster;
+        return "https://image.tmdb.org/t/p/w500/" + poster;
     }
 
 }

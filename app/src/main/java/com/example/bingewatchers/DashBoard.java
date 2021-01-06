@@ -2,7 +2,6 @@ package com.example.bingewatchers;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,10 +27,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
-import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -76,8 +75,7 @@ public class DashBoard extends AppCompatActivity {
     int i1 = 0, x = 0;
     private BottomSheetBehavior sheetBehavior;
     private ConstraintLayout bottom_sheet;
-    static ShimmerRecyclerView shimmerRecycler, groupRecycler;
-    LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+    static RecyclerView shimmerRecycler, groupRecycler;
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
     private DrawerLayout dl;
@@ -104,8 +102,8 @@ public class DashBoard extends AppCompatActivity {
         list = findViewById(R.id.listview);
         notif_status = findViewById(R.id.notif_status);
         pullToRefresh = findViewById(R.id.pullToRefresh);
-        shimmerRecycler = (ShimmerRecyclerView) findViewById(R.id.recyclerView);
-        groupRecycler = (ShimmerRecyclerView) findViewById(R.id.recc_recycler);
+        shimmerRecycler = findViewById(R.id.recyclerView);
+        groupRecycler = findViewById(R.id.recc_recycler);
         user = findViewById(R.id.user);
 
         bottom_sheet = findViewById(R.id.watched_movie);
@@ -298,7 +296,9 @@ public class DashBoard extends AppCompatActivity {
         Log.d(TAG, "9999999999999999999999" + mNames1);
 
 //        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-//        recyclerView.setLayoutManager(layoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
+        shimmerRecycler.setLayoutManager(layoutManager);
 
         adapter1 = new RecyclerViewAdapter(this, mNames1, mImageUrls1, name);
         shimmerRecycler.setAdapter(adapter1);
@@ -371,7 +371,6 @@ public class DashBoard extends AppCompatActivity {
                             System.out.println(i);
                             mImageUrls.add(kv.get(o).toString());
                         }
-                        shimmerRecycler.showShimmerAdapter();
 
                         initRecyclerView1(mNames, mImageUrls, name);
                         //   shimmerRecycler.hideShimmerAdapter();

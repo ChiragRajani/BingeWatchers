@@ -210,7 +210,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                     String desc = mvieName + "(" + y.getMovieDate().substring(0, 4) + ")\n\n" + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview.getText().toString();
 
                     Message obj = new Message(name, desc, Calendar.getInstance().getTime().toString(),
-                            mAuth.getCurrentUser().getEmail(), "https://image.tmdb.org/t/p/w500" + y.getPoster(),
+                            mAuth.getCurrentUser().getEmail(), y.getPoster(),
                             "Suggestion");
                     myRef.push().setValue(obj);
                     Log.d(TAG, "###### URL #######" + url);
