@@ -143,7 +143,6 @@ public class parsing extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-
 //        initRecyclerView1(he1);
         Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getType());
         Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getLanguage());
@@ -153,8 +152,6 @@ public class parsing extends AsyncTask {
         Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getDescription());
         Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getMovieDate());
         Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getPoster());
-
-
 //        ic Movie(String type, String language, String title, String rating, String description, String date, String poster)
 
         if (req == 0) {

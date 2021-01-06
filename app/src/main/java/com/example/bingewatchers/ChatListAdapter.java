@@ -66,7 +66,7 @@ public class ChatListAdapter extends BaseAdapter {
                     holder.time.setText(Chats.get(position).getTime().substring(10, 16));
                     holder.message.setText(Chats.get(position).getMessage());
 
-                } else {
+                }    if(Chats.get(position).getType().equals("Suggestion")) {
                     view = inflater.inflate(R.layout.chat_list_suggestion, null);
                     holder.poster = view.findViewById(R.id.picture_text);
                     holder.message = view.findViewById(R.id.message);
@@ -78,6 +78,16 @@ public class ChatListAdapter extends BaseAdapter {
                             .load(Chats.get(position).getUrl())
                             .into(holder.poster);
                 }
+             else
+                  {
+                      view = inflater.inflate(R.layout.chat_activity_message, null);
+                    holder.message = view.findViewById(R.id.message);
+                    holder.time = (TextView) view.findViewById(R.id.time);
+
+                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
+                    holder.message.setText(Chats.get(position).getMessage());
+
+                }
             } else {
                 if (Chats.get(position).getType().equals("message")) {
                     view = inflater.inflate(R.layout.chat_list_other, null);
@@ -88,7 +98,9 @@ public class ChatListAdapter extends BaseAdapter {
                     holder.time.setText(Chats.get(position).getTime().substring(10, 16));
                     holder.message.setText(Chats.get(position).getMessage());
                     holder.senderEmail.setText(Chats.get(position).getName());
-                } else {
+                } else
+                    if(Chats.get(position).getType().equals("Suggestion"))
+                    {
                     view = inflater.inflate(R.layout.chat_list_suggestion_other, null);
                     holder.poster = view.findViewById(R.id.picture_text);
                     holder.message = view.findViewById(R.id.message);
@@ -103,6 +115,15 @@ public class ChatListAdapter extends BaseAdapter {
                             .load(Chats.get(position).getUrl())
                             .into(holder.poster);
                 }
+                  else {
+                        view = inflater.inflate(R.layout.chat_activity_message, null);
+                        holder.message = view.findViewById(R.id.message);
+                        holder.time = (TextView) view.findViewById(R.id.time);
+
+                        holder.time.setText(Chats.get(position).getTime().substring(10, 16));
+                        holder.message.setText(Chats.get(position).getMessage());
+
+                    }
             }
             holder.message.setShowingLine(6);
 

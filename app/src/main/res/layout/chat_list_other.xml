@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:gravity="start"
-
+    android:theme="@style/ChatLayout"
     android:paddingRight="80dp">
 
     <LinearLayout
@@ -14,6 +14,7 @@
         android:padding="15dp"
         android:background="@drawable/their_message"
         android:gravity="start"
+
         android:orientation="vertical">
 
         <TextView

@@ -14,11 +14,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class CreateJoinGroup extends AppCompatActivity {
@@ -26,7 +29,11 @@ public class CreateJoinGroup extends AppCompatActivity {
     TextView status;
     FirebaseAuth mAuth;
     FirebaseFirestore db, rootRef;
+
     String TAG = "CreateJoinGroup";
+    DocumentReference userInfo;
+    String userName ;
+    DatabaseReference myRef ;
     private TextInputEditText createGroupName, joinGroupName;
 
     @Override
@@ -41,6 +48,18 @@ public class CreateJoinGroup extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         rootRef = FirebaseFirestore.getInstance();
+        userInfo=   rootRef.collection("Users").document(mAuth.getCurrentUser().getEmail());
+        userInfo.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+           if(task.isSuccessful()){
+               DocumentSnapshot document = task.getResult();
+               userName=document.get("Name").toString();
+           }
+            }
+        });
+
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -100,9 +119,14 @@ public class CreateJoinGroup extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
+
 //                            rootRef.collection("Groups").document(groupName).update("Members","erygersfgrt4g4rfgyg");
                                 rootRef.collection("Groups").document(groupName).update("Members", FieldValue.arrayUnion(user));
                                 rootRef.collection("Users").document(user).update("Groups", FieldValue.arrayUnion(groupName));
+
+                                myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child(groupName);
+                                Message obj = new Message(userName, userName+" just Joined the group", Calendar.getInstance().getTime().toString(), user , "activity");
+                                myRef.push().setValue(obj);
                                 status.setText("Group Joined\n" + groupName);
                                 //System.out.println("%%%%%%%%%%%%%555b  DOCUMENT EXISTS");
                                 //

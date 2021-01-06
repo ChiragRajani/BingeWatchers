@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -78,13 +79,16 @@ public class DashBoard extends AppCompatActivity {
     int i1 = 0, x = 0;
     private BottomSheetBehavior sheetBehavior;
     private ConstraintLayout bottom_sheet;
+    ShimmerRecyclerView shimmerRecycler,groupRecycler ;
+    LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private NavigationView nv;
 
-
+    RecyclerViewAdapter adapter1;
+    Recommendation_Adapter adapter12 ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -97,7 +101,6 @@ public class DashBoard extends AppCompatActivity {
 //        https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=18%7C32%7C24
 
 
-        initRecyclerView12(parsing.he);
 
 
         nDialog = new ProgressDialog(DashBoard.this);
@@ -112,8 +115,8 @@ public class DashBoard extends AppCompatActivity {
         list = findViewById(R.id.listview);
         notif_status = findViewById(R.id.notif_status);
         pullToRefresh = findViewById(R.id.pullToRefresh);
-
-
+        shimmerRecycler = (ShimmerRecyclerView) findViewById(R.id.recyclerView);
+        groupRecycler = (ShimmerRecyclerView) findViewById(R.id.recc_recycler);
         user = findViewById(R.id.user);
 
         bottom_sheet = findViewById(R.id.watched_movie);
@@ -155,6 +158,8 @@ public class DashBoard extends AppCompatActivity {
         pullToRefresh.setOnRefreshListener(refreshListener);
 
         getGroups();
+        groupRecycler.showShimmerAdapter();
+        initRecyclerView12(parsing.he);
         viewUsername.setText(mAuth.getCurrentUser().getEmail());
         System.out.println("**********************" + mAuth.getCurrentUser().getEmail());
 
@@ -288,10 +293,10 @@ public class DashBoard extends AppCompatActivity {
         Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.size());
 //        Log.d(TAG, he.get(0).getMovieName());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView recyclerView = findViewById(R.id.recc_recycler);
-        recyclerView.setLayoutManager(layoutManager);
-        Recommendation_Adapter adapter = new Recommendation_Adapter(this, he);
-        recyclerView.setAdapter(adapter);
+//        RecyclerView recyclerView = findViewById(R.id.recc_recycler);
+//        recyclerView.setLayoutManager(layoutManager);
+        adapter12 = new Recommendation_Adapter(this, he);
+       groupRecycler.setAdapter(adapter12);
 
 
     } //For Recommendations
@@ -299,11 +304,13 @@ public class DashBoard extends AppCompatActivity {
     private void initRecyclerView1(ArrayList<String> mNames1, ArrayList<String> mImageUrls1, String name) {
         Log.d(TAG, "initRecyclerView: init recyclerview");
         Log.d(TAG, "9999999999999999999999" + mNames1);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(layoutManager);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames1, mImageUrls1, name);
-        recyclerView.setAdapter(adapter);
+
+//        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+//        recyclerView.setLayoutManager(layoutManager);
+
+      adapter1 =new RecyclerViewAdapter(this, mNames1, mImageUrls1, name);
+        shimmerRecycler.setAdapter(adapter1);
+
     } //For group displays
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -355,9 +362,10 @@ public class DashBoard extends AppCompatActivity {
                             System.out.println(i);
                             mImageUrls.add(kv.get(o).toString());
                         }
+                        shimmerRecycler.showShimmerAdapter();
 
                         initRecyclerView1(mNames, mImageUrls, name);
-
+                     //   shimmerRecycler.hideShimmerAdapter();
                     }
 
                 } else {
