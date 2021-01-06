@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +28,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
@@ -56,7 +54,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DashBoard extends AppCompatActivity {
     private static final String TAG = "DashBoard";
-    static ProgressDialog nDialog;
     static SwipeRefreshLayout.OnRefreshListener refreshListener;
     FirebaseAuth mAuth;
     Button goToGroup, suggest;
@@ -79,7 +76,7 @@ public class DashBoard extends AppCompatActivity {
     int i1 = 0, x = 0;
     private BottomSheetBehavior sheetBehavior;
     private ConstraintLayout bottom_sheet;
-    ShimmerRecyclerView shimmerRecycler,groupRecycler ;
+    static ShimmerRecyclerView shimmerRecycler, groupRecycler;
     LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
@@ -88,7 +85,8 @@ public class DashBoard extends AppCompatActivity {
     private NavigationView nv;
 
     RecyclerViewAdapter adapter1;
-    Recommendation_Adapter adapter12 ;
+    static Recommendation_Adapter adapter12;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -96,19 +94,10 @@ public class DashBoard extends AppCompatActivity {
         setContentView(R.layout.navigation_drawer);
         setTitle("DashBoard");
 
-        new parsing(DashBoard.this, "Avengers ", 1).execute();
 //        https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=18
 //        https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=18%7C32%7C24
 
 
-
-
-        nDialog = new ProgressDialog(DashBoard.this);
-        nDialog.setMessage("Fetching......Wait");
-        nDialog.setTitle("Fetching Data");
-        nDialog.setIndeterminate(true);
-        nDialog.setCancelable(false);
-//        nDialog.show();
         suggest = findViewById(R.id.button);
         rootRef = FirebaseFirestore.getInstance();
         inform = findViewById(R.id.notif_info);
@@ -158,8 +147,11 @@ public class DashBoard extends AppCompatActivity {
         pullToRefresh.setOnRefreshListener(refreshListener);
 
         getGroups();
-        groupRecycler.showShimmerAdapter();
-        initRecyclerView12(parsing.he);
+
+//        new parsing(DashBoard.this, "Avengers ", 1).execute();
+//        initRecyclerView12(parsing.he);
+
+
         viewUsername.setText(mAuth.getCurrentUser().getEmail());
         System.out.println("**********************" + mAuth.getCurrentUser().getEmail());
 
@@ -288,15 +280,15 @@ public class DashBoard extends AppCompatActivity {
     }
 
 
-    private void initRecyclerView12(@NotNull ArrayList<Movie> he) {
+    public void initRecyclerView12(@NotNull ArrayList<Movie> he) {
 
         Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.size());
 //        Log.d(TAG, he.get(0).getMovieName());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 //        RecyclerView recyclerView = findViewById(R.id.recc_recycler);
 //        recyclerView.setLayoutManager(layoutManager);
-        adapter12 = new Recommendation_Adapter(this, he);
-       groupRecycler.setAdapter(adapter12);
+//        adapter12 = new Recommendation_Adapter(this, he);
+//        groupRecycler.setAdapter(adapter12);
 
 
     } //For Recommendations
@@ -308,7 +300,7 @@ public class DashBoard extends AppCompatActivity {
 //        RecyclerView recyclerView = findViewById(R.id.recyclerView);
 //        recyclerView.setLayoutManager(layoutManager);
 
-      adapter1 =new RecyclerViewAdapter(this, mNames1, mImageUrls1, name);
+        adapter1 = new RecyclerViewAdapter(this, mNames1, mImageUrls1, name);
         shimmerRecycler.setAdapter(adapter1);
 
     } //For group displays
@@ -335,10 +327,28 @@ public class DashBoard extends AppCompatActivity {
 
                     DocumentSnapshot document = task.getResult();
                     mNames = (ArrayList<String>) document.get("Groups");
+                    genres = (ArrayList<String>) document.get("Genres");
+
+                    Map kv1 = new HashImages("s").getHash2();
+
+                    for (String i : genres) {
+
+                        try {
+                            new GenreSearch(kv1.get(i).toString(), getApplicationContext()).execute();
+                        } catch (NullPointerException e) {
+//                            System.out.println("NULLPOINTER" + i + " " + kv1.get(i));
+                        }
+                    }
+                    for (Movie i : GenreSearch.ge) {
+                        Log.d(TAG, "==========" + i.getMovieName());
+                    }
+
+//                    initRecyclerView12(GenreSearch.ge);
+
 
                     pullToRefresh.setRefreshing(false);
                     name = document.get("Name").toString();
-                    genres = (ArrayList<String>) document.get("Genres");
+
 
                     viewEmail.setText(name);
                     user.setText("Welcome " + name + "! Your groups here,");
@@ -347,10 +357,9 @@ public class DashBoard extends AppCompatActivity {
                     //        https://ui-avatars.com/api/background=random?rounded=true
                     //        https://ui-avatars.com/api/background=random?name=c+j
 //                    https://picsum.photos/
-                    String url = "https://ui-avatars.com/api/background=random?name=" + name;
-                    Log.d(TAG, "______URL______" + url);
+
                     Glide.with(DashBoard.this).asDrawable()
-                            .load(url)
+                            .load("https://ui-avatars.com/api/background=random?name=" + name)
                             .into(dp_view);
 
                     System.out.println("888888888888888888888 " + name);
@@ -365,7 +374,7 @@ public class DashBoard extends AppCompatActivity {
                         shimmerRecycler.showShimmerAdapter();
 
                         initRecyclerView1(mNames, mImageUrls, name);
-                     //   shimmerRecycler.hideShimmerAdapter();
+                        //   shimmerRecycler.hideShimmerAdapter();
                     }
 
                 } else {

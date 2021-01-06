@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 class HashImages {
-    Map<String,String> imgs = new HashMap<>();
-    Map<String,Integer> gnrs = new HashMap<>();
+    Map<String, String> imgs = new HashMap<>();
+    Map<String, Integer> gnrs = new HashMap<>();
 
     HashImages() {
         imgs.put("a", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854456.jpg");
@@ -36,29 +36,34 @@ class HashImages {
         imgs.put("z", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854495.jpg");
 
     }
-    HashImages(String s){
-        gnrs.put("Action",28);
-        gnrs.put("Adventure",12);
-        gnrs.put("Animation",16);
-        gnrs.put("Comedy",35);
-        gnrs.put("Crime",80);
-        gnrs.put("Documentary",99);
-        gnrs.put("Drama",18);
-        gnrs.put("Family",10751);
-        gnrs.put("Fantasy",14);
-        gnrs.put("History",36);
-        gnrs.put("Horror",27);
-        gnrs.put("Music",10402);
-        gnrs.put("Mystery",9648);
-        gnrs.put("Romance",10749);
-        gnrs.put("Science Fiction",878);
-        gnrs.put("TV Movie",10770);
-        gnrs.put("Thriller",53);
-        gnrs.put("War",10752);
-        gnrs.put("Western",37);
+
+    HashImages(String s) {
+        gnrs.put("Action", 28);
+        gnrs.put("Adventure", 12);
+        gnrs.put("Animation", 16);
+        gnrs.put("Comedy", 35);
+        gnrs.put("Crime", 80);
+        gnrs.put("Documentary", 99);
+        gnrs.put("Drama", 18);
+        gnrs.put("Family", 10751);
+        gnrs.put("Fantasy", 14);
+        gnrs.put("History", 36);
+        gnrs.put("Horror", 27);
+        gnrs.put("Music", 10402);
+        gnrs.put("Mystery", 9648);
+        gnrs.put("Romance", 10749);
+        gnrs.put("Science Fiction", 878);
+        gnrs.put("TV Movie", 10770);
+        gnrs.put("Thriller", 53);
+        gnrs.put("War", 10752);
+        gnrs.put("Western", 37);
     }
 
     public Map<String, String> getHash1() {
         return imgs;
+    }
+
+    public Map<String, Integer> getHash2() {
+        return gnrs;
     }
 }

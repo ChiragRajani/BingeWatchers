@@ -32,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (getIntent().getSerializableExtra("from") != null)
-            System.out.println("478666666666666666666666666666666666 Data recieved" + getIntent().getSerializableExtra("from"));
-        else {
-            System.out.println("5444444444444444444444444444444444444 empty dataaaaaaaaaaaaaaa" + getIntent().toString());
-            startActivity(new Intent(MainActivity.this, SplashScreen.class));
-        }
+//        if (getIntent().getSerializableExtra("from") != null)
+//            System.out.println("478666666666666666666666666666666666 Data recieved" + getIntent().getSerializableExtra("from"));
+//        else {
+//            System.out.println("5444444444444444444444444444444444444 empty dataaaaaaaaaaaaaaa" + getIntent().toString());
+//            startActivity(new Intent(MainActivity.this, SplashScreen.class));
+//        }
 
 
         System.out.println("in on create   :   ");

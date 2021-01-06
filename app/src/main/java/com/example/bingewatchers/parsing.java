@@ -3,18 +3,11 @@ package com.example.bingewatchers;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.annotation.GlideModule;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,12 +35,11 @@ public class parsing extends AsyncTask {
     private ListView list;
     private String query;
     @SuppressLint("StaticFieldLeak")
-    ImageView img ;
+    ImageView img;
     @SuppressLint("StaticFieldLeak")
     TextView name;
     private int req = 1;
-    LayoutInflater inflater ;
-
+    LayoutInflater inflater;
 
 
     public parsing(Context context, String query, int req, ListView list) {
@@ -133,8 +125,7 @@ public class parsing extends AsyncTask {
         } catch (IOException | JSONException | NullPointerException e) {
             e.printStackTrace();
         }
-     //   Log.d(TAG, "initRecyclerView: init     " + he.size());
-
+        //   Log.d(TAG, "initRecyclerView: init     " + he.size());
 
 
         return he;
@@ -143,15 +134,6 @@ public class parsing extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-//        initRecyclerView1(he1);
-        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getType());
-        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getLanguage());
-        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getLanguage());
-        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getMovieName());
-        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getRating());
-        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getDescription());
-        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getMovieDate());
-        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.get(1).getPoster());
 //        ic Movie(String type, String language, String title, String rating, String description, String date, String poster)
 
         if (req == 0) {
@@ -160,10 +142,7 @@ public class parsing extends AsyncTask {
             list.setAdapter(adapter);
             he = new ArrayList<>();
             adapter = null;
-        } else {
-
         }
-
     }
 
 //    private void initRecyclerView1(ArrayList<Movie> he) {
