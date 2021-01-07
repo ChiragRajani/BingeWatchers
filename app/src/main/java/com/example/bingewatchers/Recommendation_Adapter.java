@@ -44,6 +44,7 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
                 .into(holder.image);
 
         holder.name.setText(he.get(position).getMovieName());
+        holder.genres.setText(he.get(position).getGenres());
 
 //        holder.image.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -70,12 +71,13 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
-        TextView name;
+        TextView name,genres;
 
         public ViewHolder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image_view);
             name = itemView.findViewById(R.id.name);
+            genres = itemView.findViewById(R.id.genres);
         }
     }
 }

@@ -38,7 +38,7 @@ public class parsing extends AsyncTask {
     ImageView img;
     @SuppressLint("StaticFieldLeak")
     TextView name;
-    private int req = 1;
+    private int req;
     LayoutInflater inflater;
 
 
@@ -67,7 +67,6 @@ public class parsing extends AsyncTask {
 
         try {
 
-            System.out.println("444444444444444444444444444444444444444444444444444 QUERY FOR&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 
             String url2 = "https://api.themoviedb.org/3/search/multi?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&query=" + query + "&page=1&include_adult=false";
 
@@ -77,7 +76,6 @@ public class parsing extends AsyncTask {
 
             int statusCode = urlConnection.getResponseCode();
             kl = new JSONObject();
-            System.out.println("Status code is   " + statusCode);
             if (statusCode == 200) {
                 InputStream it = new BufferedInputStream(urlConnection.getInputStream());
                 InputStreamReader read = new InputStreamReader(it);
@@ -87,25 +85,24 @@ public class parsing extends AsyncTask {
                 while ((chunks = buff.readLine()) != null) {
                     dta.append(chunks);
                 }
-                //  System.out.println("Sting Builder is    " + dta);
                 kl = new JSONObject(dta.toString());
             } else {
                 kl = null;
             }
-            System.out.println("================ doInBackground COMPLETED");
+
             JSONArray parent = kl.getJSONArray("results");
             try {
                 for (int i = 0; i < parent.length(); i++) {
                     JSONObject subparent = (JSONObject) parent.get(i);
                     try {
                         if (subparent.getString("media_type").equals("movie")) {
-                            //   System.out.println("------------ ITS A MOVIE------------------------------");
+                            //   "------------ ITS A MOVIE------------------------------"
                             he.add(new Movie(subparent.getString("media_type"), subparent.getString("original_language"), subparent.getString("title"),
                                     subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("release_date"), subparent.getString("poster_path")));
 
                         }
                         if (subparent.getString("media_type").equals("tv")) {
-                            //System.out.println("------------ ITS A Tv series------------------------------");
+//                            ------------ ITS A Tv series------------------------------"
                             he.add(new Movie(subparent.getString("media_type"), subparent.getString("original_language"), subparent.getString("name"),
                                     subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("first_air_date"), subparent.getString("poster_path")));
 
@@ -113,7 +110,6 @@ public class parsing extends AsyncTask {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        System.out.println(subparent);
                     }
 
                 }
@@ -125,8 +121,6 @@ public class parsing extends AsyncTask {
         } catch (IOException | JSONException | NullPointerException e) {
             e.printStackTrace();
         }
-        //   Log.d(TAG, "initRecyclerView: init     " + he.size());
-
 
         return he;
     }
@@ -134,96 +128,14 @@ public class parsing extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-//        ic Movie(String type, String language, String title, String rating, String description, String date, String poster)
 
-        if (req == 0) {
-            adapter = new ListViewAdapter(context, he);
-            he1 = he;
-            list.setAdapter(adapter);
-            he = new ArrayList<>();
-            adapter = null;
-        }
-    }
+        adapter = new ListViewAdapter(context, he);
+        he1 = he;
+        list.setAdapter(adapter);
+        he = new ArrayList<>();
+        adapter = null;
 
-//    private void initRecyclerView1(ArrayList<Movie> he) {
-//        try {
-//              Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.size());
-//           Log.d(TAG,he.get(0).getMovieName()) ;
-////            name.setText("yaha movie name");
-////            name.setText(he.get(0).getMovieName());
-////            Glide.with(context).asDrawable()
-////                    .load(he.get(0).getPoster())
-////                    .into(img);
-//
-//
-//            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-//            RecyclerView recyclerView = view.findViewById(R.id.recc_recycler);
-//            recyclerView.setLayoutManager(layoutManager);
-//            Recommendation_Adapter adapter = new Recommendation_Adapter(context, he);
-//            recyclerView.setAdapter(adapter);
-//
-//
-//        } catch (Exception ne) {
-//            System.out.println("222222222222222222222222222" + ne.getMessage());
-//        }
-//    }
-}
-
-class Movie {
-    String type;
-    String language;
-    String title;
-    String rating;
-    String description;
-    String date;
-    String poster;
-
-    public Movie(String type, String language, String title, String rating, String description, String date, String poster) {
-        this.date = date;
-        this.description = description;
-        this.language = language;
-        this.rating = rating;
-        this.title = title;
-        this.language = language;
-        this.poster = poster;
-
-    }
-
-    public Movie() {
-
-    }
-
-    public Movie(String movieName, String poster) {
-        this.poster = poster;
-        this.title = movieName;
-    }
-
-    public String getMovieName() {
-        return title;
-    }
-
-    public String getMovieDate() {
-        return date;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public String getRating() {
-        return rating;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getPoster() {
-        return "https://image.tmdb.org/t/p/w500/" + poster;
     }
 
 }
+

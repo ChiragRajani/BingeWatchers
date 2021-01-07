@@ -59,10 +59,10 @@
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
-                    android:layout_height="69dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/recyclerView"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="20dp"
                     android:text="Recommendations"
                     android:textSize="22dp"
                     android:textStyle="bold" />
@@ -72,6 +72,7 @@
                     android:id="@+id/recc_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
                     android:layout_alignParentBottom="true"
                     android:orientation="horizontal" />
 

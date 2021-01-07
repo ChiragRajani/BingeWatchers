@@ -76,7 +76,6 @@ public class ChatListAdapter extends BaseAdapter {
                     holder.poster = view.findViewById(R.id.picture_text);
                     holder.message = view.findViewById(R.id.message);
                     holder.time = (TextView) view.findViewById(R.id.time);
-                   // System.out.println(" 66666666666666666666666666Current date is " + te.getTime().toString().substring(3, 10) + "\nMessege dat is  " + Chats.get(position).getTime().substring(3, 10) + "Result is  " + Chats.get(position).getTime().substring(3, 10).equals(te.getTime().toString().substring(3, 10)));
 
                     // holder.time.setText(Chats.get(position).getTime().substring(10, 16));
                     holder.message.setText(Chats.get(position).getMessage());

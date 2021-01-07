@@ -36,20 +36,22 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card"
-        android:layout_width="120dp"
+        android:elevation="100dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:backgroundTint="#f5f5f5"
+        android:layout_margin="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <!-- Media -->
             <ImageView
                 android:id="@+id/image_view"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="170dp"
                 android:contentDescription="description_media"
                 android:scaleType="centerCrop"
                 android:src="@drawable/dark_popcorn" />
@@ -58,21 +60,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="5dp">
 
                 <!-- Title, secondary and supporting text -->
                 <TextView
                     android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
                     android:text="title"
                     android:textAppearance="?attr/textAppearanceHeadline6" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="secondary text"
+                    android:id="@+id/genres"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Genres"
                     android:textAppearance="?attr/textAppearanceBody2"
                     android:textColor="?android:attr/textColorSecondary" />
 

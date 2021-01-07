@@ -1,11 +1,15 @@
 package com.example.bingewatchers;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import java.util.HashMap;
 import java.util.Map;
 
 class HashImages {
     Map<String, String> imgs = new HashMap<>();
-    Map<String, Integer> gnrs = new HashMap<>();
+    BiMap<String, Integer> gnrs = HashBiMap.create();
+
 
     HashImages() {
         imgs.put("a", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854456.jpg");
@@ -63,7 +67,7 @@ class HashImages {
         return imgs;
     }
 
-    public Map<String, Integer> getHash2() {
+    public BiMap<String, Integer> getHash2() {
         return gnrs;
     }
 }

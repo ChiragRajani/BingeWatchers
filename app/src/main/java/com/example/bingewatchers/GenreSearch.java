@@ -81,11 +81,11 @@ public class GenreSearch extends AsyncTask {
 
                         //   System.out.println("------------ ITS A MOVIE------------------------------");
 
-                        ge.add(new Movie(subparent.getString("title"), subparent.getString("poster_path")));
+                        ge.add(new Movie(subparent.getString("title"), subparent.getString("poster_path"), subparent.getJSONArray("genre_ids"),subparent.getString("id")));
 //     ge.add(new Movie("MOVIE", subparent.getString("original_language"), subparent.getString("original_title"),
 //                                    subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("release_date"), subparent.getString("poster_path")));
 
-
+                        System.out.println("$$$$$$$$$$$  ");
 //                        if (subparent.getString("media_type").equals("tv")) {
 //                            //System.out.println("------------ ITS A Tv series------------------------------");
 //                            he.add(new Movie(subparent.getString("media_type"), subparent.getString("original_language"), subparent.getString("name"),
