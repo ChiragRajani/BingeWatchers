@@ -13,7 +13,9 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.skyhope.showmoretextview.ShowMoreTextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ChatListAdapter extends BaseAdapter {
@@ -23,9 +25,11 @@ public class ChatListAdapter extends BaseAdapter {
     Context mContext;
     LayoutInflater inflater;
     FirebaseAuth mAuth;
+    SimpleDateFormat sdfo = new SimpleDateFormat("yyyy-MM-dd");
     int MAX_LINES = 5;
+    Calendar te = Calendar.getInstance(), he = Calendar.getInstance();
     private List<Message> Chats = null;
-    private ArrayList<Message> arraylist;
+    private final ArrayList<Message> arraylist;
 
     public ChatListAdapter(Context context, ArrayList<Message> Chats) {
         mContext = context;
@@ -34,6 +38,8 @@ public class ChatListAdapter extends BaseAdapter {
         mAuth = FirebaseAuth.getInstance();
         this.arraylist = new ArrayList<Message>();
         this.arraylist.addAll(Chats);
+        he.add(Calendar.DATE, -1);
+        Log.d(TAG, "Yesterday date is     " + he.getTime().toString().substring(3, 10));
     }
 
     @Override
@@ -55,14 +61,13 @@ public class ChatListAdapter extends BaseAdapter {
         final ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
+
             if (Chats.get(position).getSenderEmail().equals(mAuth.getCurrentUser().getEmail())) {
                 Log.d(TAG, "!!!!!!!! SAME HAIN DONO!!   !!!!!!!!!!!!!!!!!!!!");
                 if (Chats.get(position).getType().equals("message")) {
                     view = inflater.inflate(R.layout.chat_list_own, null);
                     holder.message = view.findViewById(R.id.message);
                     holder.time = (TextView) view.findViewById(R.id.time);
-
-                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
                     holder.message.setText(Chats.get(position).getMessage());
 
                 }
@@ -71,8 +76,9 @@ public class ChatListAdapter extends BaseAdapter {
                     holder.poster = view.findViewById(R.id.picture_text);
                     holder.message = view.findViewById(R.id.message);
                     holder.time = (TextView) view.findViewById(R.id.time);
+                   // System.out.println(" 66666666666666666666666666Current date is " + te.getTime().toString().substring(3, 10) + "\nMessege dat is  " + Chats.get(position).getTime().substring(3, 10) + "Result is  " + Chats.get(position).getTime().substring(3, 10).equals(te.getTime().toString().substring(3, 10)));
 
-                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
+                    // holder.time.setText(Chats.get(position).getTime().substring(10, 16));
                     holder.message.setText(Chats.get(position).getMessage());
                     Glide.with(mContext).asBitmap()
                             .load(Chats.get(position).getUrl())
@@ -83,7 +89,8 @@ public class ChatListAdapter extends BaseAdapter {
                     holder.message = view.findViewById(R.id.message);
                     holder.time = (TextView) view.findViewById(R.id.time);
 
-                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
+
+                    //holder.time.setText(Chats.get(position).getTime().substring(10, 16));
                     holder.message.setText(Chats.get(position).getMessage());
 
                 }
@@ -94,7 +101,8 @@ public class ChatListAdapter extends BaseAdapter {
                     holder.senderEmail = (TextView) view.findViewById(R.id.senderEmail);
                     holder.time = (TextView) view.findViewById(R.id.time);
 
-                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
+
+                    //  holder.time.setText(Chats.get(position).getTime().substring(10, 16));
                     holder.message.setText(Chats.get(position).getMessage());
                     holder.senderEmail.setText(Chats.get(position).getName());
 
@@ -105,7 +113,8 @@ public class ChatListAdapter extends BaseAdapter {
                     holder.senderEmail = (TextView) view.findViewById(R.id.senderEmail);
                     holder.time = (TextView) view.findViewById(R.id.time);
 
-                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
+
+//                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
                     holder.message.setText(Chats.get(position).getMessage());
                     holder.senderEmail.setText(Chats.get(position).getName());
 
@@ -118,10 +127,26 @@ public class ChatListAdapter extends BaseAdapter {
                     holder.message = view.findViewById(R.id.message);
                     holder.time = (TextView) view.findViewById(R.id.time);
 
-                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
+
+//                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
                     holder.message.setText(Chats.get(position).getMessage());
 
                 }
+            }
+            Log.d(TAG, " Current date is " + Calendar.getInstance().getTime().toString().substring(3, 10) + "\r Messege dat is  " +
+                            Chats.get(position).getTime().substring(3, 10) +"length is"+Calendar.getInstance().getTime().toString().substring(3, 10).length()+
+                            "    of message"+Chats.get(position).getTime().substring(3, 10)) ;
+
+
+            if (Chats.get(position).getTime().substring(3, 10).equals(he.getTime().toString().substring(3, 10))) {
+
+                holder.time.setText("Yesterday\n" + Chats.get(position).getTime().substring(10, 16));
+            }
+            else
+                if (Chats.get(position).getTime().substring(3, 10).equals(Calendar.getInstance().getTime().toString().substring(3, 10))) {
+                holder.time.setText("Today\n" + Chats.get(position).getTime().substring(10, 16));
+            } else {
+                   holder.time.setText(Chats.get(position).getTime().substring(3, 10) + "\n" + Chats.get(position).getTime().substring(10, 16));
             }
             holder.message.setShowingLine(6);
 
