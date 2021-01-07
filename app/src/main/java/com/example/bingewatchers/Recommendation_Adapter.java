@@ -1,6 +1,7 @@
 package com.example.bingewatchers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,20 +46,19 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
 
         holder.name.setText(he.get(position).getMovieName());
         holder.genres.setText(he.get(position).getGenres());
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-//        holder.image.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Log.d(TAG, "onClick: clicked on an image: " + mNames.get(position));
-//                Intent i = new Intent(mContext, ChatWindow.class);
-//                i.putExtra("Group Name", mNames.get(position));
-//                i.putExtra("Name", name);
-//                mContext.startActivity(i);
-//
-////                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
-//            }
-//        });
+                Log.d(TAG, "onClick: clicked on an image: " + he.get(position).getId());
+                Intent i = new Intent(mContext, MovieInfo.class);
+                i.putExtra("MovieID", he.get(position).getId());
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(i);
+//                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
@@ -79,5 +79,6 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
             name = itemView.findViewById(R.id.name);
             genres = itemView.findViewById(R.id.genres);
         }
+
     }
 }

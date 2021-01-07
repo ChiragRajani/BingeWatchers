@@ -86,13 +86,6 @@ public class SignUp extends AppCompatActivity {
         Log.d(TAG, "===========DocumentSnapshot added with ID: ");
         Toast.makeText(SignUp.this, "Account Created and Values updated", Toast.LENGTH_SHORT);
     }
-//
-//    public void onStart() {
-//        super.onStart();
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//
-//    }
 
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
@@ -108,8 +101,7 @@ public class SignUp extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             Toast.makeText(SignUp.this, "Account Created", Toast.LENGTH_SHORT);
-                            //Snackbar.makeText(SignUp.this," ", Snackbar.LENGTH_SHORT).show();
-                            updateUserinDB(userInfo);
+                             updateUserinDB(userInfo);
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent i = new Intent(SignUp.this, GenreSelection.class);
                             startActivity(i);

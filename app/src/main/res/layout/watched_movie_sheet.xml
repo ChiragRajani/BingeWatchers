@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/watched_movie"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="400dp"
     android:background="#ffffff"
     android:orientation="vertical"
     android:padding="16dp"
@@ -36,12 +36,12 @@
         android:layout_width="match_parent"
         android:layout_height="82dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="84dp"
+        android:hint="Enter Movie name"
         app:endIconMode="clear_text"
-        android:layout_marginBottom="168dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/movieName"
@@ -72,7 +72,7 @@
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/movieReview"
-        app:layout_constraintVertical_bias="0.875" />
+        app:layout_constraintVertical_bias="0.88" />
 
     <TextView
         android:id="@+id/textView3"
@@ -85,19 +85,21 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintHorizontal_bias="0.026"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Switch
+        android:id="@+id/notif_info"
         android:layout_width="53dp"
         android:layout_height="30dp"
-        android:id="@+id/notif_info"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/movieReview"
-        tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml"
-        />
+        tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml" />
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/movieReview"
         android:layout_width="match_parent"
@@ -105,7 +107,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="26dp"
         android:ems="10"
         android:hint="Give Reviews"
         android:inputType="text"
@@ -119,12 +121,12 @@
         android:id="@+id/notif_status"
         android:layout_width="281dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="4dp"
         android:text="TextView"
-        app:layout_constraintTop_toBottomOf="@+id/movieReview"
 
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movieReview" />
 
     <TextView
         android:id="@+id/textView2"

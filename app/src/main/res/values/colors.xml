@@ -13,4 +13,5 @@
     <color name="White">#FFFFFF</color>
     <color name="darkGrey">#262833</color>
     <color name="red">#ff0013</color>
+   <color name="holo_light">#b5d8aa</color>
 </resources>

@@ -17,7 +17,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MyActivity";
@@ -32,22 +31,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        if (getIntent().getSerializableExtra("from") != null)
-//            System.out.println("478666666666666666666666666666666666 Data recieved" + getIntent().getSerializableExtra("from"));
-//        else {
-//            System.out.println("5444444444444444444444444444444444444 empty dataaaaaaaaaaaaaaa" + getIntent().toString());
-//            startActivity(new Intent(MainActivity.this, SplashScreen.class));
-//        }
-
-
-        System.out.println("in on create   :   ");
         email = findViewById(R.id.username);
         pwd = findViewById(R.id.password);
         btn = findViewById(R.id.submit);
         reg = findViewById(R.id.reg);
-        // toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        //  initNavigationDrawer();
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -59,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
                 String email1 = email.getText().toString();
                 String pwd1 = pwd.getText().toString();
 
-//                String email1="cjajmera009@gsdkk.0.com" ;
-//                String pwd1="poiuytrewq";
-
                 signIn(email1, pwd1);
 
 
@@ -71,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Registration Button Clicked!! ", Toast.LENGTH_SHORT);
-                System.out.println("==================================================");
                 Intent i = new Intent(MainActivity.this, SignUp.class);
                 startActivity(i);
             }
@@ -86,16 +68,14 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(MainActivity.this, "SIGN IN HO GYA BHENCHOOOOODDDDD!!!!!!!!!!!!",
+                            Toast.makeText(MainActivity.this, "SIGNED IN",
                                     Toast.LENGTH_LONG).show();
-                            System.out.println("SIGN IN HO GYA BHENCHOOOOODDDDD!!!!!!!!!!!!");
+
 
                             if (mAuth.getCurrentUser() != null) {
                                 Intent i = new Intent(MainActivity.this, DashBoard.class);
                                 startActivity(i);
                             }
-//                                Intent i = new Intent(MainActivity.this, DashBoard.class);
-//                                startActivity(i);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -105,24 +85,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        // FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if (currentUser != null) {
-//            Intent i = new Intent(MainActivity.this, DashBoard.class);
-//            startActivity(i);
-//            System.out.println(" user logged in" + currentUser.getEmail());
-//        } else {
-//            System.out.println("no user is logged i");
-//        }
-
-//        System.out.println("in on start   :   " + currentUser.toString());
-//        updateUI(currentUser);
     }
 
     public void onBackPressed() {
