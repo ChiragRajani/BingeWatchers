@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,8 +42,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
@@ -62,7 +59,6 @@ public class DashBoard extends AppCompatActivity {
     Switch inform;
     FirebaseFirestore rootRef;
     ListView list;
-    ListViewAdapter adapter;
     java.util.ArrayList<Movie> he = new java.util.ArrayList<>();
     SwipeRefreshLayout pullToRefresh;
     boolean doubleBackToExitPressedOnce = false;
@@ -91,9 +87,6 @@ public class DashBoard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
         setTitle("DashBoard");
-
-//        https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=18
-//        https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=18%7C32%7C24
 
 
         suggest = findViewById(R.id.button);
@@ -139,7 +132,6 @@ public class DashBoard extends AppCompatActivity {
                 mNames = new ArrayList<>();
                 mImageUrls = new ArrayList<>();
                 getGroups(); // your code
-                System.out.println("REEEFRESSSSHED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");  //Do your stuff here
             }
         };
         pullToRefresh.setOnRefreshListener(refreshListener);
@@ -151,7 +143,7 @@ public class DashBoard extends AppCompatActivity {
 
 
         viewUsername.setText(mAuth.getCurrentUser().getEmail());
-        System.out.println("**********************" + mAuth.getCurrentUser().getEmail());
+
 
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -204,7 +196,7 @@ public class DashBoard extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 if (x == 0) {
-                    System.out.println("666666666666666666666666666666666666666666666" + charSequence.toString());
+
                     new parsing(getApplicationContext(), charSequence.toString(), 0, list).execute();
 
                 }
@@ -249,7 +241,7 @@ public class DashBoard extends AppCompatActivity {
                                     "Suggestion");
 
                             myRef.child(groupName).push().setValue(obj);
-                            Log.d(TAG, "###### URL #######1" + movieReview1.getText().toString());
+
 
                             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                             InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -278,28 +270,10 @@ public class DashBoard extends AppCompatActivity {
     }
 
 
-    public void initRecyclerView12(@NotNull ArrayList<Movie> he) {
-
-        Log.d(TAG, "gggggggggggggggggggggggg   xyz        " + he.size());
-//        Log.d(TAG, he.get(0).getMovieName());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-//        RecyclerView recyclerView = findViewById(R.id.recc_recycler);
-//        recyclerView.setLayoutManager(layoutManager);
-//        adapter12 = new Recommendation_Adapter(this, he);
-//        groupRecycler.setAdapter(adapter12);
-
-
-    } //For Recommendations
-
     private void initRecyclerView1(ArrayList<String> mNames1, ArrayList<String> mImageUrls1, String name) {
-        Log.d(TAG, "initRecyclerView: init recyclerview");
-        Log.d(TAG, "9999999999999999999999" + mNames1);
 
-//        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-
         shimmerRecycler.setLayoutManager(layoutManager);
-
         adapter1 = new RecyclerViewAdapter(this, mNames1, mImageUrls1, name);
         shimmerRecycler.setAdapter(adapter1);
 
@@ -313,7 +287,7 @@ public class DashBoard extends AppCompatActivity {
     public void getGroups() {
         mAuth = FirebaseAuth.getInstance();
         String email = mAuth.getCurrentUser().getEmail();
-        System.out.println("||||||||||||||| curent user is " + email);
+
 
         DocumentReference docRef = db.collection("Users").document(email);
 
@@ -336,14 +310,9 @@ public class DashBoard extends AppCompatActivity {
                         try {
                             new GenreSearch(kv1.get(i).toString(), getApplicationContext()).execute();
                         } catch (NullPointerException e) {
-//                            System.out.println("NULLPOINTER" + i + " " + kv1.get(i));
+
                         }
                     }
-                    for (Movie i : GenreSearch.ge) {
-                        Log.d(TAG, "==========" + i.getMovieName());
-                    }
-
-//                    initRecyclerView12(GenreSearch.ge);
 
 
                     pullToRefresh.setRefreshing(false);
@@ -352,32 +321,23 @@ public class DashBoard extends AppCompatActivity {
 
                     viewEmail.setText(name);
                     user.setText("Welcome " + name + "! Your groups here,");
-//                    name = document.get("Name").toString();
 
-                    //        https://ui-avatars.com/api/background=random?rounded=true
-                    //        https://ui-avatars.com/api/background=random?name=c+j
 //                    https://picsum.photos/
-
                     Glide.with(DashBoard.this).asDrawable()
                             .load("https://ui-avatars.com/api/background=random?name=" + name)
                             .into(dp_view);
 
-                    System.out.println("888888888888888888888 " + name);
+
                     messages[0] = document.getData();
                     Map kv = new HashImages().getHash1();
                     if (mNames != null) {
                         for (String i : mNames) {
                             String o = i.substring(0, 1);
-                            System.out.println(i);
                             mImageUrls.add(kv.get(o).toString());
                         }
-
                         initRecyclerView1(mNames, mImageUrls, name);
-                        //   shimmerRecycler.hideShimmerAdapter();
                     }
 
-                } else {
-                    System.out.println("error ");
                 }
             }
 

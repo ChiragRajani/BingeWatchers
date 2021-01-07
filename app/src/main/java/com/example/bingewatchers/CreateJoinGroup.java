@@ -1,7 +1,6 @@
 package com.example.bingewatchers;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -32,8 +31,8 @@ public class CreateJoinGroup extends AppCompatActivity {
 
     String TAG = "CreateJoinGroup";
     DocumentReference userInfo;
-    String userName ;
-    DatabaseReference myRef ;
+    String userName;
+    DatabaseReference myRef;
     private TextInputEditText createGroupName, joinGroupName;
 
     @Override
@@ -48,17 +47,16 @@ public class CreateJoinGroup extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         rootRef = FirebaseFirestore.getInstance();
-        userInfo=   rootRef.collection("Users").document(mAuth.getCurrentUser().getEmail());
+        userInfo = rootRef.collection("Users").document(mAuth.getCurrentUser().getEmail());
         userInfo.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-           if(task.isSuccessful()){
-               DocumentSnapshot document = task.getResult();
-               userName=document.get("Name").toString();
-           }
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    userName = document.get("Name").toString();
+                }
             }
         });
-
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -78,10 +76,10 @@ public class CreateJoinGroup extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                Log.d(TAG, "%%%%%%%%%%%%%555b  DOCUMENT EXISTS");
+
                                 status.setText("Group already exists");
                             } else {
-                                Log.d(TAG, "%%%%%%%%%%%%%555b  DOCUMENT DOESENT EXISTS");
+
                                 status.setText("Group Created with name\n" + docId);
 
                                 db.collection("Groups")
@@ -93,7 +91,7 @@ public class CreateJoinGroup extends AppCompatActivity {
 
                             }
                         } else {
-                            Log.d(TAG, "%%%%%%%%%%%%%555b  EXCEPTION OCCURED: " + task.getException().getMessage());
+
                             status.setText("EXCEPTION OCCURED:\n " + task.getException().getMessage());
                         }
 
@@ -125,20 +123,18 @@ public class CreateJoinGroup extends AppCompatActivity {
                                 rootRef.collection("Users").document(user).update("Groups", FieldValue.arrayUnion(groupName));
 
                                 myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child(groupName);
-                                Message obj = new Message(userName, userName+" just Joined the group", Calendar.getInstance().getTime().toString(), user , "activity");
+                                Message obj = new Message(userName, userName + " just Joined the group", Calendar.getInstance().getTime().toString(), user, "activity");
                                 myRef.push().setValue(obj);
                                 status.setText("Group Joined\n" + groupName);
-                                //System.out.println("%%%%%%%%%%%%%555b  DOCUMENT EXISTS");
-                                //
 
 
                             } else {
                                 status.setText("Group doesn't exist with name\n" + groupName);
-                                Log.d(TAG, "%%%%%%%%%%%%%555b  DOCUMENT DOES'NT EXISTS");
+
 
                             }
                         } else {
-                            Log.d(TAG, "%%%%%%%%%%%%%555b  EXCEPTION OCCURED: " + task.getException().getMessage());
+
                             status.setText("EXCEPTION OCCURED:\n " + task.getException().getMessage());
                         }
 

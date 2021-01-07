@@ -1,7 +1,6 @@
 package com.example.bingewatchers;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,7 @@ public class ChatListAdapter extends BaseAdapter {
         this.arraylist = new ArrayList<Message>();
         this.arraylist.addAll(Chats);
         he.add(Calendar.DATE, -1);
-        Log.d(TAG, "Yesterday date is     " + he.getTime().toString().substring(3, 10));
+
     }
 
     @Override
@@ -63,7 +62,7 @@ public class ChatListAdapter extends BaseAdapter {
             holder = new ViewHolder();
 
             if (Chats.get(position).getSenderEmail().equals(mAuth.getCurrentUser().getEmail())) {
-                Log.d(TAG, "!!!!!!!! SAME HAIN DONO!!   !!!!!!!!!!!!!!!!!!!!");
+
                 if (Chats.get(position).getType().equals("message")) {
                     view = inflater.inflate(R.layout.chat_list_own, null);
                     holder.message = view.findViewById(R.id.message);
@@ -132,20 +131,15 @@ public class ChatListAdapter extends BaseAdapter {
 
                 }
             }
-            Log.d(TAG, " Current date is " + Calendar.getInstance().getTime().toString().substring(3, 10) + "\r Messege dat is  " +
-                            Chats.get(position).getTime().substring(3, 10) +"length is"+Calendar.getInstance().getTime().toString().substring(3, 10).length()+
-                            "    of message"+Chats.get(position).getTime().substring(3, 10)) ;
 
 
             if (Chats.get(position).getTime().substring(3, 10).equals(he.getTime().toString().substring(3, 10))) {
 
                 holder.time.setText("Yesterday\n" + Chats.get(position).getTime().substring(10, 16));
-            }
-            else
-                if (Chats.get(position).getTime().substring(3, 10).equals(Calendar.getInstance().getTime().toString().substring(3, 10))) {
+            } else if (Chats.get(position).getTime().substring(3, 10).equals(Calendar.getInstance().getTime().toString().substring(3, 10))) {
                 holder.time.setText("Today\n" + Chats.get(position).getTime().substring(10, 16));
             } else {
-                   holder.time.setText(Chats.get(position).getTime().substring(3, 10) + "\n" + Chats.get(position).getTime().substring(10, 16));
+                holder.time.setText(Chats.get(position).getTime().substring(3, 10) + "\n" + Chats.get(position).getTime().substring(10, 16));
             }
             holder.message.setShowingLine(6);
 
@@ -175,7 +169,6 @@ public class ChatListAdapter extends BaseAdapter {
 
 
         TextView senderEmail;
-        //TextView message;
         ShowMoreTextView message;
         ImageView poster;
         TextView time;

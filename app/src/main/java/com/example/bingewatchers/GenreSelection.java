@@ -1,14 +1,14 @@
 package com.example.bingewatchers;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,31 +41,6 @@ public class GenreSelection extends AppCompatActivity {
         chipGroup = findViewById(R.id.chipGroup);
         contactList = new ArrayList<>();
 
-//        contactList.add("Absurdist");
-//        contactList.add("Action" );
-//        contactList.add("Adventure");
-//        contactList.add("Comedy");
-//        contactList.add("Crime");
-//        contactList.add("Drama");
-//        contactList.add("Fantasy");
-//        contactList.add("Historical");
-//        contactList.add("Horror" );
-//        contactList.add("Magical realism");
-//        contactList.add("Mystery" );
-//        contactList.add("Paranoid fiction");
-//        contactList.add("Philosophical");
-//        contactList.add("Political");
-//        contactList.add("Romance");
-//        contactList.add("Saga") ;
-//        contactList.add("Satire");
-//        contactList.add("Science"  );
-//        contactList.add("Social") ;
-//        contactList.add("Speculative" );
-//        contactList.add("Thrille");
-//        contactList.add("Urban");
-//        contactList.add("Wester");
-
-
         contactList.add("Action");
         contactList.add("Adventure");
         contactList.add("Animation");
@@ -86,12 +61,12 @@ public class GenreSelection extends AppCompatActivity {
         contactList.add("War");
         contactList.add("Western");
 
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("------------------------------------");
+
                 List<Integer> ids = chipGroup.getCheckedChipIds();
-                System.out.println("-----------------------------------" + ids);
                 addGenres(email, liste(ids));
             }
         });
@@ -105,7 +80,6 @@ public class GenreSelection extends AppCompatActivity {
             genreL.add(contactList.get(y));
         }
         genreM.put("Genres", genreL);
-        System.out.println(genreM);
         return genreM;
     }
 
@@ -120,7 +94,7 @@ public class GenreSelection extends AppCompatActivity {
         }
         Intent i = new Intent(GenreSelection.this, DashBoard.class);
         startActivity(i);
-        Log.d(TAG, "===========Genres Added");
+
         Toast.makeText(GenreSelection.this, "Genres updated", Toast.LENGTH_LONG);
     }
 

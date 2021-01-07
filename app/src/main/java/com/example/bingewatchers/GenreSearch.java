@@ -18,7 +18,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class GenreSearch extends AsyncTask {
@@ -48,7 +47,7 @@ public class GenreSearch extends AsyncTask {
     protected ArrayList<Movie> doInBackground(Object[] objects) {
         try {
 
-            String url2 = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre+"&with_original_language=hi%7Cen";
+            String url2 = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre + "&with_original_language=hi%7Cen";
 //            String url2 = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre+"&with_original_language=hi";
             Log.d(TAG, genre + " " + url2);
 
@@ -57,7 +56,7 @@ public class GenreSearch extends AsyncTask {
             urlConnection.setRequestMethod("GET");
             int statusCode = urlConnection.getResponseCode();
             kl = new JSONObject();
-            System.out.println("Status code is   " + statusCode);
+
             if (statusCode == 200) {
                 InputStream it = new BufferedInputStream(urlConnection.getInputStream());
                 InputStreamReader read = new InputStreamReader(it);
@@ -67,27 +66,25 @@ public class GenreSearch extends AsyncTask {
                 while ((chunks = buff.readLine()) != null) {
                     dta.append(chunks);
                 }
-                //  System.out.println("Sting Builder is    " + dta);
+
                 kl = new JSONObject(dta.toString());
             } else {
                 kl = null;
             }
-            Log.d(TAG, "================ doInBackground COMPLETED");
+
             JSONArray parent = kl.getJSONArray("results");
             try {
                 for (int i = 0; i < parent.length(); i++) {
                     JSONObject subparent = (JSONObject) parent.get(i);
                     try {
 
-                        //   System.out.println("------------ ITS A MOVIE------------------------------");
+//              ------------ ITS A MOVIE------------------------------
 
-                        ge.add(new Movie(subparent.getString("title"), subparent.getString("poster_path"), subparent.getJSONArray("genre_ids"),subparent.getString("id")));
-//     ge.add(new Movie("MOVIE", subparent.getString("original_language"), subparent.getString("original_title"),
-//                                    subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("release_date"), subparent.getString("poster_path")));
+                        ge.add(new Movie(subparent.getString("title"), subparent.getString("poster_path"), subparent.getJSONArray("genre_ids"), subparent.getString("id")));
 
-                        System.out.println("$$$$$$$$$$$  ");
+
+                        //------------ ITS A Tv series------------------------------
 //                        if (subparent.getString("media_type").equals("tv")) {
-//                            //System.out.println("------------ ITS A Tv series------------------------------");
 //                            he.add(new Movie(subparent.getString("media_type"), subparent.getString("original_language"), subparent.getString("name"),
 //                                    subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("first_air_date"), subparent.getString("poster_path")));
 //
@@ -95,7 +92,7 @@ public class GenreSearch extends AsyncTask {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        System.out.println(subparent);
+
                     }
 
                 }
@@ -107,8 +104,6 @@ public class GenreSearch extends AsyncTask {
         } catch (IOException | JSONException | NullPointerException e) {
             e.printStackTrace();
         }
-        //   Log.d(TAG, "initRecyclerView: init     " + he.size());
-
         return ge;
     }
 }

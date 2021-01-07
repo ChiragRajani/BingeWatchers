@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +26,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,7 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Calendar;
 
 public class ChatWindow<ArrayList> extends AppCompatActivity {
-    //EditText grpName;
+
     EditText movieName;
     ListView chatList;
     ListView list;
@@ -50,9 +48,8 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
     java.util.ArrayList<Movie> he = new java.util.ArrayList<>();
     Button btnSug;
     EditText movieReview;
-    NavigationView nv ;
-    TextView hideSheet ;
-    View headerView;
+    TextView hideSheet;
+
     private EditText grpName;
     private FloatingActionButton show;
     private String TAG = "CHAT WINDOW";
@@ -94,7 +91,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         java.util.ArrayList<Message> chats = new java.util.ArrayList<>();
         message = grpName.getText().toString();
         ChatListAdapter chatAdapter = new ChatListAdapter(this, chats);
-        hideSheet=findViewById(R.id.hideSheet) ;
+        hideSheet = findViewById(R.id.hideSheet);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -104,11 +101,10 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Message obj = postSnapshot.getValue(Message.class);
-                    System.out.println("7777777777777777777777777" + obj.getName());
-                    if (obj.getType()!=null)
-                    {
+
+                    if (obj.getType() != null) {
                         chats.add(obj);
-                        System.out.println("44444444444444444 ADDEDS MESSAGE  " + obj.getMessage());
+
                         chatList.setAdapter(chatAdapter);
                     }
 
@@ -166,11 +162,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
                 } else {
                     btnFunc = 1;
-                    System.out.println("55555555555555555555555555555555555555555555555 query is " + charSequence.toString());
-                    // new parsing(getApplicationContext(), charSequence.toString(), 0,list).execute();
-                    System.out.println("55555555555555555555555555555555555555555555555 query is " + charSequence.toString());
-                    //  new parsing(getApplicationContext(),charSequence.toString(),0).execute() ;
-                    //   new parsing(getApplicationContext(),charSequence.toString(),0).execute() ;
+
                     show.setImageDrawable(
                             ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_send));
                 }
@@ -204,7 +196,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
                     Movie y = he.get(i1);
                     String mvieName = y.getMovieName();
-                    String url =  y.getPoster();
+                    String url = y.getPoster();
 //                String selected = ((TextView) view.findViewById(R.id.movieName)).getText().toString();
 
                     String desc = mvieName + "(" + y.getMovieDate().substring(0, 4) + ")\n\n" + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview.getText().toString();
@@ -213,7 +205,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                             mAuth.getCurrentUser().getEmail(), y.getPoster(),
                             "Suggestion");
                     myRef.push().setValue(obj);
-                    Log.d(TAG, "###### URL #######" + url);
+
 
                     movieReview.setText("");
                     movieName.setText("");
@@ -221,7 +213,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
-                } catch (IndexOutOfBoundsException|NullPointerException e) {
+                } catch (IndexOutOfBoundsException | NullPointerException e) {
                     Toast.makeText(ChatWindow.this, "Movie Name Cannot Be Empty!!", Toast.LENGTH_SHORT).show();
 
                 }
@@ -264,7 +256,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (x == 0) {
-                    Log.d(TAG, "666666666666666666666666666666666666666666666" + charSequence.toString());
+
                     new parsing(getApplicationContext(), charSequence.toString(), 0, list).execute();
                 }
                 x = 0;
@@ -289,6 +281,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 //        }
 
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         finish();
@@ -296,22 +289,23 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
     }
 //getActionBar().setDrawerListener(toggle);
 
-//...
-public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.group_info, menu);
-    return super.onCreateOptionsMenu(menu);
-}
-public boolean onOptionsItemSelected(MenuItem item) {
-    int id = item.getItemId();
-
-    if (id == R.id.group_info) {
-        Intent i= new Intent(ChatWindow.this,GroupInfo.class) ;
-        i.putExtra("Group Name",notgrpname) ;
-        startActivity(i);
+    //...
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.group_info, menu);
+        return super.onCreateOptionsMenu(menu);
     }
-    if (item.getItemId() == android.R.id.home) {
-                finish();
-            }
-    return super.onOptionsItemSelected(item);
-}
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.group_info) {
+            Intent i = new Intent(ChatWindow.this, GroupInfo.class);
+            i.putExtra("Group Name", notgrpname);
+            startActivity(i);
+        }
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
