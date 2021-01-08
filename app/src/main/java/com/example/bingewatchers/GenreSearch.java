@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.json.JSONArray;
@@ -35,9 +36,10 @@ public class GenreSearch extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        Collections.shuffle(ge);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-        DashBoard.groupRecycler.setLayoutManager(layoutManager);
+//        Collections.shuffle(ge);
+        DashBoard.groupRecycler.setLayoutManager(new GridLayoutManager(mContext, 3));
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+//        DashBoard.groupRecycler.setLayoutManager(layoutManager);
         DashBoard.adapter12 = new Recommendation_Adapter(mContext, ge);
         DashBoard.groupRecycler.setAdapter(DashBoard.adapter12);
 
@@ -47,8 +49,8 @@ public class GenreSearch extends AsyncTask {
     protected ArrayList<Movie> doInBackground(Object[] objects) {
         try {
 
-            String url2 = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre + "&with_original_language=hi%7Cen";
-//            String url2 = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre+"&with_original_language=hi";
+//            String url2 = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre + "&with_original_language=hi%7Cen";
+            String url2 = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre+"&with_original_language=hi";
             Log.d(TAG, genre + " " + url2);
 
             URL url = new URL(url2);

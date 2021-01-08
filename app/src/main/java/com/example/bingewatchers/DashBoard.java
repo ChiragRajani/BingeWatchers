@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -71,7 +72,8 @@ public class DashBoard extends AppCompatActivity {
     int i1 = 0, x = 0;
     private BottomSheetBehavior sheetBehavior;
     private ConstraintLayout bottom_sheet;
-    static RecyclerView shimmerRecycler, groupRecycler;
+    static RecyclerView shimmerRecycler,groupRecycler;
+
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
     private DrawerLayout dl;
@@ -129,18 +131,16 @@ public class DashBoard extends AppCompatActivity {
         refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mNames = new ArrayList<>();
-                mImageUrls = new ArrayList<>();
-                getGroups(); // your code
+//                mNames = new ArrayList<>();
+//                mImageUrls = new ArrayList<>();
+//                getGroups();
+                System.out.println("Refresh");
+                // your code
             }
         };
         pullToRefresh.setOnRefreshListener(refreshListener);
 
         getGroups();
-
-//        new parsing(DashBoard.this, "Avengers ", 1).execute();
-//        initRecyclerView12(parsing.he);
-
 
         viewUsername.setText(mAuth.getCurrentUser().getEmail());
 

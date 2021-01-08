@@ -55,6 +55,7 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
                 i.putExtra("MovieID", he.get(position).getId());
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(i);
+                System.out.println(position+" !!!!!!!!!!! "+he.get(position).getMovieName());
 //                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
             }
         });
