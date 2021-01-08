@@ -140,8 +140,7 @@ public class parsing extends AsyncTask {
                url = new URL(omdbLink);
                urlConnection = (HttpURLConnection) url.openConnection();
                urlConnection.setRequestMethod("GET");
-
-                statusCode = urlConnection.getResponseCode();
+               statusCode = urlConnection.getResponseCode();
                 kl = new JSONObject();
                 if (statusCode == 200) {
                     InputStream it = new BufferedInputStream(urlConnection.getInputStream());
@@ -168,14 +167,13 @@ public class parsing extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-if(req==0)
-{
+    if(req==0)
+    {
     adapter = new ListViewAdapter(context, he);
     he1 = he;
     list.setAdapter(adapter);
     he = new ArrayList<>();
     adapter = null;
-
 }
 if (req==1){
    MovieInfo.setJSONOBJECT(kl);
