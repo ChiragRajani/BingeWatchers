@@ -1,9 +1,9 @@
 package com.example.bingewatchers;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,66 +17,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MovieInfo extends AppCompatActivity {
+    static protected boolean isProgressShowing = false;
     static TextView id, type, director, writer, actors, genre, title, releasedDate,
             runtime, imdb_rating, language, boxOffice, plot, productions;
     static ImageView poster;
     static Context mContext;
-
     static ViewGroup progressView;
-    static protected boolean isProgressShowing = false;
     static MovieInfo x;
-
     static JSONObject movieInfo;
+    View v ;
+    ViewGroup viewGroup ;
+    ImageView mProgressBar;
+    AnimationDrawable animationDrawable;
     String s;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_info);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        showProgressingView();
-        initializeFields();
-        mContext = getApplicationContext();
-        x = this;
-        s=null;
-        s = getIntent().getSerializableExtra("MovieID").toString();
-        System.out.println("---------------"+s);
-
-//        id.setText("ID IS \n"+s);
-        new parsing(getApplicationContext(), s, 1).execute();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideProgressingView();
-                setFields(movieInfo);
-            }
-        }, 1000);
-
-    }
-
-    public static void setJSONOBJECT(JSONObject kl) {
-        movieInfo = kl;
-
-    }
-
-    public void initializeFields() {
-
-        id = findViewById(R.id.movieTitle);
-        type = findViewById(R.id.type);
-        releasedDate = findViewById(R.id.releasedDate);
-        director = findViewById(R.id.directors);
-        writer = findViewById(R.id.textView8);
-        runtime = findViewById(R.id.runtime);
-        genre = findViewById(R.id.genre);
-        language = findViewById(R.id.languages);
-        boxOffice = findViewById(R.id.boxOffice);
-        actors = findViewById(R.id.actors);
-        plot = findViewById(R.id.plot);
-        productions = findViewById(R.id.productions);
-        poster = findViewById(R.id.poster);
-    }
+//    public static void setJSONOBJECT(JSONObject kl) {
+//        movieInfo=null ;
+//        movieInfo = kl;
+//
+//    }
 
     public static void setFields(JSONObject kl) {
         try {
@@ -102,13 +61,59 @@ public class MovieInfo extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_movie_info);
+        v = this.findViewById(android.R.id.content).getRootView();
+        viewGroup=(ViewGroup) v ;
+        showProgressingView();
+        x = this;
+
+        initializeFields();
+        mContext = getApplicationContext();
+
+        s = getIntent().getSerializableExtra("MovieID").toString();
+//        id.setText("ID IS \n"+s);
+        new parsing(getApplicationContext(), s, 1).execute();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideProgressingView();
+                setFields(movieInfo);
+            }
+        }, 1500);
+
+    }
+
+    public void initializeFields() {
+
+        id = findViewById(R.id.movieTitle);
+        type = findViewById(R.id.type);
+        releasedDate = findViewById(R.id.releasedDate);
+        director = findViewById(R.id.directors);
+        writer = findViewById(R.id.textView8);
+        runtime = findViewById(R.id.runtime);
+        genre = findViewById(R.id.genre);
+        language = findViewById(R.id.languages);
+        boxOffice = findViewById(R.id.boxOffice);
+        actors = findViewById(R.id.actors);
+        plot = findViewById(R.id.plot);
+        productions = findViewById(R.id.productions);
+        poster = findViewById(R.id.poster);
+    }
+
     public void showProgressingView() {
         if (!isProgressShowing) {
             isProgressShowing = true;
             progressView = (ViewGroup) getLayoutInflater().inflate(R.layout.progressbar_layout, null);
-            View v = this.findViewById(android.R.id.content).getRootView();
-            ViewGroup viewGroup = (ViewGroup) v;
+
             viewGroup.addView(progressView);
+            mProgressBar = progressView.findViewById(R.id.loadingif);
+            mProgressBar.setBackgroundResource(R.drawable.popcorrn_loading);
+            animationDrawable = (AnimationDrawable) mProgressBar.getBackground();
+            mProgressBar.setVisibility(View.VISIBLE);
+            animationDrawable.start();
         }
     }
 
@@ -117,12 +122,7 @@ public class MovieInfo extends AppCompatActivity {
         ViewGroup viewGroup = (ViewGroup) v;
         viewGroup.removeView(progressView);
         isProgressShowing = false;
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        s=null;
-        finish();
-        return true;
+        mProgressBar.setVisibility(View.GONE);
+        animationDrawable.stop();
     }
 }
