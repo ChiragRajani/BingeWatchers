@@ -51,7 +51,7 @@
             <ImageView
                 android:id="@+id/image_view"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
+                android:layout_height="wrap_content"
                 android:contentDescription="description_media"
                 android:scaleType="centerCrop"
                 android:src="@drawable/dark_popcorn" />
@@ -67,6 +67,7 @@
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
+                    android:padding="0dp"
                     android:text="title"
                     android:textAppearance="?attr/textAppearanceHeadline6" />
 

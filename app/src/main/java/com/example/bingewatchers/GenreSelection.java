@@ -72,6 +72,10 @@ public class GenreSelection extends AppCompatActivity {
         });
     }
 
+    public void skip(){
+        Intent i = new Intent(GenreSelection.this, DashBoard.class);
+        startActivity(i);
+    }
     Map<String, Object> liste(@NotNull List<Integer> ids) {
         List<String> genreL = new ArrayList<>();
         Map<String, Object> genreM = new HashMap<>();

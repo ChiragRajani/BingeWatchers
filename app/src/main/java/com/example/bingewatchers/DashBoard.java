@@ -125,15 +125,15 @@ public class DashBoard extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-//        inform.setChecked(true);
-//        notif_status.setText("Notification will be sent to everyone");
+        inform.setChecked(true);
+        notif_status.setText("Notification will be sent to everyone");
 
         refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//                mNames = new ArrayList<>();
-//                mImageUrls = new ArrayList<>();
-//                getGroups();
+                mNames = new ArrayList<>();
+                mImageUrls = new ArrayList<>();
+                getGroups();
                 System.out.println("Refresh");
                 // your code
             }

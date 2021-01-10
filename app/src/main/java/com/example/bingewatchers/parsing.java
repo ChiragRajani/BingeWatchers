@@ -119,6 +119,8 @@ public class parsing extends AsyncTask {
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
 
+
+
                 int statusCode = urlConnection.getResponseCode();
                 kl = new JSONObject();
                 if (statusCode == 200) {
@@ -174,9 +176,10 @@ public class parsing extends AsyncTask {
     list.setAdapter(adapter);
     he = new ArrayList<>();
     adapter = null;
-}
+} //KYA KARU?
 if (req==1){
-   MovieInfo.setJSONOBJECT(kl);
+   MovieInfo.setFields(kl);
+//   MovieInfo.setJSONOBJECT(kl);
 }
 
     }

@@ -36,8 +36,8 @@ public class GenreSearch extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-//        Collections.shuffle(ge);
-        DashBoard.groupRecycler.setLayoutManager(new GridLayoutManager(mContext, 3));
+        Collections.shuffle(ge);
+        DashBoard.groupRecycler.setLayoutManager(new GridLayoutManager(mContext, 2 ));
 //        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
 //        DashBoard.groupRecycler.setLayoutManager(layoutManager);
         DashBoard.adapter12 = new Recommendation_Adapter(mContext, ge);

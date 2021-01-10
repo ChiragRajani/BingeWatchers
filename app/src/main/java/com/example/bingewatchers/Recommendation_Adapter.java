@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -39,10 +40,17 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Log.d(TAG, "onBindViewHolder: called.");
+        RequestOptions options = new RequestOptions();
+        options.fitCenter();
 
         Glide.with(mContext).asDrawable()
                 .load(he.get(position).getPoster())
+                .apply(options)
                 .into(holder.image);
+//
+//        Glide.with(mContext).asDrawable()
+//                .load(he.get(position).getPoster())
+//                .into(holder.image);
 
         holder.name.setText(he.get(position).getMovieName());
         holder.genres.setText(he.get(position).getGenres());
@@ -55,7 +63,7 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
                 i.putExtra("MovieID", he.get(position).getId());
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(i);
-                System.out.println(position+" !!!!!!!!!!! "+he.get(position).getMovieName());
+                System.out.println(position + " !!!!!!!!!!! " + he.get(position).getMovieName());
 //                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
             }
         });
@@ -72,7 +80,7 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
-        TextView name,genres;
+        TextView name, genres;
 
         public ViewHolder(View itemView) {
             super(itemView);
