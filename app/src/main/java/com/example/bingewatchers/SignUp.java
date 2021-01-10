@@ -29,7 +29,6 @@ public class SignUp extends AppCompatActivity {
     private static final String TAG = "MyActivity";
     static EditText dob;
     static String regEmail;
-    static ProgressBar pgbar;
     private TextInputEditText email, pwd, name;
     private Button btn;
     private FirebaseAuth mAuth;
@@ -40,7 +39,6 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        pgbar = findViewById(R.id.progress_horizontal);
         email = findViewById(R.id.username);
         pwd = findViewById(R.id.password);
         btn = findViewById(R.id.submit);
@@ -48,11 +46,9 @@ public class SignUp extends AppCompatActivity {
         name = findViewById(R.id.Name);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pgbar.setVisibility(ProgressBar.VISIBLE);
                 regEmail = email.getText().toString();
                 regPwd = pwd.getText().toString();
                 regDOB = dob.getText().toString();

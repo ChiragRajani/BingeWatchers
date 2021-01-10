@@ -9,14 +9,7 @@
     tools:context=".SignUp"
     tools:ignore="MissingClass">
 
-    <ProgressBar
-        android:id="@+id/progress_horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:indeterminateOnly="false"
-        android:maxHeight="24dip"
-        android:minHeight="24dip"
-        tools:ignore="MissingConstraints" />
+
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

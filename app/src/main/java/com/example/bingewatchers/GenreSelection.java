@@ -24,7 +24,7 @@ import java.util.Map;
 public class GenreSelection extends AppCompatActivity {
     private ChipGroup chipGroup;
     private Button btn;
-    String email = SignUp.regEmail;
+    String email  ;
     private FirebaseAuth mAuth;
     private List<String> contactList;
     private static final String TAG = "GenreSelection";
@@ -36,11 +36,11 @@ public class GenreSelection extends AppCompatActivity {
         setContentView(R.layout.activity_genre_selection);
 
         mAuth = FirebaseAuth.getInstance();
+        email=mAuth.getCurrentUser().getEmail() ;
         db = FirebaseFirestore.getInstance();
         btn = findViewById(R.id.submit);
         chipGroup = findViewById(R.id.chipGroup);
         contactList = new ArrayList<>();
-
         contactList.add("Action");
         contactList.add("Adventure");
         contactList.add("Animation");

@@ -19,6 +19,7 @@ import java.util.List;
 
 public class ChatListAdapter extends BaseAdapter {
 
+    private final ArrayList<Message> arraylist;
     // Declare Variables
     String TAG = "CHAtLISTADAPTER";
     Context mContext;
@@ -28,7 +29,6 @@ public class ChatListAdapter extends BaseAdapter {
     int MAX_LINES = 5;
     Calendar te = Calendar.getInstance(), he = Calendar.getInstance();
     private List<Message> Chats = null;
-    private final ArrayList<Message> arraylist;
 
     public ChatListAdapter(Context context, ArrayList<Message> Chats) {
         mContext = context;

@@ -6,21 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ncrypted.dempproject.Profile">
+    tools:context=".Activity_profile">
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="50dp"
-        android:background="@color/colorPrimary" />
 
-    <ScrollView
-        android:id="@+id/scrolView_account"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
 
         <RelativeLayout
@@ -31,7 +19,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="100dp"
                 android:orientation="vertical">
 
@@ -39,45 +27,57 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginTop="100dp"
+                    android:layout_marginRight="10dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:textColor="@color/black"
+                        android:textAlignment="center"
+                        android:textSize="30dp"
                         android:text="Profile  Details"
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_height="77dp"
+                        android:layout_marginTop="40dp"
+
+                        android:hint="Your EMail"
                         android:textColorHint="@color/colorPrimary">
 
-                        <EditText
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/userEmail"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Please Enter User Name"
+                            android:layout_height="70dp"
                             android:imeOptions="actionNext"
+                            android:enabled="false"
+
                             android:textColorHint="@color/colorPrimary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
 
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="77dp"
                         android:layout_marginTop="20dp"
+
                         android:textColorHint="@color/colorPrimary">
 
-                        <EditText
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/userName"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="70dp"
                             android:hint="Email Address"
                             android:imeOptions="actionNext"
                             android:inputType="textEmailAddress"
+                            app:helperText="This is the displaying name"
                             android:textColorHint="@color/colorPrimary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -85,18 +85,33 @@
 
 
                     <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="77dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="368dp"
                         android:layout_marginTop="20dp"
-                        android:textColorHint="@color/colorPrimary">
+                        android:gravity="center_horizontal"
 
-                        <EditText
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:ignore="MissingConstraints">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/dob"
+
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="password"
-                            android:imeOptions="actionNext"
-                            android:inputType="textPassword"
-                            android:textColorHint="@color/colorPrimary" />
+                            android:layout_height="70dp"
+                            android:clickable="true"
+                            android:ems="10"
+                            android:focusable="false"
+                            android:hint="Enter Date of Birth"
+                            android:inputType="date"
+                            android:onClick="showDatePickerDialog"
+                            android:selectAllOnFocus="true"
+                            tools:ignore="MissingConstraints"
+                            tools:layout_editor_absoluteX="26dp"
+                            tools:layout_editor_absoluteY="51dp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,31 +122,35 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true">
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="40dp"
+                android:layout_alignParentTop="true">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imageview_account_profile"
+                    android:id="@+id/account_profile"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/dark_popcorn"
                     app:civ_border_color="#FFFFFF"
                     app:civ_border_width="2dp" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignEnd="@+id/imageview_account_profile"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/floatingActionButton" />
 
             </RelativeLayout>
 
 
         </RelativeLayout>
-    </ScrollView>
 
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="100dp"
+
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="33dp"
+        android:gravity="center"
+        android:enabled="false"
+        android:id="@+id/updateInfo"
+        android:layout_marginStart="280dp"
+        android:text="Update" />
 </RelativeLayout>

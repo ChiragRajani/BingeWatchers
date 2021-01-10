@@ -3,6 +3,7 @@ package com.example.bingewatchers;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -10,12 +11,14 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -57,6 +60,12 @@ public class DashBoard extends AppCompatActivity {
     TextView user, viewEmail, viewUsername, movieName, notif_status, hideSheet;
     EditText movieReview1;
     FirebaseFirestore db;
+    ViewGroup progressView;
+    View v ;
+    ViewGroup viewGroup ;
+    ImageView mProgressBar;
+
+    AnimationDrawable animationDrawable;
     Switch inform;
     FirebaseFirestore rootRef;
     ListView list;
@@ -79,6 +88,7 @@ public class DashBoard extends AppCompatActivity {
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private NavigationView nv;
+    static protected boolean isProgressShowing = false;
 
     RecyclerViewAdapter adapter1;
     static Recommendation_Adapter adapter12;
@@ -100,11 +110,11 @@ public class DashBoard extends AppCompatActivity {
         shimmerRecycler = findViewById(R.id.recyclerView);
         groupRecycler = findViewById(R.id.recc_recycler);
         user = findViewById(R.id.user);
-
+        v = this.findViewById(android.R.id.content).getRootView();
+        viewGroup=(ViewGroup) v ;
         bottom_sheet = findViewById(R.id.watched_movie);
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
-
-
+        showProgressingView();
         list = findViewById(R.id.listview);
         goToGroup = findViewById(R.id.goToGroup);
         nv = findViewById(R.id.nv);
@@ -151,8 +161,11 @@ public class DashBoard extends AppCompatActivity {
                 int id = item.getItemId();
                 switch (id) {
                     case R.id.profile:
+                    {
+                        startActivity(new Intent(DashBoard.this,Activity_profile.class));
                         Toast.makeText(DashBoard.this, "My Account", Toast.LENGTH_SHORT).show();
                         break;
+                    }
                     case R.id.groups: {
                         Toast.makeText(DashBoard.this, "Settings", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DashBoard.this, CreateJoinGroup.class));
@@ -164,6 +177,12 @@ public class DashBoard extends AppCompatActivity {
                         Intent i = new Intent(DashBoard.this, MainActivity.class);
                         i.putExtra("from", "logout");
                         startActivity(i);
+                    }
+                    case R.id.updateGenere:
+                    {
+                        startActivity(new Intent(DashBoard.this,GenreSelection.class));
+                        Toast.makeText(DashBoard.this, "My Account", Toast.LENGTH_SHORT).show();
+                        break;
                     }
                     default:
                         return true;
@@ -276,6 +295,7 @@ public class DashBoard extends AppCompatActivity {
         shimmerRecycler.setLayoutManager(layoutManager);
         adapter1 = new RecyclerViewAdapter(this, mNames1, mImageUrls1, name);
         shimmerRecycler.setAdapter(adapter1);
+        hideProgressingView();
 
     } //For group displays
 
@@ -336,6 +356,7 @@ public class DashBoard extends AppCompatActivity {
                             mImageUrls.add(kv.get(o).toString());
                         }
                         initRecyclerView1(mNames, mImageUrls, name);
+
                     }
 
                 }
@@ -382,5 +403,25 @@ public class DashBoard extends AppCompatActivity {
             }
         }, 2000);
     }
+    public void showProgressingView() {
+        if (!isProgressShowing) {
+            isProgressShowing = true;
+            progressView = (ViewGroup) getLayoutInflater().inflate(R.layout.progressbar_layout, null);
+            viewGroup.addView(progressView);
+            mProgressBar = progressView.findViewById(R.id.loadingif);
+            mProgressBar.setBackgroundResource(R.drawable.popcorrn_loading);
+            animationDrawable = (AnimationDrawable) mProgressBar.getBackground();
+            mProgressBar.setVisibility(View.VISIBLE);
+            animationDrawable.start();
+        }
+    }
 
+    public void hideProgressingView() {
+        View v = this.findViewById(android.R.id.content).getRootView();
+        ViewGroup viewGroup = (ViewGroup) v;
+        viewGroup.removeView(progressView);
+        isProgressShowing = false;
+        mProgressBar.setVisibility(View.GONE);
+        animationDrawable.stop();
+    }
 }
