@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -300,6 +301,24 @@ public class DashBoard extends AppCompatActivity {
                             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                             Toast.makeText(DashBoard.this, "Message Sent to all groups", Toast.LENGTH_SHORT).show();
 
+                            for (String i1 : mNames) {
+                                DocumentReference docRef = db.collection("Groups").document(i1);
+                                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        DocumentSnapshot document = task.getResult();
+                                        List<String> members = (List<String>) document.get("Members");
+
+                                        for (String i : members) {
+                                            if (!i.equals(mAuth.getCurrentUser().getEmail()))
+                                                db.collection("Users").document(i).update("Suggestion", FieldValue.arrayUnion(new Suggestion(y, mAuth.getCurrentUser().getEmail(), Calendar.getInstance().getTime().toString(), i1)));
+
+                                        }
+
+                                    }
+                                });
+                            }
+
                         } catch (IndexOutOfBoundsException | NullPointerException e) {
                             Toast.makeText(DashBoard.this, "Movie Name Cannot Be Empty!!", Toast.LENGTH_SHORT).show();
 
@@ -324,7 +343,8 @@ public class DashBoard extends AppCompatActivity {
     }
 
 
-    private void initRecyclerView1(ArrayList<String> mNames1, ArrayList<String> mImageUrls1, String name) {
+    private void initRecyclerView1
+            (ArrayList<String> mNames1, ArrayList<String> mImageUrls1, String name) {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         shimmerRecycler.setLayoutManager(layoutManager);
