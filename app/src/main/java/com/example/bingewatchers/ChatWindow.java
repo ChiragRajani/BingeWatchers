@@ -224,13 +224,14 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                             List<String> members = (List<String>) document.get("Members");
 
                             for (String i : members) {
-                                db.collection("Users").document(i).update("Suggestion", FieldValue.arrayUnion(new Suggestion(y, mAuth.getCurrentUser().getEmail(), Calendar.getInstance().getTime().toString(), notgrpname)));
+                                if (!i.equals(mAuth.getCurrentUser().getEmail()))
+                                    db.collection("Users").document(i).update("Suggestion", FieldValue.arrayUnion(new Suggestion(y, mAuth.getCurrentUser().getEmail(), Calendar.getInstance().getTime().toString(), notgrpname)));
 
                             }
 
                         }
                     });
-
+                    DashBoard.refreshListener.onRefresh();
                     db.collection("Users").document(mAuth.getCurrentUser().getEmail()).update("Movies Watched", FieldValue.arrayUnion(movieName.getText().toString()));
                 } catch (IndexOutOfBoundsException | NullPointerException e) {
                     Toast.makeText(ChatWindow.this, "Movie Name Cannot Be Empty!!", Toast.LENGTH_SHORT).show();
