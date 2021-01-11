@@ -53,7 +53,7 @@ public class Activity_profile extends AppCompatActivity {
                 String changedDOB=dob.getText().toString() ;
                 docRef.update("Name",changedName) ;
                 docRef.update("Date of Birth",changedDOB) ;
-                Toast.makeText(this.getRootView(),"Credentials Changed",Toast.LENGTH_LONG).show();
+                Toast.makeText(Activity_profile.this,"Credentials Changed",Toast.LENGTH_LONG).show();
 //                System.out.println("344444443434344224242424242424updated value is "+changedName+"      "+changedDOB    );
 
              }
