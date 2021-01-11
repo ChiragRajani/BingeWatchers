@@ -37,7 +37,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card"
         android:elevation="100dp"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="AppTheme.CardView"
         android:layout_margin="5dp"
@@ -51,10 +51,11 @@
             <!-- Media -->
             <ImageView
                 android:id="@+id/image_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="170dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
                 android:contentDescription="description_media"
-                android:scaleType="centerCrop"
                 android:src="@drawable/dark_popcorn" />
 
             <LinearLayout

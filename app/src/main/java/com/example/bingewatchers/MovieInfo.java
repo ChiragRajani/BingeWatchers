@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +52,6 @@ public class MovieInfo extends AppCompatActivity {
             actors.setText(kl.getString("Actors"));
             plot.setText(kl.getString("Plot"));
             productions.setText(kl.getString("Production"));
-
             Glide.with(mContext).asDrawable()
                     .load(kl.getString("Poster"))
                     .into(poster);
