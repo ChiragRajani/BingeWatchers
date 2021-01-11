@@ -39,8 +39,9 @@
         android:elevation="100dp"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="#f5f5f5"
-        android:layout_margin="5dp">
+        style="AppTheme.CardView"
+        android:layout_margin="5dp"
+        android:layout_marginEnd="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"

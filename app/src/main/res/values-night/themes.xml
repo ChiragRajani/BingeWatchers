@@ -16,6 +16,10 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="AppTheme.CardView" parent="Theme.AppCompat.DayNight.DarkActionBar" >
+        <item name="backgroundTint">@color/JetGray</item>
+        <item name="textColor">@color/white</item>
+    </style>
     <style name="ChatWindow" parent="Theme.MaterialComponents.DayNight.DarkActionBar.Bridge">
         <item name="android:windowBackground">@drawable/dark_popcorn</item>
 

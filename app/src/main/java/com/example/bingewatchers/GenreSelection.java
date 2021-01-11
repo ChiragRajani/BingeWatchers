@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ public class GenreSelection extends AppCompatActivity {
     private ChipGroup chipGroup;
     private Button btn;
     String email  ;
+    TextView skipLayout;
     private FirebaseAuth mAuth;
     private List<String> contactList;
     private static final String TAG = "GenreSelection";
@@ -40,6 +42,7 @@ public class GenreSelection extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         btn = findViewById(R.id.submit);
         chipGroup = findViewById(R.id.chipGroup);
+        skipLayout=findViewById(R.id.skipLayout) ;
         contactList = new ArrayList<>();
         contactList.add("Action");
         contactList.add("Adventure");
@@ -60,8 +63,18 @@ public class GenreSelection extends AppCompatActivity {
         contactList.add("Thriller");
         contactList.add("War");
         contactList.add("Western");
+        String s=getIntent().getSerializableExtra("from").toString() ;
+        if(s.equals("Dashboard")){
+            btn.setText("Update");
+            skipLayout.setVisibility(View.GONE);
 
-
+        }
+        skipLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                skip();
+            }
+        });
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

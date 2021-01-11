@@ -88,6 +88,11 @@
                 android:id="@+id/recc_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
+                android:layout_gravity="center_horizontal"
+
+                android:layout_marginStart="10dp"
+                android:fitsSystemWindows="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal" />

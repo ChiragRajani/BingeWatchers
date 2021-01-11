@@ -13,10 +13,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,6 +34,7 @@ public class Activity_profile extends AppCompatActivity {
     Button change ;
     String email ;
     FirebaseFirestore db ;
+    DocumentReference docRef ;
     ImageView userPicture ;
     EditText userName,userEmail;
     static EditText dob;
@@ -42,6 +46,18 @@ public class Activity_profile extends AppCompatActivity {
         initialiseFields();
         getInfo();
         change.setEnabled(false);
+        change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String changedName=userName.getText().toString() ;
+                String changedDOB=dob.getText().toString() ;
+                docRef.update("Name",changedName) ;
+                docRef.update("Date of Birth",changedDOB) ;
+                Toast.makeText(this.getRootView(),"Credentials Changed",Toast.LENGTH_LONG).show();
+//                System.out.println("344444443434344224242424242424updated value is "+changedName+"      "+changedDOB    );
+
+             }
+        });
 
     }
 
@@ -106,5 +122,7 @@ public class Activity_profile extends AppCompatActivity {
         userName=findViewById(R.id.userName) ;
         dob=findViewById(R.id.dob) ;
         userPicture=findViewById(R.id.account_profile) ;
+
+        docRef=db.collection("Users").document(email) ;
     }
 }

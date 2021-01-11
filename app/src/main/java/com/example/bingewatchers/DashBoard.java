@@ -180,7 +180,9 @@ public class DashBoard extends AppCompatActivity {
                     }
                     case R.id.updateGenere:
                     {
-                        startActivity(new Intent(DashBoard.this,GenreSelection.class));
+                        Intent i=new Intent(DashBoard.this,GenreSelection.class) ;
+                        i.putExtra("from","Dashboard") ;
+                        startActivity(i);
                         Toast.makeText(DashBoard.this, "My Account", Toast.LENGTH_SHORT).show();
                         break;
                     }
