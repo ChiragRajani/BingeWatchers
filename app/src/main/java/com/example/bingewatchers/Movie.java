@@ -16,7 +16,7 @@ class Movie {
   String poster;
   JSONArray Genres;
 
-  public Movie(String type, String language, String title, String rating, String description, String date, String poster) {
+  public Movie(String type, String language, String title, String rating, String description, String date, String poster, JSONArray Genres) {
     this.date = date;
     this.description = description;
     this.language = language;
@@ -24,6 +24,7 @@ class Movie {
     this.title = title;
     this.language = language;
     this.poster = poster;
+    this.Genres = Genres;
 
   }
 

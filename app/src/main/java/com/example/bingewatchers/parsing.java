@@ -96,12 +96,12 @@ public class parsing extends AsyncTask {
                         if (subparent.getString("media_type").equals("movie")) {
                             //   "------------ ITS A MOVIE------------------------------"
                             he.add(new Movie(subparent.getString("media_type"), subparent.getString("original_language"), subparent.getString("title"),
-                                    subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("release_date"), subparent.getString("poster_path")));
+                                    subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("release_date"), subparent.getString("poster_path"), subparent.getJSONArray("genre_ids")));
   }
                         if (subparent.getString("media_type").equals("tv")) {
 //                            ------------ ITS A Tv series------------------------------"
                             he.add(new Movie(subparent.getString("media_type"), subparent.getString("original_language"), subparent.getString("name"),
-                                    subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("first_air_date"), subparent.getString("poster_path")));
+                                    subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("first_air_date"), subparent.getString("poster_path"), subparent.getJSONArray("genre_ids")));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

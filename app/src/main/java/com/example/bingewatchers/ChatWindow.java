@@ -24,6 +24,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,9 +34,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class ChatWindow<ArrayList> extends AppCompatActivity {
 
@@ -189,6 +195,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
             }
         });
 
+
         btnSug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,8 +203,6 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
                     Movie y = he.get(i1);
                     String mvieName = y.getMovieName();
-                    String url = y.getPoster();
-//                String selected = ((TextView) view.findViewById(R.id.movieName)).getText().toString();
 
                     String desc = mvieName + "(" + y.getMovieDate().substring(0, 4) + ")\n\n" + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview.getText().toString();
 
@@ -205,14 +210,28 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                             mAuth.getCurrentUser().getEmail(), y.getPoster(),
                             "Suggestion");
                     myRef.push().setValue(obj);
-
-
                     movieReview.setText("");
                     movieName.setText("");
                     sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
+                    DocumentReference docRef = db.collection("Groups").document(notgrpname);
+                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            DocumentSnapshot document = task.getResult();
+                            List<String> members = (List<String>) document.get("Members");
+
+                            for (String i : members) {
+                                db.collection("Users").document(i).update("Suggestion", FieldValue.arrayUnion(new Suggestion(y, mAuth.getCurrentUser().getEmail(), Calendar.getInstance().getTime().toString(), notgrpname)));
+
+                            }
+
+                        }
+                    });
+
+                    db.collection("Users").document(mAuth.getCurrentUser().getEmail()).update("Movies Watched", FieldValue.arrayUnion(movieName.getText().toString()));
                 } catch (IndexOutOfBoundsException | NullPointerException e) {
                     Toast.makeText(ChatWindow.this, "Movie Name Cannot Be Empty!!", Toast.LENGTH_SHORT).show();
 

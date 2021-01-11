@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -57,12 +56,12 @@ public class DashBoard extends AppCompatActivity {
     static SwipeRefreshLayout.OnRefreshListener refreshListener;
     FirebaseAuth mAuth;
     Button goToGroup, suggest;
-    TextView user, viewEmail, viewUsername, movieName, notif_status, hideSheet;
+    TextView user, viewEmail, viewUsername, movieName, notif_status, hideSheet, rc;
     EditText movieReview1;
     FirebaseFirestore db;
     ViewGroup progressView;
-    View v ;
-    ViewGroup viewGroup ;
+    View v;
+    ViewGroup viewGroup;
     ImageView mProgressBar;
 
     AnimationDrawable animationDrawable;
@@ -81,7 +80,7 @@ public class DashBoard extends AppCompatActivity {
     int i1 = 0, x = 0;
     private BottomSheetBehavior sheetBehavior;
     private ConstraintLayout bottom_sheet;
-    static RecyclerView shimmerRecycler,groupRecycler;
+    static RecyclerView shimmerRecycler, groupRecycler;
 
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
@@ -110,8 +109,9 @@ public class DashBoard extends AppCompatActivity {
         shimmerRecycler = findViewById(R.id.recyclerView);
         groupRecycler = findViewById(R.id.recc_recycler);
         user = findViewById(R.id.user);
+        rc = findViewById(R.id.textView3);
         v = this.findViewById(android.R.id.content).getRootView();
-        viewGroup=(ViewGroup) v ;
+        viewGroup = (ViewGroup) v;
         bottom_sheet = findViewById(R.id.watched_movie);
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
         showProgressingView();
@@ -160,9 +160,8 @@ public class DashBoard extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 switch (id) {
-                    case R.id.profile:
-                    {
-                        startActivity(new Intent(DashBoard.this,Activity_profile.class));
+                    case R.id.profile: {
+                        startActivity(new Intent(DashBoard.this, Activity_profile.class));
                         Toast.makeText(DashBoard.this, "My Account", Toast.LENGTH_SHORT).show();
                         break;
                     }
@@ -178,10 +177,9 @@ public class DashBoard extends AppCompatActivity {
                         i.putExtra("from", "logout");
                         startActivity(i);
                     }
-                    case R.id.updateGenere:
-                    {
-                        Intent i=new Intent(DashBoard.this,GenreSelection.class) ;
-                        i.putExtra("from","Dashboard") ;
+                    case R.id.updateGenere: {
+                        Intent i = new Intent(DashBoard.this, GenreSelection.class);
+                        i.putExtra("from", "Dashboard");
                         startActivity(i);
                         Toast.makeText(DashBoard.this, "My Account", Toast.LENGTH_SHORT).show();
                         break;
@@ -343,6 +341,8 @@ public class DashBoard extends AppCompatActivity {
 
                     viewEmail.setText(name);
                     user.setText("Welcome " + name + "! Your groups here,");
+                    rc.setText("Hand picked recommendations for ya 💋");
+
 
 //                    https://picsum.photos/
                     Glide.with(DashBoard.this).asDrawable()
@@ -406,6 +406,7 @@ public class DashBoard extends AppCompatActivity {
             }
         }, 2000);
     }
+
     public void showProgressingView() {
         if (!isProgressShowing) {
             isProgressShowing = true;

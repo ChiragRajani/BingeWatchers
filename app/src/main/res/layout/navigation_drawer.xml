@@ -24,50 +24,50 @@
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="685dp"
-            android:orientation="vertical"
-            android:padding="6dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:context=".MainActivity"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="46dp">
-
-            <TextView
-                android:id="@+id/user"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="6dp"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="top"
-                android:textSize="24dp"
-                android:textStyle="bold" />
+                android:layout_height="685dp"
+                android:orientation="vertical"
+                android:padding="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:context=".MainActivity"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="46dp">
 
-            <androidx.recyclerview.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal" />
+                <TextView
+                    android:id="@+id/user"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="6dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="top"
+                    android:textSize="24dp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal" />
 
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/recyclerView"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="20dp"
-                android:text="Recommendations"
-                android:textSize="22dp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/recyclerView"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="20dp"
+                    android:text=""
+                    android:textSize="21.5dp"
+                    android:textStyle="bold" />
 
 
 <!--            <GridView xmlns:app="http://schemas.android.com/apk/res-auto"-->
@@ -91,13 +91,13 @@
 
                 android:layout_gravity="center_horizontal"
 
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="2dp"
                 android:fitsSystemWindows="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal" />
 
-        </LinearLayout>
+            </LinearLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

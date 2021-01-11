@@ -26,11 +26,12 @@ public class MovieInfo extends AppCompatActivity {
     static ViewGroup progressView;
     static MovieInfo x;
     static JSONObject movieInfo;
-    View v ;
-    ViewGroup viewGroup ;
+    View v;
+    ViewGroup viewGroup;
     ImageView mProgressBar;
     AnimationDrawable animationDrawable;
     String s;
+    static String t;
 
 //    public static void setJSONOBJECT(JSONObject kl) {
 //        movieInfo=null ;
@@ -41,6 +42,7 @@ public class MovieInfo extends AppCompatActivity {
     public static void setFields(JSONObject kl) {
         try {
             id.setText(kl.getString("Title"));
+
             type.setText(kl.getString("Type"));
             releasedDate.setText(kl.getString("Released"));
             director.setText(kl.getString("Director"));
@@ -65,13 +67,17 @@ public class MovieInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_info);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         v = this.findViewById(android.R.id.content).getRootView();
-        viewGroup=(ViewGroup) v ;
+        viewGroup = (ViewGroup) v;
         showProgressingView();
         x = this;
 
         initializeFields();
         mContext = getApplicationContext();
+
 
         s = getIntent().getSerializableExtra("MovieID").toString();
 //        id.setText("ID IS \n"+s);
@@ -124,5 +130,11 @@ public class MovieInfo extends AppCompatActivity {
         isProgressShowing = false;
         mProgressBar.setVisibility(View.GONE);
         animationDrawable.stop();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }
