@@ -571,10 +571,10 @@ public class DashBoard extends AppCompatActivity {
             } catch (Exception e) {
                 System.out.println("*********************************");
                 Toast.makeText(CardView.getContext(), "No movies to show", Toast.LENGTH_SHORT);
-                mvName.setText("No movie to suggest");
-                //mvName.setText("");
-                suggestedBy.setText("");
-          //  hideSuggestionCard();
+                mvName.setText("Your friends suggested no movies.");
+//                mvName.setText("");
+                suggestedBy.setText("Do you even have friends?");
+//            hideSuggestionCard();
             }
 
             hide.setOnClickListener(new View.OnClickListener() {
