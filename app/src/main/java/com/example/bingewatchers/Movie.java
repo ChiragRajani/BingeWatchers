@@ -80,7 +80,19 @@ class Movie {
   }
 
   public String getPoster() {
-    return "https://image.tmdb.org/t/p/w500/" + poster;
+    System.out.println("545555555555555555555555555 "+poster);
+    if (poster.equals("null") || poster==null)
+    {
+      System.out.println("4777777777474747474747   RETURNING NO POSTER FOUND"+"             for  "+title);
+      return "https://reelcinemas.ae/Images/Movies/not-found/no-poster.jpg" ;
+    }
+
+    else{
+      System.out.println("4777777777474747474747   RETURNING POSTER FOUND");
+      return "https://image.tmdb.org/t/p/w500/" + poster;
+    }
+
+
   }
 
 }

@@ -224,9 +224,11 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                             List<String> members = (List<String>) document.get("Members");
 
                             for (String i : members) {
-                                if (!i.equals(mAuth.getCurrentUser().getEmail()))
-                                    db.collection("Users").document(i).update("Suggestion", FieldValue.arrayUnion(new Suggestion(y, mAuth.getCurrentUser().getEmail(), Calendar.getInstance().getTime().toString(), notgrpname)));
-
+                                if (!i.equals(mAuth.getCurrentUser().getEmail())) {
+                                    Suggestion suggested = new Suggestion(y, name, Calendar.getInstance().getTime().toString(), notgrpname);
+                                    db.collection("Users").document(i).update("Suggestion", FieldValue.arrayUnion(suggested));
+                                    System.out.println("5555555555555555555555555555555555555  "+suggested.getSender());
+                                }
                             }
 
                         }
@@ -263,7 +265,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
             @Override
             public void onSlide(@NonNull View view, float v) {
-                Toast.makeText(ChatWindow.this, "SLIDING!!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ChatWindow.this, "SLIDING!!", Toast.LENGTH_SHORT).show();
             }
         });
 

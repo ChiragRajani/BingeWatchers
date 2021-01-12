@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="80dp"
-    android:background="#BF000000"
+    android:background="#CF000000"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:gravity="center">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
+        android:elevation="150dp"
+        app:cardCornerRadius="20dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp">
 
@@ -29,6 +35,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:orientation="vertical"
                 android:padding="16dp">
 
@@ -44,7 +51,7 @@
                     android:id="@+id/rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="18dp"
                     android:text="rating"
                     android:textAppearance="?attr/textAppearanceBody2"
                     android:textColor="?android:attr/textColorSecondary" />
@@ -58,6 +65,12 @@
                     android:textAppearance="?attr/textAppearanceBody2"
                     android:textColor="?android:attr/textColorSecondary" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="Date"
+                    android:id="@+id/suggestedOn"/>
             </LinearLayout>
 
             <!-- Buttons -->
@@ -79,11 +92,11 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/show1"
                     style="?attr/borderlessButtonStyle"
-                    android:textColor="#6200EE"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:padding="10dp"
-                    android:text="SHOW ANOTHER" />
+                    android:text="SHOW ANOTHER"
+                    android:textColor="#6200EE" />
             </LinearLayout>
 
         </LinearLayout>

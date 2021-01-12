@@ -11,8 +11,11 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,7 +65,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DashBoard extends AppCompatActivity {
     private static final String TAG = "DashBoard";
+    static protected boolean isCardShowing = false, isProgressShowing = false;
     static SwipeRefreshLayout.OnRefreshListener refreshListener;
+    static RecyclerView shimmerRecycler, groupRecycler;
+    static Recommendation_Adapter adapter12;
     FirebaseAuth mAuth;
     Button goToGroup, suggest;
     TextView user, viewEmail, viewUsername, movieName, notif_status, hideSheet, rc;
@@ -72,7 +78,6 @@ public class DashBoard extends AppCompatActivity {
     View v;
     ViewGroup viewGroup;
     ImageView mProgressBar;
-
     AnimationDrawable animationDrawable;
     Switch inform;
     FirebaseFirestore rootRef;
@@ -89,31 +94,46 @@ public class DashBoard extends AppCompatActivity {
     DatabaseReference myRef;
     int i1 = 0, x = 0;
     int u = 0;
-    private BottomSheetBehavior sheetBehavior;
-    private ConstraintLayout bottom_sheet;
-    static RecyclerView shimmerRecycler, groupRecycler;
-
-    // ----------------------------------------------------
-    private SensorManager mSensorManager;
-    private float mAccel;
-    private float mAccelCurrent;
     int count = 0;
-    private float mAccelLast;
-
     TextView mvName, suggestedBy, suggestedOn, rating;
     ImageView mvPoster;
     Button hide, showAnother;
+    RecyclerViewAdapter adapter1;
+    private BottomSheetBehavior sheetBehavior;
+    private ConstraintLayout bottom_sheet;
+    // ----------------------------------------------------
+    private SensorManager mSensorManager;
     //----------------------------------------------------
+    private float mAccel;
+    private float mAccelCurrent;
+    private float mAccelLast;
+    private Vibrator myVib;
+    //------------------------------------------------
+    private final SensorEventListener mSensorListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            mAccelLast = mAccelCurrent;
+            mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
+            float delta = mAccelCurrent - mAccelLast;
+            mAccel = mAccel * 0.9f + delta;
+            if (mAccel > 30) {
 
+                showSuggestionCard();
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }
+    };
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private NavigationView nv;
-    static protected boolean isCardShowing = false, isProgressShowing = false;
-
-    RecyclerViewAdapter adapter1;
-    static Recommendation_Adapter adapter12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +157,7 @@ public class DashBoard extends AppCompatActivity {
         viewGroup = (ViewGroup) v;
         bottom_sheet = findViewById(R.id.watched_movie);
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
+
         showProgressingView();
         list = findViewById(R.id.listview);
         goToGroup = findViewById(R.id.goToGroup);
@@ -342,7 +363,6 @@ public class DashBoard extends AppCompatActivity {
         });
     }
 
-
     private void initRecyclerView1
             (ArrayList<String> mNames1, ArrayList<String> mImageUrls1, String name) {
 
@@ -399,7 +419,7 @@ public class DashBoard extends AppCompatActivity {
 
                     viewEmail.setText(name);
                     user.setText("Welcome " + name + "! Your groups here,");
-                    rc.setText("Hand picked recommendations for ya 💋");
+                    rc.setText("Hand picked recommendations for ya");
 
 
 //                    https://picsum.photos/
@@ -486,59 +506,75 @@ public class DashBoard extends AppCompatActivity {
 
     public void showSuggestionCard() {
 
+
         if (!isCardShowing) {
             try {
                 isCardShowing = true;
                 CardView = (ViewGroup) getLayoutInflater().inflate(R.layout.random_suggest, null);
-                viewGroup.addView(CardView);
 
+                viewGroup.addView(CardView);
+                Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+// Vibrate for 500 milliseconds
+                v.vibrate(300);
+                //CardView.performHapticFeedback(1000);
                 mvName = CardView.findViewById(R.id.mvName);
                 suggestedBy = CardView.findViewById(R.id.sugstBy);
                 rating = CardView.findViewById(R.id.rating);
-//            suggestedOn=CardView.findViewById(R.id.suggestedOn) ;
+            suggestedOn=CardView.findViewById(R.id.suggestedOn) ;
 
                 mvPoster = CardView.findViewById(R.id.mvPoster);
                 hide = CardView.findViewById(R.id.hide);
                 showAnother = CardView.findViewById(R.id.show1);
+                try {
+                    HashMap<String, Object> i = (HashMap<String, Object>) sugg.get(u);
+                    HashMap<String, String> i1 = (HashMap<String, String>) i.get("y");
 
-                HashMap<String, Object> i = (HashMap<String, Object>) sugg.get(u);
-                HashMap<String, String> i1 = (HashMap<String, String>) i.get("y");
+                        Glide.with(getApplicationContext()).asDrawable()
+                            .load(i1.get("poster"))
+                            .into(mvPoster);
+                    rating.setText("IMDB rating "+i1.get("rating"));
+                    mvName.setText(i1.get("movieName"));
+                    suggestedBy.setText(i.get("sender").toString()+" ("+i.get("grpname")+")");
+                    suggestedOn.setText("On "+i.get("date").toString().substring(0,10));
 
-                Glide.with(getApplicationContext()).asDrawable()
-                        .load(i1.get("poster"))
-                        .into(mvPoster);
-                rating.setText(i1.get("rating"));
-                mvName.setText(i1.get("movieName"));
-                suggestedBy.setText(i.get("sender").toString());
-                u++;
-                u = u % sugg.size();
-
+                    u++;
+                    u = u % sugg.size();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    System.out.println("333333333333333333333333333 " + e.getMessage() + "size is   " + sugg.size() + "   u is    " + u);
+                }
                 showAnother.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        HashMap<String, Object> i2 = (HashMap<String, Object>) sugg.get(u);
-                        HashMap<String, String> i12 = (HashMap<String, String>) i2.get("y");
-                        System.out.println(i12.get("movieName"));
-                        System.out.println("------------------------" + sugg.size() + " " + u);
-                        u++;
-                        u = u % sugg.size();
-                        Glide.with(getApplicationContext()).asDrawable()
-                                .load(i12.get("poster"))
-                                .into(mvPoster);
-                        rating.setText(i12.get("rating"));
-                        mvName.setText(i12.get("movieName"));
-                        suggestedBy.setText(i2.get("sender").toString());
-
+                        try {
+                            HashMap<String, Object> i2 = (HashMap<String, Object>) sugg.get(u);
+//                            String i2 = sugg.get(u);
+                            HashMap<String, String> i12 = (HashMap<String, String>) i2.get("y");
+                            System.out.println(i12.get("movieName"));
+                            System.out.println("------------------------" + sugg.size() + " " + u);
+                            u++;
+                            u = u % sugg.size();
+                            Glide.with(getApplicationContext()).asDrawable()
+                                    .load(i12.get("poster"))
+                                    .into(mvPoster);
+                            rating.setText("IMDB rating "+i12.get("rating"));
+                            mvName.setText(i12.get("movieName"));
+                            suggestedBy.setText(i2.get("sender").toString()+" ("+i2.get("grpname")+")");
+                            suggestedOn.setText("On "+i2.get("date").toString().substring(0,10));
+                        } catch (NullPointerException |ClassCastException e) {
+                            e.printStackTrace();
+                            System.out.println("333333333333333333333333333 " + e.getMessage() + "size is   " + sugg.size() + "   u is    " + u);
+                        }
                     }
                 });
+
             } catch (Exception e) {
                 System.out.println("*********************************");
                 Toast.makeText(CardView.getContext(), "No movies to show", Toast.LENGTH_SHORT);
                 mvName.setText("No movie to suggest");
-                mvName.setText("");
+                //mvName.setText("");
                 suggestedBy.setText("");
-//            hideSuggestionCard();
+          //  hideSuggestionCard();
             }
 
             hide.setOnClickListener(new View.OnClickListener() {
@@ -569,28 +605,6 @@ public class DashBoard extends AppCompatActivity {
         mProgressBar.setVisibility(View.GONE);
         animationDrawable.stop();
     }
-
-    //------------------------------------------------
-    private final SensorEventListener mSensorListener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            float x = event.values[0];
-            float y = event.values[1];
-            float z = event.values[2];
-            mAccelLast = mAccelCurrent;
-            mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
-            float delta = mAccelCurrent - mAccelLast;
-            mAccel = mAccel * 0.9f + delta;
-            if (mAccel > 30) {
-
-                showSuggestionCard();
-            }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        }
-    };
 
     @Override
     protected void onResume() {
