@@ -26,10 +26,12 @@ public class GenreSearch extends AsyncTask {
     static JSONObject kl;
     static ArrayList<Movie> ge = new ArrayList<>();
     private String genre;
+    int req ;
     private Context mContext;
 
-    GenreSearch(String genre, Context mContext) {
+    GenreSearch(String genre, Context mContext, int req) {
         this.genre = genre;
+        this.req=req ;
         this.mContext = mContext;
     }
 
@@ -38,8 +40,6 @@ public class GenreSearch extends AsyncTask {
         super.onPostExecute(o);
         Collections.shuffle(ge);
         DashBoard.groupRecycler.setLayoutManager(new GridLayoutManager(mContext, 3));
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-//        DashBoard.groupRecycler.setLayoutManager(layoutManager);
         DashBoard.adapter12 = new Recommendation_Adapter(mContext, ge);
         DashBoard.groupRecycler.setAdapter(DashBoard.adapter12);
 
@@ -50,7 +50,9 @@ public class GenreSearch extends AsyncTask {
         try {
 
 //            String url2 = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre + "&with_original_language=hi%7Cen";
-            String url2 = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre+"&with_original_language=hi";
+
+          //  if(req==0)
+                String url2  = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre+"&with_original_language=hi";
             Log.d(TAG, genre + " " + url2);
 
             URL url = new URL(url2);

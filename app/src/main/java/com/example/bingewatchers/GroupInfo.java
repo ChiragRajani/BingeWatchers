@@ -16,12 +16,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class GroupInfo extends AppCompatActivity {
@@ -34,6 +37,7 @@ public class GroupInfo extends AppCompatActivity {
     List<String> members = new ArrayList<>();
     FirebaseAuth mAuth;
     String CURRENT_USER;
+    String userName ;
     DocumentReference docRef, userRef;
 
     @SuppressLint("ResourceType")
@@ -51,7 +55,7 @@ public class GroupInfo extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         grpname.setText(getIntent().getSerializableExtra("Group Name").toString());
         GroupName = getIntent().getSerializableExtra("Group Name").toString();
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         docRef = db.collection("Groups").document(GroupName);
         userRef = db.collection("Users").document(CURRENT_USER.trim());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -63,11 +67,22 @@ public class GroupInfo extends AppCompatActivity {
                 membersCount.setText(members.size() + " Members");
 
 
-                arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, members);
+                arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_activated_1, members);
                 // membersList.setAdapter(arrayAdapter);
                 membersList.setAdapter(arrayAdapter);
                 arrayAdapter.notifyDataSetChanged();
 
+            }
+        });
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        DocumentReference userInfo = rootRef.collection("Users").document(mAuth.getCurrentUser().getEmail());
+        userInfo.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    userName = document.get("Name").toString();
+                }
             }
         });
         leaveGroup.setOnClickListener(new View.OnClickListener() {
@@ -79,10 +94,10 @@ public class GroupInfo extends AppCompatActivity {
 
                         DashBoard.refreshListener.onRefresh();
 
-
+                        Message obj = new Message(userName, userName + " just Left the group", Calendar.getInstance().getTime().toString(), mAuth.getCurrentUser().getEmail(), "activity");
+                        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child(GroupName);
+                        myRef.push().setValue(obj);
                         startActivity(new Intent(GroupInfo.this, DashBoard.class));
-//                        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Group Left", Snackbar.LENGTH_LONG);
-//                        snackbar.show();
                     }
 
                 });
@@ -93,4 +108,8 @@ public class GroupInfo extends AppCompatActivity {
 
     }
 
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 }

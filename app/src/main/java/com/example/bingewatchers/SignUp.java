@@ -63,8 +63,6 @@ public class SignUp extends AppCompatActivity {
                 user.put("Name", regName);
                 createAccount(regEmail, regPwd, user);
 
-                email.setText("");
-                pwd.setText("");
             }
         });
 
@@ -104,7 +102,6 @@ public class SignUp extends AppCompatActivity {
                              updateUserinDB(userInfo);
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent i = new Intent(SignUp.this, GenreSelection.class);
-
                             startActivity(i);
 
                         } else {

@@ -89,7 +89,7 @@ class Movie {
 
     else{
 
-      return "https://image.tmdb.org/t/p/w500/" + poster;
+      return "https://image.tmdb.org/t/p/w500" + poster;
     }
 
 

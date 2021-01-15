@@ -8,20 +8,27 @@
     android:orientation="vertical"
     tools:context=".SignUp"
     tools:ignore="MissingClass">
-
-
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:id="@+id/progress"
+        tools:ignore="MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout8"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="377dp"
         android:layout_height="77dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="612dp"
-        android:gravity="center_horizontal"
 
+        android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.107"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -59,15 +66,16 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="377dp"
         android:layout_height="77dp"
-        app:endIconMode="password_toggle"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="252dp"
         android:gravity="center_horizontal"
         android:hint="Enter Password"
+        app:endIconMode="password_toggle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.619"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -88,16 +96,19 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout6"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="377dp"
         android:layout_height="77dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="488dp"
-        android:gravity="center_horizontal"
 
+        android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.281"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -118,16 +129,18 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout7"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="377dp"
         android:layout_height="77dp"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="368dp"
-        android:gravity="center_horizontal"
 
+        android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.448"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText

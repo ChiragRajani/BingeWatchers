@@ -66,41 +66,47 @@ public class CreateJoinGroup extends AppCompatActivity {
             public void onClick(View view) {
                 String docId = createGroupName.getText().toString().replace('\n', ' ').trim();
                 String regEmail = mAuth.getCurrentUser().getEmail();
-                HashMap<String, Object> groupInfo = new HashMap<String, Object>();
-                groupInfo.put("Created By", regEmail);
+               if(docId == null || docId.equals("")) {
+                    status.setText("Group name cannot be empty");
+                    createGroupName.setText("");
+                    joinGroupName.setText("");
+                }
+                else{
+                    HashMap<String, Object> groupInfo = new HashMap<String, Object>();
+                    groupInfo.put("Created By", regEmail);
 
-                DocumentReference docIdRef = rootRef.collection("Groups").document(docId);
-                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
+                    DocumentReference docIdRef = rootRef.collection("Groups").document(docId);
+                    docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
 
-                                status.setText("Group already exists");
+                                    status.setText("Group already exists");
+                                } else {
+
+                                    status.setText("Group Created with name\n" + docId);
+
+                                    db.collection("Groups")
+                                            .document(docId)
+                                            .set(groupInfo);
+                                    rootRef.collection("Groups").document(docId).update("Members", FieldValue.arrayUnion(regEmail));
+                                    rootRef.collection("Users").document(regEmail).update("Groups Created", FieldValue.arrayUnion(docId));
+                                    rootRef.collection("Users").document(regEmail).update("Groups", FieldValue.arrayUnion(docId));
+
+                                }
                             } else {
 
-                                status.setText("Group Created with name\n" + docId);
-
-                                db.collection("Groups")
-                                        .document(docId)
-                                        .set(groupInfo);
-                                rootRef.collection("Groups").document(docId).update("Members", FieldValue.arrayUnion(regEmail));
-                                rootRef.collection("Users").document(regEmail).update("Groups Created", FieldValue.arrayUnion(docId));
-                                rootRef.collection("Users").document(regEmail).update("Groups", FieldValue.arrayUnion(docId));
-
+                                status.setText("EXCEPTION OCCURED:\n " + task.getException().getMessage());
                             }
-                        } else {
 
-                            status.setText("EXCEPTION OCCURED:\n " + task.getException().getMessage());
+                            createGroupName.setText("");
+                            joinGroupName.setText("");
+                            DashBoard.refreshListener.onRefresh();
                         }
-
-                        createGroupName.setText("");
-                        joinGroupName.setText("");
-                        DashBoard.refreshListener.onRefresh();
-                    }
-                });
-
+                    });
+                }
             }
         });
 
@@ -109,40 +115,47 @@ public class CreateJoinGroup extends AppCompatActivity {
             public void onClick(View view) {
                 String groupName = joinGroupName.getText().toString().replace('\n', ' ').trim();
                 String user = mAuth.getCurrentUser().getEmail();
-
-                DocumentReference docIdRef = rootRef.collection("Groups").document(groupName);
-                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
+                if(groupName == null || groupName.equals(""))
+                {
+                    status.setText("Group name cannot be empty");
+                    createGroupName.setText("");
+                    joinGroupName.setText("");
+                }
+                else {
+                    DocumentReference docIdRef = rootRef.collection("Groups").document(groupName);
+                    docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
 
 //                            rootRef.collection("Groups").document(groupName).update("Members","erygersfgrt4g4rfgyg");
-                                rootRef.collection("Groups").document(groupName).update("Members", FieldValue.arrayUnion(user));
-                                rootRef.collection("Users").document(user).update("Groups", FieldValue.arrayUnion(groupName));
+                                    rootRef.collection("Groups").document(groupName).update("Members", FieldValue.arrayUnion(user));
+                                    rootRef.collection("Users").document(user).update("Groups", FieldValue.arrayUnion(groupName));
 
-                                myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child(groupName);
-                                Message obj = new Message(userName, userName + " just Joined the group", Calendar.getInstance().getTime().toString(), user, "activity");
-                                myRef.push().setValue(obj);
-                                status.setText("Group Joined\n" + groupName);
+                                    myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child(groupName);
+                                    Message obj = new Message(userName, userName + " just Joined the group", Calendar.getInstance().getTime().toString(), user, "activity");
+                                    myRef.push().setValue(obj);
+                                    status.setText("Group Joined\n" + groupName);
 
 
+                                } else {
+                                    status.setText("Group doesn't exist with name\n" + groupName);
+
+
+                                }
                             } else {
-                                status.setText("Group doesn't exist with name\n" + groupName);
 
-
+                                status.setText("EXCEPTION OCCURED:\n " + task.getException().getMessage());
                             }
-                        } else {
 
-                            status.setText("EXCEPTION OCCURED:\n " + task.getException().getMessage());
+                            createGroupName.setText("");
+                            joinGroupName.setText("");
+                            DashBoard.refreshListener.onRefresh();
                         }
-
-                        createGroupName.setText("");
-                        joinGroupName.setText("");
-                        DashBoard.refreshListener.onRefresh();
-                    }
-                });
+                    });
+                }
             }
         });
     }

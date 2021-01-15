@@ -7,46 +7,52 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:theme="@style/ChatWindow"
-    android:background="@drawable/light_popcorn"
         tools:context=".MainActivity">
 
     <ListView
         android:id="@+id/chatsList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="70dp"
+
         android:animationCache="false"
         android:divider="@null"
         android:dividerHeight="10.0sp"
-        android:scrollingCache="false"
-        android:smoothScrollbar="true"
+        android:scrollingCache="true"
+        android:smoothScrollbar="false"
         android:stackFromBottom="true"
-        android:transcriptMode="alwaysScroll" />
+        android:transcriptMode="normal" />
 
     <LinearLayout
         android:layout_width="match_parent"
+
+        android:layout_marginBottom="10dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom">
 
         <EditText
             android:id="@+id/grpName"
-            android:layout_width="300dp"
-            android:layout_height="78dp"
+            android:layout_width="297dp"
+            android:layout_height="45dp"
             android:layout_gravity="bottom"
-            android:hint="Type a message"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/round_edittext"
+            android:hint="Type a message..."
+            android:paddingStart="20dp"
+            android:paddingEnd="10dp"
             android:textColor="#000000"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textSize="18sp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/show"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="0dp"
+            android:layout_marginBottom="3dp"
             android:clickable="true"
-            android:gravity="end"
+            android:gravity="center"
             app:srcCompat="@drawable/ic_baseline_arrow_upward" />
     </LinearLayout>
 

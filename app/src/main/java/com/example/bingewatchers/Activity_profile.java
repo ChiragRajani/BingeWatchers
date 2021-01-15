@@ -45,6 +45,7 @@ public class Activity_profile extends AppCompatActivity {
 
         initialiseFields();
         getInfo();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         change.setEnabled(false);
         change.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,5 +125,10 @@ public class Activity_profile extends AppCompatActivity {
         userPicture=findViewById(R.id.account_profile) ;
 
         docRef=db.collection("Users").document(email) ;
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

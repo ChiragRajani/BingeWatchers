@@ -2,18 +2,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="50dp"
-    style="@style/ChatWindow"
-    android:backgroundTint="@color/white"
-    android:layout_width="match_parent">
+    android:layout_height="wrap_content"
 
+    android:background="@drawable/their_message"
+    android:layout_width="wrap_content">
 
     <TextView
         android:id="@+id/time"
+    android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="top"
+        android:layout_gravity="center"
         android:gravity="center_horizontal"
         android:text="timestamp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -24,16 +24,18 @@
 
     <com.skyhope.showmoretextview.ShowMoreTextView
         android:id="@+id/message"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
         android:backgroundTint="@color/colorAccent"
         android:text="activity"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/time"
         app:layout_constraintVertical_bias="0.774"
         tools:ignore="MissingConstraints" />
 

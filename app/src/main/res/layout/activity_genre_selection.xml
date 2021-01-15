@@ -161,12 +161,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/submit"
-        style="@style/Widget.MaterialComponents.Button.Icon"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="192dp"
         android:baselineAligned="false"
-        android:text="Sign Up"
+        android:text="Update"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -180,9 +180,9 @@
         android:enabled="false"
         android:visibility="invisible"
         android:layout_marginTop="16dp"
+
         android:textColor="@color/colorPrimaryDark"
         android:text="Skip"
-        android:textSize="30dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.958"

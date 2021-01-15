@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:padding="15dp"
+        android:padding="10dp"
         android:paddingTop="0dp"
         android:background="@drawable/their_message"
         android:gravity="start"
@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:paddingBottom="4dp"
+        android:textColor="@color/black"
             android:text="Sender Name" />
 
         <ImageView
@@ -38,7 +39,7 @@
             android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:textColor="@color/black"
             android:padding="15dp"
             android:elevation="2dp"
             android:gravity="bottom"
@@ -49,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:textColor="@color/black"
             android:text="TEXT VIEW"
 
             android:textSize="15dp" />

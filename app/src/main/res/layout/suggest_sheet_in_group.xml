@@ -7,9 +7,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@color/white"
     app:behavior_hideable="false"
     app:behavior_peekHeight="0dp"
+    android:background="#ffffff"
     android:theme="@style/BottomSheetItem"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -18,6 +18,9 @@
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_below="@+id/textInputLayout2"
         android:maxHeight="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,53 +60,65 @@
             tools:ignore="MissingConstraints" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <Button
         android:id="@+id/buttonSug"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#000"
+        android:layout_height="55dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/black"
         android:text="Suggest"
         android:textColor="#fff"
-
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
 
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movieReview"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.656" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Suggest"
+        android:singleLine="true"
 
+        android:text="Add Suggest"
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
+
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.058"
+
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listview"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/movieReview"
-        android:layout_width="880dp"
-        android:layout_height="56dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
-        android:ems="10"
-        android:hint="Give Reviews"
-        android:inputType="text"
-
-        android:singleLine="true"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:layout_marginTop="148dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.093"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listview" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/movieReview"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:ems="10"
+            android:hint="Give Reviews"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/hideSheet"
