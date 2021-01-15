@@ -611,7 +611,6 @@ public class DashBoard extends AppCompatActivity {
         ViewGroup viewGroup = (ViewGroup) v;
         viewGroup.removeView(progressView);
         isProgressShowing = false;
-        mProgressBar.setVisibility(View.GONE);
         animationDrawable.stop();
     }
 

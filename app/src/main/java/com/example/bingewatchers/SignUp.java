@@ -1,9 +1,11 @@
 package com.example.bingewatchers;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -35,6 +37,10 @@ public class SignUp extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private String regPwd, regName, regDOB;
+    ViewGroup progressView,viewGroup;
+    View v ;
+    ProgressBar mProgressBar ;
+    boolean isProgressShowing=false ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,8 @@ public class SignUp extends AppCompatActivity {
         name = findViewById(R.id.Name);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        v = this.findViewById(android.R.id.content).getRootView();
+        viewGroup = (ViewGroup) v;
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,7 +70,7 @@ public class SignUp extends AppCompatActivity {
                 user.put("Date of Birth", regDOB);
                 user.put("Name", regName);
                 createAccount(regEmail, regPwd, user);
-
+                showProgressingView();
             }
         });
 
@@ -76,6 +84,7 @@ public class SignUp extends AppCompatActivity {
 
             db.collection("Groups").document("Default").update("Members", FieldValue.arrayUnion(regEmail));
             db.collection("Users").document(regEmail).update("Groups", FieldValue.arrayUnion("Default"));
+            hideProgressingView();
         } catch (@NonNull Exception e) {
             Log.w(TAG, "Error adding document", e);
             Toast.makeText(SignUp.this, "Account  Not created " + e.getMessage(), Toast.LENGTH_SHORT);
@@ -114,5 +123,20 @@ public class SignUp extends AppCompatActivity {
 
                     }
                 });
+    }
+    public void showProgressingView() {
+        if (!isProgressShowing) {
+            isProgressShowing = true;
+            progressView= (ViewGroup) getLayoutInflater().inflate(R.layout.circle_progressbar, null);
+            viewGroup.addView(progressView);
+            mProgressBar = progressView.findViewById(R.id.progressBar1);
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void hideProgressingView() {
+        View v = this.findViewById(android.R.id.content).getRootView();
+        viewGroup.removeView(progressView);
+        isProgressShowing = false;
     }
 }
