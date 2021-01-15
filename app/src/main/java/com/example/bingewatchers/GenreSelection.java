@@ -25,7 +25,7 @@ import java.util.Map;
 public class GenreSelection extends AppCompatActivity {
     private ChipGroup chipGroup;
     private Button btn;
-    String email  ;
+    String email;
     TextView skipLayout;
     private FirebaseAuth mAuth;
     private List<String> contactList;
@@ -38,11 +38,11 @@ public class GenreSelection extends AppCompatActivity {
         setContentView(R.layout.activity_genre_selection);
 
         mAuth = FirebaseAuth.getInstance();
-        email=mAuth.getCurrentUser().getEmail() ;
+        email = mAuth.getCurrentUser().getEmail();
         db = FirebaseFirestore.getInstance();
         btn = findViewById(R.id.submit);
         chipGroup = findViewById(R.id.chipGroup);
-        skipLayout=findViewById(R.id.skipLayout) ;
+        skipLayout = findViewById(R.id.skipLayout);
         contactList = new ArrayList<>();
         contactList.add("Action");
         contactList.add("Adventure");
@@ -63,12 +63,19 @@ public class GenreSelection extends AppCompatActivity {
         contactList.add("Thriller");
         contactList.add("War");
         contactList.add("Western");
-        String s=getIntent().getSerializableExtra("from").toString() ;
-        if(s.equals("Dashboard")){
-            btn.setText("Update");
-            skipLayout.setVisibility(View.GONE);
 
+
+        try {
+            String s = getIntent().getSerializableExtra("from").toString();
+            if (s.equals("Dashboard")) {
+                btn.setText("Update");
+                skipLayout.setVisibility(View.GONE);
+
+            }
+        } catch (NullPointerException e) {
+            System.out.println("");
         }
+
         skipLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,10 +92,11 @@ public class GenreSelection extends AppCompatActivity {
         });
     }
 
-    public void skip(){
+    public void skip() {
         Intent i = new Intent(GenreSelection.this, DashBoard.class);
         startActivity(i);
     }
+
     Map<String, Object> liste(@NotNull List<Integer> ids) {
         List<String> genreL = new ArrayList<>();
         Map<String, Object> genreM = new HashMap<>();

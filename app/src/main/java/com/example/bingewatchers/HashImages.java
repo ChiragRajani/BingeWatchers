@@ -38,6 +38,7 @@ class HashImages {
         imgs.put("x", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854501.jpg");
         imgs.put("y", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854498.jpg");
         imgs.put("z", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854495.jpg");
+//        imgs.put(" ", "https://image.shutterstock.com/image-illustration/stylish-texture-image-black-single-260nw-1788854495.jpg");
 
     }
 
@@ -61,6 +62,7 @@ class HashImages {
         gnrs.put("Thriller", 53);
         gnrs.put("War", 10752);
         gnrs.put("Western", 37);
+//        gnrs.put("", 37);
     }
 
     public Map<String, String> getHash1() {

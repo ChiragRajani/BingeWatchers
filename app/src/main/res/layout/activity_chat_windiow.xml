@@ -10,18 +10,18 @@
     android:background="@drawable/light_popcorn"
         tools:context=".MainActivity">
 
-        <ListView
-            android:id="@+id/chatsList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@null"
-        android:dividerHeight="10.0sp"
+    <ListView
+        android:id="@+id/chatsList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginBottom="70dp"
-        android:smoothScrollbar="true"
-        android:scrollingCache="false"
         android:animationCache="false"
-        android:transcriptMode="alwaysScroll"
-        android:stackFromBottom="true" />
+        android:divider="@null"
+        android:dividerHeight="10.0sp"
+        android:scrollingCache="false"
+        android:smoothScrollbar="true"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll" />
 
     <LinearLayout
         android:layout_width="match_parent"
