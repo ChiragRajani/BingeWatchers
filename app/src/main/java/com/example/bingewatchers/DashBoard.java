@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -29,7 +28,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -100,7 +98,7 @@ public class DashBoard extends AppCompatActivity {
     TextView mvName, suggestedBy, suggestedOn, rating;
     ImageView mvPoster;
     Button hide, showAnother;
-    LinearLayout suggestionLayout ;
+    LinearLayout suggestionLayout;
     RecyclerViewAdapter adapter1;
     private BottomSheetBehavior sheetBehavior;
     private ConstraintLayout bottom_sheet;
@@ -173,7 +171,7 @@ public class DashBoard extends AppCompatActivity {
         viewCard = (ViewGroup) v;
         bottom_sheet = findViewById(R.id.watched_movie);
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
-        suggestionLayout=findViewById(R.id.suggentionLayout) ;
+        suggestionLayout = findViewById(R.id.suggentionLayout);
         showProgressingView();
         list = findViewById(R.id.listview);
         goToGroup = findViewById(R.id.goToGroup);
@@ -323,7 +321,7 @@ public class DashBoard extends AppCompatActivity {
                             String mvieName = y.getMovieName();
 
                             String desc = mvieName + "(" + y.getMovieDate().substring(0, 4) + ")\n\n"
-                                    + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview1.getText().toString()+"\n";
+                                    + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview1.getText().toString() + "\n";
 
                             Message obj = new Message(name, desc, Calendar.getInstance().getTime().toString(),
                                     mAuth.getCurrentUser().getEmail(), y.getPoster(),
@@ -384,7 +382,7 @@ public class DashBoard extends AppCompatActivity {
         shimmerRecycler.setLayoutManager(layoutManager);
         adapter1 = new RecyclerViewAdapter(this, mNames1, mImageUrls1, name);
         shimmerRecycler.setAdapter(adapter1);
-        hideProgressingView();
+//        hideProgressingView();
 
     } //For group displays
 
@@ -443,14 +441,16 @@ public class DashBoard extends AppCompatActivity {
                                 String o = i.substring(0, 1).toLowerCase();
                                 mImageUrls.add(kv.get(o).toString());
                             }
+
                             initRecyclerView1(mNames, mImageUrls, name);
 
                         }
-
+                        hideProgressingView();
 
                     } catch (NullPointerException e) {
 //                        System.out.println("|||||||||||||||||||||||"+kv.get(o).toString());
                         e.printStackTrace();
+                        hideProgressingView();
                     }
                 }
 
@@ -558,7 +558,7 @@ public class DashBoard extends AppCompatActivity {
                             HashMap<String, String> i12 = (HashMap<String, String>) i2.get("y");
                             System.out.println(i12.get("movieName"));
                             System.out.println("------------------------" + sugg.size() + " " + u);
-                            Toast.makeText(getApplicationContext(),"Showing"+u+"/"+i2.size(),Toast.LENGTH_SHORT);
+                            Toast.makeText(getApplicationContext(), "Showing" + u + "/" + i2.size(), Toast.LENGTH_SHORT);
                             u++;
                             u = u % sugg.size();
                             Glide.with(getApplicationContext()).asDrawable()
