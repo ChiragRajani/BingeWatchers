@@ -1,6 +1,8 @@
 package com.example.bingewatchers;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -38,11 +40,25 @@ public class GenreSearch extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        Collections.shuffle(ge);
-        DashBoard.groupRecycler.setLayoutManager(new GridLayoutManager(mContext, 3));
-        DashBoard.adapter12 = new Recommendation_Adapter(mContext, ge);
+       // Collections.shuffle(ge);
+        int orientation = mContext.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // code for portrait mode
+            DashBoard.groupRecycler.setLayoutManager(new GridLayoutManager(mContext, 3));
+        } else {
+            // code for landscape mode
+            DashBoard.groupRecycler.setLayoutManager(new GridLayoutManager(mContext, 5));
+        }
+
+
         DashBoard.groupRecycler.setAdapter(DashBoard.adapter12);
 
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        DashBoard.adapter12 = new Recommendation_Adapter(mContext, ge);
     }
 
     @Override
@@ -78,7 +94,7 @@ public class GenreSearch extends AsyncTask {
 
             JSONArray parent = kl.getJSONArray("results");
             try {
-                for (int i = 0; i < parent.length(); i++) {
+                for (int i = 0; i < parent.length()/2; i++) {
                     JSONObject subparent = (JSONObject) parent.get(i);
                     try {
 

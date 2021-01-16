@@ -42,7 +42,7 @@
         android:elevation="100dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -53,6 +53,7 @@
                 android:layout_height="170dp"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
+                android:gravity="center"
                 android:contentDescription="description_media"
                 android:src="@drawable/dark_popcorn" />
 

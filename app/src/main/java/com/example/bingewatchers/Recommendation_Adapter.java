@@ -87,6 +87,7 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
             image = itemView.findViewById(R.id.image_view);
             name = itemView.findViewById(R.id.name);
             genres = itemView.findViewById(R.id.genres);
+
         }
 
     }

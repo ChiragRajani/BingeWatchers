@@ -63,8 +63,6 @@ public class GenreSelection extends AppCompatActivity {
         contactList.add("Thriller");
         contactList.add("War");
         contactList.add("Western");
-
-
         try {
             String s = getIntent().getSerializableExtra("from").toString();
             if (s.equals("Dashboard")) {
@@ -119,13 +117,12 @@ public class GenreSelection extends AppCompatActivity {
         }
         Intent i = new Intent(GenreSelection.this, DashBoard.class);
         startActivity(i);
-
         Toast.makeText(GenreSelection.this, "Genres updated", Toast.LENGTH_LONG);
     }
 
     public void onBackPressed() {
 
         super.onBackPressed();
-        startActivity(new Intent(getApplicationContext(), DashBoard.class));
+        //startActivity(new Intent(getApplicationContext(), DashBoard.class));
     }
 }

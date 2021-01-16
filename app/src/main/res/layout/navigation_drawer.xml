@@ -11,8 +11,11 @@
     android:id="@+id/activity_nav"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:ignore="MissingConstraints">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,11 +23,7 @@
         android:id="@+id/mainLayout"
         tools:context=".DashBoard">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/pullToRefresh"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            tools:ignore="MissingConstraints">
+
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -44,6 +43,7 @@
                     android:id="@+id/user"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
@@ -70,7 +70,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#6200EE"
+
+    style="@style/DrawableBackground"
     android:id="@+id/suggentionLayout"
     >
 
@@ -80,8 +81,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/recyclerView"
         android:layout_alignParentBottom="true"
-        android:text="fdsvgfvgrtvbf"
         android:padding="6dp"
+        android:textColor="@color/black"
         android:layout_marginStart="5dp"
         android:textSize="21.5dp"
         android:textStyle="bold" />
@@ -99,10 +100,10 @@
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
 
         android:layout_width="match_parent"

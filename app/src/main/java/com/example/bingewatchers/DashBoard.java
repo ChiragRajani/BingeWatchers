@@ -384,7 +384,7 @@ public class DashBoard extends AppCompatActivity {
         shimmerRecycler.setLayoutManager(layoutManager);
         adapter1 = new RecyclerViewAdapter(this, mNames1, mImageUrls1, name);
         shimmerRecycler.setAdapter(adapter1);
-        hideProgressingView();
+
 
     } //For group displays
 
@@ -401,6 +401,7 @@ public class DashBoard extends AppCompatActivity {
         DocumentReference docRef = db.collection("Users").document(email);
 
         final Map<String, Object>[] messages = new Map[]{null};
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -414,21 +415,23 @@ public class DashBoard extends AppCompatActivity {
                         sugg = (ArrayList<HashMap<String, Object>>) document.get("Suggestion");
 
                         Map kv1 = new HashImages("s").getHash2();
+
                         for (String i : genres) {
 
                             new GenreSearch(kv1.get(i).toString(), getApplicationContext()).execute();
-
                         }
-
-
                         pullToRefresh.setRefreshing(false);
+                       // pullToRefresh.setRefreshing(false);
+
+
                         name = document.get("Name").toString();
 
 
                         viewEmail.setText(name);
                         user.setText("Welcome " + name + "! Your groups here,");
                         rc.setText("Hand picked recommendations for ya");
-                        suggestionLayout.setBackgroundResource(R.drawable.dashboard_card);
+                        //suggestionLayout.setBackgroundResource(R.drawable.dashboard_card);
+//
                         Glide.with(DashBoard.this).asDrawable()
                                 .load("https://ui-avatars.com/api/background=random?name=" + name)
                                 .into(dp_view);
@@ -446,9 +449,12 @@ public class DashBoard extends AppCompatActivity {
                             initRecyclerView1(mNames, mImageUrls, name);
 
                         }
+                        hideProgressingView();
 
 
                     } catch (NullPointerException e) {
+                        hideProgressingView();
+                        pullToRefresh.setRefreshing(false);
 //                        System.out.println("|||||||||||||||||||||||"+kv.get(o).toString());
                         e.printStackTrace();
                     }
