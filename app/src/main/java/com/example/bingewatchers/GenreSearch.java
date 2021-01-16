@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,14 +24,14 @@ import java.util.Collections;
 public class GenreSearch extends AsyncTask {
     private static final String TAG = "GenreSearch";
     static JSONObject kl;
+    String url2;
     static ArrayList<Movie> ge = new ArrayList<>();
-    private String genre;
-    int req ;
+
+
     private Context mContext;
 
-    GenreSearch(String genre, Context mContext) {
-        this.genre = genre;
-//        this.req=req ;
+    GenreSearch(Context mContext, String url2) {
+        this.url2 = url2;
         this.mContext = mContext;
     }
 
@@ -65,12 +63,6 @@ public class GenreSearch extends AsyncTask {
     protected ArrayList<Movie> doInBackground(Object[] objects) {
         try {
 
-//            String url2 = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre + "&with_original_language=hi%7Cen";
-
-          //  if(req==0)
-                String url2  = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=" + genre+"&with_original_language=hi";
-            Log.d(TAG, genre + " " + url2);
-
             URL url = new URL(url2);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
@@ -98,17 +90,8 @@ public class GenreSearch extends AsyncTask {
                     JSONObject subparent = (JSONObject) parent.get(i);
                     try {
 
-//              ------------ ITS A MOVIE------------------------------
-
                         ge.add(new Movie(subparent.getString("title"), subparent.getString("poster_path"), subparent.getJSONArray("genre_ids"), subparent.getString("id")));
 
-
-                        //------------ ITS A Tv series------------------------------
-//                        if (subparent.getString("media_type").equals("tv")) {
-//                            he.add(new Movie(subparent.getString("media_type"), subparent.getString("original_language"), subparent.getString("name"),
-//                                    subparent.getString("vote_average"), subparent.getString("overview"), subparent.getString("first_air_date"), subparent.getString("poster_path")));
-//
-//                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -63,23 +63,8 @@ public class GenreSelection extends AppCompatActivity {
         contactList.add("Thriller");
         contactList.add("War");
         contactList.add("Western");
-        try {
-            String s = getIntent().getSerializableExtra("from").toString();
-            if (s.equals("Dashboard")) {
-                btn.setText("Update");
-                skipLayout.setVisibility(View.GONE);
 
-            }
-        } catch (NullPointerException e) {
-            System.out.println("");
-        }
 
-        skipLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                skip();
-            }
-        });
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,10 +75,6 @@ public class GenreSelection extends AppCompatActivity {
         });
     }
 
-    public void skip() {
-        Intent i = new Intent(GenreSelection.this, DashBoard.class);
-        startActivity(i);
-    }
 
     Map<String, Object> liste(@NotNull List<Integer> ids) {
         List<String> genreL = new ArrayList<>();
@@ -117,12 +98,13 @@ public class GenreSelection extends AppCompatActivity {
         }
         Intent i = new Intent(GenreSelection.this, DashBoard.class);
         startActivity(i);
+
         Toast.makeText(GenreSelection.this, "Genres updated", Toast.LENGTH_LONG);
     }
 
     public void onBackPressed() {
 
         super.onBackPressed();
-        //startActivity(new Intent(getApplicationContext(), DashBoard.class));
+        startActivity(new Intent(getApplicationContext(), DashBoard.class));
     }
 }

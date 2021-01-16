@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +24,7 @@ public class MovieInfo extends AppCompatActivity {
     static Context mContext;
     static ViewGroup progressView;
     static MovieInfo x;
+    String objtype;
     static JSONObject movieInfo;
     View v;
     ViewGroup viewGroup;
@@ -78,10 +78,12 @@ public class MovieInfo extends AppCompatActivity {
         initializeFields();
         mContext = getApplicationContext();
 
+         objtype = getIntent().getSerializableExtra("Type").toString();
 
         s = getIntent().getSerializableExtra("MovieID").toString();
 //        id.setText("ID IS \n"+s);
-        new parsing(getApplicationContext(), s, 1).execute();
+        System.out.println("!!!!########### "+objtype+" "+s);
+        new parsing(getApplicationContext(), s, 1,objtype).execute();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

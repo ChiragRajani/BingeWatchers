@@ -414,9 +414,17 @@ public class DashBoard extends AppCompatActivity {
                         sugg = (ArrayList<HashMap<String, Object>>) document.get("Suggestion");
 
                         Map kv1 = new HashImages("s").getHash2();
-                        for (String i : genres) {
 
-                            new GenreSearch(kv1.get(i).toString(), getApplicationContext()).execute();
+                        if (genres == null) {
+                            String url = "https://api.themoviedb.org/3/trending/movie/week?api_key=1c9e495395d2ed861f2ace128f6af0e2";
+                            new GenreSearch(getApplicationContext(), url).execute();
+                        } else {
+                            for (String i : genres) {
+                                String url = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres="
+                                        + kv1.get(i).toString() + "&with_original_language=hi";
+                                new GenreSearch(getApplicationContext(), url).execute();
+
+                            }
                         }
                         pullToRefresh.setRefreshing(false);
                        // pullToRefresh.setRefreshing(false);

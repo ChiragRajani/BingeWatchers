@@ -60,6 +60,8 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
 
                 Log.d(TAG, "onClick: clicked on an image: " + he.get(position).getId());
                 Intent i = new Intent(mContext, MovieInfo.class);
+
+                i.putExtra("Type", he.get(position).getType());
                 i.putExtra("MovieID", he.get(position).getId());
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(i);
