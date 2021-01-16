@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -100,7 +99,7 @@ public class DashBoard extends AppCompatActivity {
     TextView mvName, suggestedBy, suggestedOn, rating;
     ImageView mvPoster;
     Button hide, showAnother;
-    LinearLayout suggestionLayout ;
+    LinearLayout suggestionLayout;
     RecyclerViewAdapter adapter1;
     private BottomSheetBehavior sheetBehavior;
     private ConstraintLayout bottom_sheet;
@@ -173,7 +172,7 @@ public class DashBoard extends AppCompatActivity {
         viewCard = (ViewGroup) v;
         bottom_sheet = findViewById(R.id.watched_movie);
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
-        suggestionLayout=findViewById(R.id.suggentionLayout) ;
+        suggestionLayout = findViewById(R.id.suggentionLayout);
         showProgressingView();
         list = findViewById(R.id.listview);
         goToGroup = findViewById(R.id.goToGroup);
@@ -323,7 +322,7 @@ public class DashBoard extends AppCompatActivity {
                             String mvieName = y.getMovieName();
 
                             String desc = mvieName + "(" + y.getMovieDate().substring(0, 4) + ")\n\n"
-                                    + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview1.getText().toString()+"\n";
+                                    + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview1.getText().toString() + "\n";
 
                             Message obj = new Message(name, desc, Calendar.getInstance().getTime().toString(),
                                     mAuth.getCurrentUser().getEmail(), y.getPoster(),
@@ -384,6 +383,7 @@ public class DashBoard extends AppCompatActivity {
         shimmerRecycler.setLayoutManager(layoutManager);
         adapter1 = new RecyclerViewAdapter(this, mNames1, mImageUrls1, name);
         shimmerRecycler.setAdapter(adapter1);
+//        hideProgressingView();
 
 
     } //For group displays
@@ -401,7 +401,6 @@ public class DashBoard extends AppCompatActivity {
         DocumentReference docRef = db.collection("Users").document(email);
 
         final Map<String, Object>[] messages = new Map[]{null};
-
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -415,7 +414,6 @@ public class DashBoard extends AppCompatActivity {
                         sugg = (ArrayList<HashMap<String, Object>>) document.get("Suggestion");
 
                         Map kv1 = new HashImages("s").getHash2();
-
                         for (String i : genres) {
 
                             new GenreSearch(kv1.get(i).toString(), getApplicationContext()).execute();
@@ -446,6 +444,7 @@ public class DashBoard extends AppCompatActivity {
                                 String o = i.substring(0, 1).toLowerCase();
                                 mImageUrls.add(kv.get(o).toString());
                             }
+
                             initRecyclerView1(mNames, mImageUrls, name);
 
                         }
