@@ -5,17 +5,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -77,10 +79,10 @@ public class DashBoard extends AppCompatActivity {
     FirebaseFirestore db;
     ViewGroup progressView, CardView;
     View v;
-    ViewGroup viewGroup;
+    ViewGroup viewGroup, viewCard;
     ImageView mProgressBar;
     AnimationDrawable animationDrawable;
-   SwitchMaterial inform;
+    SwitchMaterial inform;
     FirebaseFirestore rootRef;
     ListView list;
     java.util.ArrayList<Movie> he = new java.util.ArrayList<>();
@@ -93,23 +95,31 @@ public class DashBoard extends AppCompatActivity {
     CircleImageView dp_view;
     View headerView;
     DatabaseReference myRef;
-    int i1 = 0, x = 0;
-    int u = 0;
-    int count = 0;
+    int i1 = 0, x = 0, u = 0;
+
     TextView mvName, suggestedBy, suggestedOn, rating;
     ImageView mvPoster;
     Button hide, showAnother;
+    LinearLayout suggestionLayout ;
     RecyclerViewAdapter adapter1;
     private BottomSheetBehavior sheetBehavior;
     private ConstraintLayout bottom_sheet;
     // ----------------------------------------------------
     private SensorManager mSensorManager;
+    Vibrator vib;
     //----------------------------------------------------
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
-    private Vibrator myVib;
+
     //------------------------------------------------
+    private ArrayList<String> mImageUrls = new ArrayList<>();
+    private ArrayList<String> mNames = new ArrayList<>();
+    private DrawerLayout dl;
+    private ActionBarDrawerToggle t;
+    private NavigationView nv;
+
+
     private final SensorEventListener mSensorListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
@@ -120,8 +130,16 @@ public class DashBoard extends AppCompatActivity {
             mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
             float delta = mAccelCurrent - mAccelLast;
             mAccel = mAccel * 0.9f + delta;
-            if (mAccel > 17) {
 
+            if (mAccel > 20) {
+
+                // Vibrate for 500 milliseconds
+//                vib.vibrate(200);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vib.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.EFFECT_HEAVY_CLICK));
+                } else {
+                    vib.vibrate(200);
+                }
                 showSuggestionCard();
             }
         }
@@ -130,11 +148,6 @@ public class DashBoard extends AppCompatActivity {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
     };
-    private ArrayList<String> mImageUrls = new ArrayList<>();
-    private ArrayList<String> mNames = new ArrayList<>();
-    private DrawerLayout dl;
-    private ActionBarDrawerToggle t;
-    private NavigationView nv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +156,7 @@ public class DashBoard extends AppCompatActivity {
         setContentView(R.layout.navigation_drawer);
         setTitle("DashBoard");
 
+        vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
         suggest = findViewById(R.id.button);
         rootRef = FirebaseFirestore.getInstance();
@@ -156,9 +170,10 @@ public class DashBoard extends AppCompatActivity {
         rc = findViewById(R.id.textView3);
         v = this.findViewById(android.R.id.content).getRootView();
         viewGroup = (ViewGroup) v;
+        viewCard = (ViewGroup) v;
         bottom_sheet = findViewById(R.id.watched_movie);
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
-
+        suggestionLayout=findViewById(R.id.suggentionLayout) ;
         showProgressingView();
         list = findViewById(R.id.listview);
         goToGroup = findViewById(R.id.goToGroup);
@@ -208,7 +223,6 @@ public class DashBoard extends AppCompatActivity {
         getGroups();
 
         viewUsername.setText(mAuth.getCurrentUser().getEmail());
-
 
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -309,7 +323,7 @@ public class DashBoard extends AppCompatActivity {
                             String mvieName = y.getMovieName();
 
                             String desc = mvieName + "(" + y.getMovieDate().substring(0, 4) + ")\n\n"
-                                    + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview1.getText().toString();
+                                    + y.getDescription() + "\n\n" + name + "'s Review:" + movieReview1.getText().toString()+"\n";
 
                             Message obj = new Message(name, desc, Calendar.getInstance().getTime().toString(),
                                     mAuth.getCurrentUser().getEmail(), y.getPoster(),
@@ -364,8 +378,7 @@ public class DashBoard extends AppCompatActivity {
         });
     }
 
-    private void initRecyclerView1
-            (ArrayList<String> mNames1, ArrayList<String> mImageUrls1, String name) {
+    private void initRecyclerView1(ArrayList<String> mNames1, ArrayList<String> mImageUrls1, String name) {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         shimmerRecycler.setLayoutManager(layoutManager);
@@ -394,61 +407,53 @@ public class DashBoard extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     //if read successful
+                    try {
+                        DocumentSnapshot document = task.getResult();
+                        mNames = (ArrayList<String>) document.get("Groups");
+                        genres = (ArrayList<String>) document.get("Genres");
+                        sugg = (ArrayList<HashMap<String, Object>>) document.get("Suggestion");
 
-                    DocumentSnapshot document = task.getResult();
-                    mNames = (ArrayList<String>) document.get("Groups");
-                    genres = (ArrayList<String>) document.get("Genres");
-                    sugg = (ArrayList<HashMap<String, Object>>) document.get("Suggestion");
-             //       Collections.shuffle(sugg);
-                    Map kv1 = new HashImages("s").getHash2();
-
-                    if(genres!=null){
-                        rc.setText("Hand picked recommendations for ya");
+                        Map kv1 = new HashImages("s").getHash2();
                         for (String i : genres) {
-                            try {
-                                new GenreSearch(kv1.get(i).toString(), getApplicationContext(),0).execute();
-                            } catch (NullPointerException e) {
+
+                            new GenreSearch(kv1.get(i).toString(), getApplicationContext()).execute();
+
                         }
-                    }
-                    }
-                    else {
-                        rc.setText("No Generes selected, Please update favorite genres");
-                    }
-                    pullToRefresh.setRefreshing(false);
-                    name = document.get("Name").toString();
 
 
-                    viewEmail.setText(name);
-                    if(mNames==null || mNames.size()==0){
-                        user.setText("Welcome " + name +  "Whoops, Looks like you're alone :(" );
-                    }
-                    else
+                        pullToRefresh.setRefreshing(false);
+                        name = document.get("Name").toString();
+
+
+                        viewEmail.setText(name);
                         user.setText("Welcome " + name + "! Your groups here,");
-
-
-
-//                    https://picsum.photos/
-                    if (!DashBoard.this.isFinishing()) {
+                        rc.setText("Hand picked recommendations for ya");
+                        suggestionLayout.setBackgroundResource(R.drawable.dashboard_card);
                         Glide.with(DashBoard.this).asDrawable()
                                 .load("https://ui-avatars.com/api/background=random?name=" + name)
                                 .into(dp_view);
-                    }
 
 
+                        messages[0] = document.getData();
+                        Map kv = new HashImages().getHash1();
 
-                    messages[0] = document.getData();
-                    Map kv = new HashImages().getHash1();
-                    if (mNames != null) {
-                        for (String i : mNames) {
-                            String o = i.substring(0, 1);
-                            mImageUrls.add(kv.get(o).toString());
+
+                        if (mNames != null) {
+                            for (String i : mNames) {
+                                String o = i.substring(0, 1).toLowerCase();
+                                mImageUrls.add(kv.get(o).toString());
+                            }
+                            initRecyclerView1(mNames, mImageUrls, name);
+
                         }
 
 
+                    } catch (NullPointerException e) {
+//                        System.out.println("|||||||||||||||||||||||"+kv.get(o).toString());
+                        e.printStackTrace();
                     }
-                    initRecyclerView1(mNames, mImageUrls, name);
-
                 }
+
             }
 
         });
@@ -515,43 +520,35 @@ public class DashBoard extends AppCompatActivity {
 
     public void showSuggestionCard() {
 
-
         if (!isCardShowing) {
+
+
+            CardView = (ViewGroup) getLayoutInflater().inflate(R.layout.random_suggest, null);
+            viewGroup.addView(CardView);
+            mvName = CardView.findViewById(R.id.mvName);
+            suggestedBy = CardView.findViewById(R.id.sugstBy);
+            rating = CardView.findViewById(R.id.rating);
+            suggestedOn = CardView.findViewById(R.id.suggestedOn);
+            mvPoster = CardView.findViewById(R.id.mvPoster);
+            hide = CardView.findViewById(R.id.hide);
+            showAnother = CardView.findViewById(R.id.show1);
+            isCardShowing = true;
+
             try {
-                isCardShowing = true;
-                CardView = (ViewGroup) getLayoutInflater().inflate(R.layout.random_suggest, null);
+                Collections.shuffle(sugg);
+                HashMap<String, Object> i = (HashMap<String, Object>) sugg.get(u);
+                HashMap<String, String> i1 = (HashMap<String, String>) i.get("y");
 
-                viewGroup.addView(CardView);
-                Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-// Vibrate for 500 milliseconds
-                v.vibrate(300);
-                //CardView.performHapticFeedback(1000);
-                mvName = CardView.findViewById(R.id.mvName);
-                suggestedBy = CardView.findViewById(R.id.sugstBy);
-                rating = CardView.findViewById(R.id.rating);
-            suggestedOn=CardView.findViewById(R.id.suggestedOn) ;
+                Glide.with(getApplicationContext()).asDrawable()
+                        .load(i1.get("poster"))
+                        .into(mvPoster);
+                rating.setText("IMDB rating " + i1.get("rating"));
+                mvName.setText(i1.get("movieName"));
+                suggestedBy.setText(i.get("sender").toString() + " (" + i.get("grpname") + ")");
+                suggestedOn.setText("On " + i.get("date").toString().substring(0, 10));
 
-                mvPoster = CardView.findViewById(R.id.mvPoster);
-                hide = CardView.findViewById(R.id.hide);
-                showAnother = CardView.findViewById(R.id.show1);
-                try {
-                    HashMap<String, Object> i = (HashMap<String, Object>) sugg.get(u);
-                    HashMap<String, String> i1 = (HashMap<String, String>) i.get("y");
-
-                        Glide.with(getApplicationContext()).asDrawable()
-                            .load(i1.get("poster"))
-                            .into(mvPoster);
-                    rating.setText("IMDB rating "+i1.get("rating"));
-                    mvName.setText(i1.get("movieName"));
-                    suggestedBy.setText(i.get("sender").toString()+" ("+i.get("grpname")+")");
-                    suggestedOn.setText("On "+i.get("date").toString().substring(0,10));
-
-                    u++;
-                    u = u % sugg.size();
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                    System.out.println("333333333333333333333333333 " + e.getMessage() + "size is   " + sugg.size() + "   u is    " + u);
-                }
+                u++;
+                u = u % sugg.size();
                 showAnother.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -561,16 +558,19 @@ public class DashBoard extends AppCompatActivity {
                             HashMap<String, String> i12 = (HashMap<String, String>) i2.get("y");
                             System.out.println(i12.get("movieName"));
                             System.out.println("------------------------" + sugg.size() + " " + u);
+                            Toast.makeText(getApplicationContext(),"Showing"+u+"/"+i2.size(),Toast.LENGTH_SHORT);
                             u++;
                             u = u % sugg.size();
                             Glide.with(getApplicationContext()).asDrawable()
                                     .load(i12.get("poster"))
                                     .into(mvPoster);
-                            rating.setText("IMDB rating "+i12.get("rating"));
+                            rating.setText("IMDB rating " + i12.get("rating"));
                             mvName.setText(i12.get("movieName"));
-                            suggestedBy.setText(i2.get("sender").toString()+" ("+i2.get("grpname")+")");
-                            suggestedOn.setText("On "+i2.get("date").toString().substring(0,10));
-                        } catch (NullPointerException |ClassCastException e) {
+                            suggestedBy.setText(i2.get("sender").toString() + " (" + i2.get("grpname") + ")");
+                            suggestedOn.setText("On " + i2.get("date").toString().substring(0, 10));
+
+
+                        } catch (NullPointerException | ClassCastException e) {
                             e.printStackTrace();
                             System.out.println("333333333333333333333333333 " + e.getMessage() + "size is   " + sugg.size() + "   u is    " + u);
                         }
@@ -578,12 +578,17 @@ public class DashBoard extends AppCompatActivity {
                 });
 
             } catch (Exception e) {
-                System.out.println("*********************************");
-                Toast.makeText(CardView.getContext(), "No movies to show", Toast.LENGTH_SHORT);
-                mvName.setText("No movie to suggest");
-                //mvName.setText("");
+
+                mvName.setText("Your friends suggested no movies.");
+                rating.setText("Do you even have friends?");
+                suggestedOn.setText("");
                 suggestedBy.setText("");
-          //  hideSuggestionCard();
+                showAnother.setEnabled(false);
+
+                Glide.with(getApplicationContext()).asDrawable()
+                        .load("https://images.pond5.com/sad-lonely-man-party-hat-footage-087122933_iconl.jpeg")
+                        .into(mvPoster);
+
             }
 
             hide.setOnClickListener(new View.OnClickListener() {
@@ -611,6 +616,7 @@ public class DashBoard extends AppCompatActivity {
         ViewGroup viewGroup = (ViewGroup) v;
         viewGroup.removeView(progressView);
         isProgressShowing = false;
+        mProgressBar.setVisibility(View.GONE);
         animationDrawable.stop();
     }
 

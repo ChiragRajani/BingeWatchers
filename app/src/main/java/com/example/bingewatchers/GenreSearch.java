@@ -29,9 +29,9 @@ public class GenreSearch extends AsyncTask {
     int req ;
     private Context mContext;
 
-    GenreSearch(String genre, Context mContext, int req) {
+    GenreSearch(String genre, Context mContext) {
         this.genre = genre;
-        this.req=req ;
+//        this.req=req ;
         this.mContext = mContext;
     }
 

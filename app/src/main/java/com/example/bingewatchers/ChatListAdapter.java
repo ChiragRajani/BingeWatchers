@@ -135,11 +135,11 @@ public class ChatListAdapter extends BaseAdapter {
 
             if (Chats.get(position).getTime().substring(3, 10).equals(he.getTime().toString().substring(3, 10))) {
 
-                holder.time.setText("Yesterday\n" + Chats.get(position).getTime().substring(10, 16));
+                holder.time.setText("Yesterday, " + Chats.get(position).getTime().substring(10, 16));
             } else if (Chats.get(position).getTime().substring(3, 10).equals(Calendar.getInstance().getTime().toString().substring(3, 10))) {
-                holder.time.setText("Today\n" + Chats.get(position).getTime().substring(10, 16));
+                holder.time.setText("Today, " + Chats.get(position).getTime().substring(10, 16));
             } else {
-                holder.time.setText(Chats.get(position).getTime().substring(3, 10) + Chats.get(position).getTime().substring(10, 16));
+                holder.time.setText(Chats.get(position).getTime().substring(3, 10) +", "+ Chats.get(position).getTime().substring(10, 16));
             }
             holder.message.setShowingLine(6);
 

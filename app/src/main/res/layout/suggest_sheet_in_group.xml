@@ -9,7 +9,7 @@
     android:padding="16dp"
     app:behavior_hideable="false"
     app:behavior_peekHeight="0dp"
-    android:background="#ffffff"
+    android:background="@drawable/dashboard_card"
     android:theme="@style/BottomSheetItem"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
