@@ -438,10 +438,16 @@ public class DashBoard extends AppCompatActivity {
                         rc.setText("Hand picked recommendations for ya");
                         //suggestionLayout.setBackgroundResource(R.drawable.dashboard_card);
 //
-                        Glide.with(DashBoard.this).asDrawable()
-                                .load("https://ui-avatars.com/api/background=random?name=" + name)
-                                .into(dp_view);
-
+                       if(mAuth.getCurrentUser().getPhotoUrl() ==null) {
+                           Glide.with(DashBoard.this).asDrawable()
+                                   .load("https://ui-avatars.com/api/background=random?name=" + name)
+                                   .into(dp_view);
+                       }
+                       else{
+                           Glide.with(DashBoard.this).asDrawable()
+                                   .load(mAuth.getCurrentUser().getPhotoUrl().toString())
+                                   .into(dp_view);
+                       }
 
                         messages[0] = document.getData();
                         Map kv = new HashImages().getHash1();

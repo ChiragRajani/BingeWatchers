@@ -38,7 +38,7 @@ public class GenreSearch extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-       // Collections.shuffle(ge);
+        Collections.shuffle(ge);
         int orientation = mContext.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             // code for portrait mode

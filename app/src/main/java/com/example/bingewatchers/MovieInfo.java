@@ -49,20 +49,20 @@ public class MovieInfo extends AppCompatActivity {
             id.setText(kl.getString("Title"));
 
 //            type.setText(kl.getString("Type"));
-            releasedDate.setText("Released on\n"+kl.getString("Released"));
-            director.setText("Director\n"+kl.getString("Director"));
-            writer.setText("Writer\n"+kl.getString("Writer"));
+            releasedDate.setText(kl.getString("Released"));
+            director.setText(kl.getString("Director"));
+            writer.setText(kl.getString("Writer"));
             if(kl.getString("Runtime").equals("N/A"))
                 runtime.setText("Not Available");
             else
-                runtime.setText("Length\n"+Integer.parseInt(kl.getString("Runtime").substring(0,3).trim())/60+"h "+Integer.parseInt(kl.getString("Runtime").substring(0,3).trim())%60+"min ");
-            genre.setText("Genere\n"+kl.getString("Genre"));
-            language.setText("Languages\n"+kl.getString("Language"));
-            boxOffice.setText("Box Office\n"+kl.getString("BoxOffice"));
-            actors.setText("Actors \n"+kl.getString("Actors"));
-            plot.setText("Plot\n"+kl.getString("Plot"));
-            imdb_rating.setText(kl.getString("imdbRating")+"/10\nIMDb Rating");
-            productions.setText("Productions\n"+kl.getString("Production"));
+                runtime.setText(Integer.parseInt(kl.getString("Runtime").substring(0,3).trim())/60+"h "+Integer.parseInt(kl.getString("Runtime").substring(0,3).trim())%60+"min ");
+            genre.setText(kl.getString("Genre"));
+            language.setText(kl.getString("Language"));
+            boxOffice.setText(kl.getString("BoxOffice"));
+            actors.setText(kl.getString("Actors"));
+            plot.setText(kl.getString("Plot"));
+            imdb_rating.setText(kl.getString("imdbRating")+" /10");
+            productions.setText(kl.getString("Production"));
             Glide.with(mContext).asDrawable()
                     .load(kl.getString("Poster"))
                     .into(poster);
