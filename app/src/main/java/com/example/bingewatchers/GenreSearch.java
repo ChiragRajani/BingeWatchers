@@ -90,7 +90,7 @@ public class GenreSearch extends AsyncTask {
                     JSONObject subparent = (JSONObject) parent.get(i);
                     try {
 
-                        ge.add(new Movie(subparent.getString("title"), subparent.getString("poster_path"), subparent.getJSONArray("genre_ids"), subparent.getString("id")));
+                        ge.add(new Movie(subparent.getString("title"), subparent.getString("poster_path"), subparent.getJSONArray("genre_ids"), subparent.getString("id"),subparent.getString("backdrop_path")));
 
 
                     } catch (JSONException e) {

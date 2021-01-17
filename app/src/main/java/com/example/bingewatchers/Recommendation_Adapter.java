@@ -54,7 +54,7 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
 
         holder.name.setText(he.get(position).getMovieName());
         holder.genres.setText(he.get(position).getGenres());
-        holder.image.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -63,6 +63,7 @@ public class Recommendation_Adapter extends RecyclerView.Adapter<Recommendation_
 
                 i.putExtra("Type", he.get(position).getType());
                 i.putExtra("MovieID", he.get(position).getId());
+                i.putExtra("BackdropURL",he.get(position).getBackdrop()) ;
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(i);
                 System.out.println(position + " !!!!!!!!!!! " + he.get(position).getMovieName());

@@ -185,11 +185,11 @@ public class parsing extends AsyncTask {
             list.setAdapter(adapter);
             he = new ArrayList<>();
             adapter = null;
-        } //KYA KARU?
+        }
         if (req == 1) {
             System.out.println("!!!!!!!!!!!!!  KL " + kl);
-            MovieInfo.setFields(kl);
-//   MovieInfo.setJSONOBJECT(kl);
+           MovieInfo.setFields(kl);
+//  MovieInfo.setJSONOBJECT(kl);
         }
 
     }

@@ -14,6 +14,7 @@ class Movie {
     String date;
     String id;
     String poster;
+    String backdrop ;
     JSONArray Genres;
 
     public Movie(String type, String language, String title, String rating, String description, String date, String poster, JSONArray Genres) {
@@ -28,12 +29,13 @@ class Movie {
 
     }
 
-    public Movie(String title, String poster, JSONArray Genres, String id) {
+    public Movie(String title, String poster, JSONArray Genres, String id,String backdrop_poster) {
         this.type = "movie";
         this.poster = poster;
         this.id = id;
         this.title = title;
         this.Genres = Genres;
+        this.backdrop=backdrop_poster ;
     }
 
     public Movie(String title, String poster, String id) {
@@ -95,6 +97,18 @@ class Movie {
         } else {
 
             return "https://image.tmdb.org/t/p/w500" + poster;
+        }
+
+
+    }
+    public String getBackdrop() {
+
+        if (backdrop.equals("null") || backdrop == null) {
+
+            return "https://www.colorhexa.com/6200ee.png";
+        } else {
+
+            return "https://image.tmdb.org/t/p/w500" + backdrop;
         }
 
 

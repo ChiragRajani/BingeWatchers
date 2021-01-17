@@ -1,5 +1,6 @@
 package com.example.bingewatchers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -10,17 +11,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MovieInfo extends AppCompatActivity {
     static protected boolean isProgressShowing = false;
-    static TextView id, type, director, writer, actors, genre, title, releasedDate,
-            runtime, imdb_rating, language, boxOffice, plot, productions;
+    static TextView id, type, director, writer, actors,  title, releasedDate,
+            runtime, imdb_rating, language, boxOffice, plot, productions,genre;
     static ImageView poster;
+    ImageView backdropArea ;
     static Context mContext;
     static ViewGroup progressView;
     static MovieInfo x;
@@ -43,21 +48,33 @@ public class MovieInfo extends AppCompatActivity {
         try {
             id.setText(kl.getString("Title"));
 
-            type.setText(kl.getString("Type"));
-            releasedDate.setText(kl.getString("Released"));
-            director.setText(kl.getString("Director"));
-            writer.setText(kl.getString("Writer"));
-            runtime.setText(kl.getString("Runtime"));
-            genre.setText(kl.getString("Genre"));
-            language.setText(kl.getString("Language"));
-            boxOffice.setText(kl.getString("BoxOffice"));
-            actors.setText(kl.getString("Actors"));
-            plot.setText(kl.getString("Plot"));
-            productions.setText(kl.getString("Production"));
+//            type.setText(kl.getString("Type"));
+            releasedDate.setText("Released on\n"+kl.getString("Released"));
+            director.setText("Director\n"+kl.getString("Director"));
+            writer.setText("Writer\n"+kl.getString("Writer"));
+            if(kl.getString("Runtime").equals("N/A"))
+                runtime.setText("Not Available");
+            else
+                runtime.setText("Length\n"+Integer.parseInt(kl.getString("Runtime").substring(0,3).trim())/60+"h "+Integer.parseInt(kl.getString("Runtime").substring(0,3).trim())%60+"min ");
+            genre.setText("Genere\n"+kl.getString("Genre"));
+            language.setText("Languages\n"+kl.getString("Language"));
+            boxOffice.setText("Box Office\n"+kl.getString("BoxOffice"));
+            actors.setText("Actors \n"+kl.getString("Actors"));
+            plot.setText("Plot\n"+kl.getString("Plot"));
+            imdb_rating.setText(kl.getString("imdbRating")+"/10\nIMDb Rating");
+            productions.setText("Productions\n"+kl.getString("Production"));
             Glide.with(mContext).asDrawable()
                     .load(kl.getString("Poster"))
                     .into(poster);
-        } catch (JSONException | NullPointerException e) {
+
+
+//            String[] generes = .split(",");
+//            for (String i:generes){
+//                Chip chip= new Chip(mContext) ;
+//                chip.setText(i);
+//                genre.addView(chip);
+//            }
+        } catch (JSONException | NullPointerException |IndexOutOfBoundsException|NumberFormatException e) {
             e.printStackTrace();
             System.out.println("44444444444 Error in setting field is " + e.getMessage());
         }
@@ -75,7 +92,7 @@ public class MovieInfo extends AppCompatActivity {
         showProgressingView();
         x = this;
 
-        initializeFields();
+      initializeFields();
         mContext = getApplicationContext();
 
          objtype = getIntent().getSerializableExtra("Type").toString();
@@ -87,20 +104,21 @@ public class MovieInfo extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                hideProgressingView();
+         hideProgressingView();
                 setFields(movieInfo);
             }
         }, 1500);
+        Glide.with(getApplicationContext()).asDrawable()
+                .load(getIntent().getSerializableExtra("BackdropURL").toString()).into(backdropArea) ;
 
     }
-
+//
     public void initializeFields() {
 
         id = findViewById(R.id.movieTitle);
-        type = findViewById(R.id.type);
         releasedDate = findViewById(R.id.releasedDate);
         director = findViewById(R.id.directors);
-        writer = findViewById(R.id.textView8);
+        writer = findViewById(R.id.writer);
         runtime = findViewById(R.id.runtime);
         genre = findViewById(R.id.genre);
         language = findViewById(R.id.languages);
@@ -109,9 +127,11 @@ public class MovieInfo extends AppCompatActivity {
         plot = findViewById(R.id.plot);
         productions = findViewById(R.id.productions);
         poster = findViewById(R.id.poster);
+        backdropArea=findViewById(R.id.backdropArea) ;
+        imdb_rating=findViewById(R.id.imdb_rating) ;
     }
 
-    public void showProgressingView() {
+   public void showProgressingView() {
         if (!isProgressShowing) {
             isProgressShowing = true;
             progressView = (ViewGroup) getLayoutInflater().inflate(R.layout.progressbar_layout, null);

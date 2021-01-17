@@ -15,7 +15,7 @@
         android:theme="@style/Theme.BingeWatchers" >
         <activity android:name=".Activity_profile" >
         </activity>
-        <activity android:name=".MovieInfo" />
+        <activity android:name=".MovieInfo"/>
         <activity android:name=".GroupInfo" />
         <activity android:name=".ChatWindow" />
         <activity android:name=".SplashScreen" >
