@@ -7,16 +7,17 @@
     tools:context=".SplashScreen">
 
 
-    <TextView
+    <ImageView
         android:id="@+id/textView"
-        android:layout_width="290dp"
-        android:layout_height="156dp"
-        android:text="Splash Screen!!"
-        android:textSize="36sp"
+        android:layout_width="359dp"
+        android:layout_height="174dp"
         android:shadowColor="#000000"
         android:shadowDx="1.5"
         android:shadowDy="1.3"
         android:shadowRadius="1.6"
+        android:src="@drawable/splashlogo"
+        android:text="Splash Screen!!"
+        android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
