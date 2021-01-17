@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +44,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
     private TextView reg, google;
     private FirebaseAuth mAuth;
-
+    ViewGroup progressView, viewGroup;
+    View v;
+    ProgressBar mProgressBar;
+    boolean isProgressShowing = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
         reg = findViewById(R.id.reg);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
+        v = this.findViewById(android.R.id.content).getRootView();
+        viewGroup = (ViewGroup) v;
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
                 String email1 = email.getText().toString();
                 String pwd1 = pwd.getText().toString();
-
+                showProgressingView();
                 signIn(email1, pwd1);
 
 
@@ -91,8 +97,10 @@ public class MainActivity extends AppCompatActivity {
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showProgressingView();
 //                Intent i = new Intent(MainActivity.this, GenreSelection.class);
                 Intent i = new Intent(MainActivity.this, SignUp.class);
+
                 startActivity(i);
             }
         });
@@ -174,10 +182,12 @@ public class MainActivity extends AppCompatActivity {
                             updateUserinDB(userM, user.getEmail());
 
                             Intent i = new Intent(MainActivity.this, DashBoard.class);
+                            hideProgressingView();
                             startActivity(i);
 
                         } else {
                             // If sign in fails, display a message to the user.
+                            hideProgressingView();
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
 
 //                            updateUI(null);
@@ -203,17 +213,34 @@ public class MainActivity extends AppCompatActivity {
 
                             if (mAuth.getCurrentUser() != null) {
                                 Intent i = new Intent(MainActivity.this, DashBoard.class);
+                                hideProgressingView();
                                 startActivity(i);
                             }
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            hideProgressingView();
                             Toast.makeText(MainActivity.this, "Authentication failed." + task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
 
                         }
                     }
                 });
+    }
+    public void showProgressingView() {
+        if (!isProgressShowing) {
+            isProgressShowing = true;
+            progressView = (ViewGroup) getLayoutInflater().inflate(R.layout.circle_progressbar, null);
+            viewGroup.addView(progressView);
+            mProgressBar = progressView.findViewById(R.id.progressBar1);
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void hideProgressingView() {
+        View v = this.findViewById(android.R.id.content).getRootView();
+        viewGroup.removeView(progressView);
+        isProgressShowing = false;
     }
 
     public void onBackPressed() {

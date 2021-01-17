@@ -83,7 +83,7 @@
         android:layout_below="@+id/recyclerView"
         android:layout_alignParentBottom="true"
         android:padding="6dp"
-        android:textColor="@color/black"
+        style="@style/MovieInfo"
         android:layout_marginStart="5dp"
         android:textSize="21.5dp"
         android:textStyle="bold" />
@@ -91,9 +91,7 @@
                 android:id="@+id/recc_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="6dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="2dp"
                 android:fitsSystemWindows="true"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal" />

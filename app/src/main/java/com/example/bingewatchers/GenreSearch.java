@@ -47,8 +47,9 @@ public class GenreSearch extends AsyncTask {
             // code for landscape mode
             DashBoard.groupRecycler.setLayoutManager(new GridLayoutManager(mContext, 5));
         }
-
-
+        int newSize= (int) (0.7*ge.size());
+        if(ge.size()>newSize)
+          ge.subList(0,newSize);
         DashBoard.groupRecycler.setAdapter(DashBoard.adapter12);
 
     }

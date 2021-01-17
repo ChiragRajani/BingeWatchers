@@ -54,6 +54,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -211,8 +212,10 @@ public class DashBoard extends AppCompatActivity {
             public void onRefresh() {
                 mNames = new ArrayList<>();
                 mImageUrls = new ArrayList<>();
-                getGroups();
+
                 System.out.println("Refresh");
+                
+                getGroups();
                 // your code
             }
         };
@@ -343,7 +346,7 @@ public class DashBoard extends AppCompatActivity {
                                         DocumentSnapshot document = task.getResult();
                                         List<String> members = (List<String>) document.get("Members");
 
-                                        for (String i : members) {
+                                    for (String i : members) {
                                             if (!i.equals(mAuth.getCurrentUser().getEmail()))
                                                 db.collection("Users").document(i).update("Suggestion", FieldValue.arrayUnion(new Suggestion(y, mAuth.getCurrentUser().getEmail(), Calendar.getInstance().getTime().toString(), i1)));
 
@@ -353,7 +356,7 @@ public class DashBoard extends AppCompatActivity {
                                 });
                             }
 
-                        } catch (IndexOutOfBoundsException | NullPointerException e) {
+                        } catch (IndexOutOfBoundsException | NullPointerException  e) {
                             Toast.makeText(DashBoard.this, "Movie Name Cannot Be Empty!!", Toast.LENGTH_SHORT).show();
 
                         }
@@ -510,7 +513,12 @@ public class DashBoard extends AppCompatActivity {
             super.onBackPressed();
             finishAffinity();
         }
-
+        if(isCardShowing==true)
+            hideSuggestionCard();
+        if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//                show.setText("Close sheet");
+        }
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 

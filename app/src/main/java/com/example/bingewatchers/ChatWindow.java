@@ -88,7 +88,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         //t = new ActionBarDrawerToggle(this, dl, R.string.drawer_open, R.string.drawer_close);
 
 
-        btnSug = findViewById(R.id.buttonSug);
+        btnSug = findViewById(R.id.button);
         movieReview = findViewById(R.id.movieReview);
         movieName = findViewById(R.id.movieName);
 
