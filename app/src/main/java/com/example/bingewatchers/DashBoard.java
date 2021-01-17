@@ -28,7 +28,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -427,7 +426,7 @@ public class DashBoard extends AppCompatActivity {
                             }
                         }
                         pullToRefresh.setRefreshing(false);
-                       // pullToRefresh.setRefreshing(false);
+                        // pullToRefresh.setRefreshing(false);
 
 
                         name = document.get("Name").toString();
@@ -577,7 +576,7 @@ public class DashBoard extends AppCompatActivity {
                             HashMap<String, String> i12 = (HashMap<String, String>) i2.get("y");
                             System.out.println(i12.get("movieName"));
                             System.out.println("------------------------" + sugg.size() + " " + u);
-                            Toast.makeText(getApplicationContext(),"Showing"+u+"/"+i2.size(),Toast.LENGTH_SHORT);
+                            Toast.makeText(getApplicationContext(), "Showing" + u + "/" + i2.size(), Toast.LENGTH_SHORT);
                             u++;
                             u = u % sugg.size();
                             Glide.with(getApplicationContext()).asDrawable()

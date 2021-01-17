@@ -18,7 +18,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private Button btn;
     GoogleSignInClient mGoogleSignInClient;
-    GoogleApiClient googleApiClient;
     GoogleSignInOptions gso;
     private static final int RC_SIGN_IN = 9001;
     private TextView reg, google;
@@ -73,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.sign_in_button:
                         signIn1();
                         break;
-                    // ...
                 }
             }
         });
@@ -125,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
             System.out.println(account.getEmail() + " " + account.getDisplayName());
 
             // Signed in successfully, show authenticated UI.
-            System.out.println("!!!!!!!!! TOKEN" + account.getIdToken());
             firebaseAuthWithGoogle(account);
 
         } catch (ApiException e) {
