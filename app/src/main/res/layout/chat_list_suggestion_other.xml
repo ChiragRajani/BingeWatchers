@@ -45,15 +45,16 @@
             android:gravity="bottom"
             android:text="How are you doing? This is a long message that should probably wrap."
             android:textSize="18dp" />
+
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:textColor="@color/black"
             android:text="TEXT VIEW"
+            android:textColor="@color/black"
 
-            android:textSize="15dp" />
+            android:textSize="12dp" />
     </LinearLayout>
 
 </RelativeLayout>
