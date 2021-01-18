@@ -34,26 +34,26 @@
 
     <ListView
         android:id="@+id/membersList"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginEnd="8dp"
-
         style="@style/MovieInfo"
+        android:layout_width="408dp"
+        android:layout_height="252dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.93" >
+        app:layout_constraintVertical_bias="0.963"
+        tools:listitem="@layout/members_list_layout">
 
     </ListView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/leaveGroup"
-        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-        android:layout_width="156dp"
-        android:layout_height="43dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_baseline_exit_to_app_24"
         android:text="Leave Group"
-        android:textColor="@color/black"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,6 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
             android:layout_marginBottom="9dp"
             android:clickable="true"
             android:focusable="true"

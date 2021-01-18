@@ -67,7 +67,7 @@ public class GroupInfo extends AppCompatActivity {
                 membersCount.setText(members.size() + " Members");
 
 
-                arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_activated_1, members);
+                arrayAdapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.members_list_layout, members);
                 // membersList.setAdapter(arrayAdapter);
                 membersList.setAdapter(arrayAdapter);
                 arrayAdapter.notifyDataSetChanged();

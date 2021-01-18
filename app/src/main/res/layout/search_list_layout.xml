@@ -2,14 +2,14 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:outlineAmbientShadowColor="@color/black">
+    style="@style/MovieInfo"
+  >
 
     <TextView
         android:id="@+id/movieName"
         android:layout_width="317dp"
         android:layout_height="wrap_content"
         android:text="MovieName"
-        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         style="@style/MovieInfo"
@@ -21,10 +21,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        style="@style/MovieInfo"
         android:text="Year"
         android:textSize="17sp"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold|italic"
+        style="@style/MovieInfo"
+/>
 
 
 </RelativeLayout>

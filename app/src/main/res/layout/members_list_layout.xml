@@ -2,9 +2,12 @@
     <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/textView"
+   android:background="@color/OffWhite"
+    android:textColor="@color/JetGray"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="@dimen/activity_horizontal_margin"
-         style="@style/MovieInfo"
-       />
+        android:padding="8dp"
+    android:text="hvgtvhgv"
+
+    />
