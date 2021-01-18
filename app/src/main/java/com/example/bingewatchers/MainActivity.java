@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     View v;
     ProgressBar mProgressBar;
     boolean isProgressShowing = false;
+    TextView warning;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         email = findViewById(R.id.username);
         pwd = findViewById(R.id.password);
+        warning = findViewById(R.id.textView6);
         btn = findViewById(R.id.submit);
         reg = findViewById(R.id.reg);
         mAuth = FirebaseAuth.getInstance();
@@ -148,14 +150,14 @@ public class MainActivity extends AppCompatActivity {
 
             db.collection("Groups").document("Default").update("Members", FieldValue.arrayUnion(regEmail));
             db.collection("Users").document(regEmail).update("Groups", FieldValue.arrayUnion("Default"));
-//            hideProgressingView();
+
         } catch (@NonNull Exception e) {
             Log.w(TAG, "Error adding document", e);
-//            Toast.makeText(SignUp.this, "Account  Not created " + e.getMessage(), Toast.LENGTH_SHORT);
+
 
         }
         Log.d(TAG, "===========DocumentSnapshot added with ID: ");
-//        Toast.makeText(SignUp.this, "Account Created and Values updated", Toast.LENGTH_SHORT);
+
     }
 
     // [START auth_with_google]
@@ -189,13 +191,11 @@ public class MainActivity extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             hideProgressingView();
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            warning.setText(task.getException().getMessage()+"/nPlease try again.");
 
-//                            updateUI(null);
                         }
 
-                        // [START_EXCLUDE]
-//                        hideProgressBar();
-                        // [END_EXCLUDE]
+
                     }
                 });
     }
@@ -206,10 +206,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(MainActivity.this, "SIGNED IN",
-                                    Toast.LENGTH_LONG).show();
-
 
                             if (mAuth.getCurrentUser() != null) {
                                 Intent i = new Intent(MainActivity.this, DashBoard.class);
@@ -220,13 +216,13 @@ public class MainActivity extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             hideProgressingView();
-                            Toast.makeText(MainActivity.this, "Authentication failed." + task.getException().getMessage(),
-                                    Toast.LENGTH_SHORT).show();
+                            warning.setText(task.getException().getMessage() + "/nPlease try again.");
 
                         }
                     }
                 });
     }
+
     public void showProgressingView() {
         if (!isProgressShowing) {
             isProgressShowing = true;

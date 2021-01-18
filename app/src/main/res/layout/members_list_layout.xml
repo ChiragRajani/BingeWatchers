@@ -7,4 +7,4 @@
         android:layout_gravity="center"
         android:padding="@dimen/activity_horizontal_margin"
          style="@style/MovieInfo"
-        android:textColor="@color/black" />
+       />

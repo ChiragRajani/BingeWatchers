@@ -423,7 +423,7 @@ public class DashBoard extends AppCompatActivity {
                         } else {
                             for (String i : genres) {
                                 String url = "https://api.themoviedb.org/3/discover/movie?api_key=1c9e495395d2ed861f2ace128f6af0e2&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres="
-                                        + kv1.get(i).toString() + "&with_original_language=hi";
+                                        + kv1.get(i).toString() + "&with_original_language=en|hi";
                                 new GenreSearch(getApplicationContext(), url).execute();
 
                             }

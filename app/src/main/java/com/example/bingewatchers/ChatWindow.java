@@ -98,7 +98,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         message = grpName.getText().toString();
         ChatListAdapter chatAdapter = new ChatListAdapter(this, chats);
         hideSheet = findViewById(R.id.hideSheet);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -144,7 +144,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
                     Message obj = new Message(name, message, Calendar.getInstance().getTime().toString(), mAuth.getCurrentUser().getEmail(), "message");
                     myRef.push().setValue(obj);
-                    Toast.makeText(ChatWindow.this, "Message Sent", Toast.LENGTH_LONG).show();
+
                     grpName.setText("");
 
                 }
@@ -164,7 +164,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
                     btnFunc = 0;
                     show.setImageDrawable(
-                            ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_add));
+                            ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_arrow_upward));
 
                 } else {
                     btnFunc = 1;
@@ -227,7 +227,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                                 if (!i.equals(mAuth.getCurrentUser().getEmail())) {
                                     Suggestion suggested = new Suggestion(y, name, Calendar.getInstance().getTime().toString(), notgrpname);
                                     db.collection("Users").document(i).update("Suggestion", FieldValue.arrayUnion(suggested));
-                                    System.out.println("5555555555555555555555555555555555555  "+suggested.getSender());
+                                    System.out.println("5555555555555555555555555555555555555  " + suggested.getSender());
                                 }
                             }
 
