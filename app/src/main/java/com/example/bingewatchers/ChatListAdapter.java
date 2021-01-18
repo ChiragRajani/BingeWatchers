@@ -67,7 +67,7 @@ public class ChatListAdapter extends BaseAdapter {
                     view = inflater.inflate(R.layout.chat_list_own, null);
                     holder.message = view.findViewById(R.id.message);
                     holder.time = (TextView) view.findViewById(R.id.time);
-                    holder.message.setText(Chats.get(position).getMessage());
+                    holder.message.setText(Chats.get(position).getMessage()+"\n");
 
                 }
                 if (Chats.get(position).getType().equals("Suggestion")) {
@@ -77,7 +77,7 @@ public class ChatListAdapter extends BaseAdapter {
                     holder.time = (TextView) view.findViewById(R.id.time);
 
                     // holder.time.setText(Chats.get(position).getTime().substring(10, 16));
-                    holder.message.setText(Chats.get(position).getMessage());
+                    holder.message.setText(Chats.get(position).getMessage()+"\n");
                     Glide.with(mContext).asBitmap()
                             .load(Chats.get(position).getUrl())
                             .into(holder.poster);
@@ -89,7 +89,7 @@ public class ChatListAdapter extends BaseAdapter {
 
 
                     //holder.time.setText(Chats.get(position).getTime().substring(10, 16));
-                    holder.message.setText(Chats.get(position).getMessage());
+                    holder.message.setText(Chats.get(position).getMessage()+"\n");
 
                 }
             } else {
@@ -101,7 +101,7 @@ public class ChatListAdapter extends BaseAdapter {
 
 
                     //  holder.time.setText(Chats.get(position).getTime().substring(10, 16));
-                    holder.message.setText(Chats.get(position).getMessage());
+                    holder.message.setText(Chats.get(position).getMessage()+"\n");
                     holder.senderEmail.setText(Chats.get(position).getName());
 
                 } else if (Chats.get(position).getType().equals("Suggestion")) {
@@ -113,7 +113,7 @@ public class ChatListAdapter extends BaseAdapter {
 
 
 //                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
-                    holder.message.setText(Chats.get(position).getMessage());
+                    holder.message.setText(Chats.get(position).getMessage()+"\n");
                     holder.senderEmail.setText(Chats.get(position).getName());
 
                     Glide.with(mContext).asBitmap()
@@ -127,7 +127,7 @@ public class ChatListAdapter extends BaseAdapter {
 
 
 //                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
-                    holder.message.setText(Chats.get(position).getMessage());
+                    holder.message.setText(Chats.get(position).getMessage()+"\n");
 
                 }
             }
@@ -143,8 +143,6 @@ public class ChatListAdapter extends BaseAdapter {
             }
             holder.message.setShowingLine(6);
 
-            holder.message.addShowMoreText("Show More");
-            holder.message.addShowLessText("Show Less");
 //        holder.message.setTexM
         }
 

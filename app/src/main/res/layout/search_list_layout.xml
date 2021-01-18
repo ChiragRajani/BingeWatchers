@@ -12,6 +12,7 @@
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
+        style="@style/MovieInfo"
         />
 
     <TextView
@@ -20,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-
+        style="@style/MovieInfo"
         android:text="Year"
         android:textSize="17sp"
         android:textStyle="bold|italic" />
