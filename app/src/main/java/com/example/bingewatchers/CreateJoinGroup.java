@@ -66,12 +66,11 @@ public class CreateJoinGroup extends AppCompatActivity {
             public void onClick(View view) {
                 String docId = createGroupName.getText().toString().replace('\n', ' ').trim();
                 String regEmail = mAuth.getCurrentUser().getEmail();
-               if(docId == null || docId.equals("")) {
+                if (docId == null || docId.equals("")) {
                     status.setText("Group name cannot be empty");
                     createGroupName.setText("");
                     joinGroupName.setText("");
-                }
-                else{
+                } else {
                     HashMap<String, Object> groupInfo = new HashMap<String, Object>();
                     groupInfo.put("Created By", regEmail);
 
@@ -115,13 +114,11 @@ public class CreateJoinGroup extends AppCompatActivity {
             public void onClick(View view) {
                 String groupName = joinGroupName.getText().toString().replace('\n', ' ').trim();
                 String user = mAuth.getCurrentUser().getEmail();
-                if(groupName == null || groupName.equals(""))
-                {
+                if (groupName == null || groupName.equals("")) {
                     status.setText("Group name cannot be empty");
                     createGroupName.setText("");
                     joinGroupName.setText("");
-                }
-                else {
+                } else {
                     DocumentReference docIdRef = rootRef.collection("Groups").document(groupName);
                     docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -137,6 +134,8 @@ public class CreateJoinGroup extends AppCompatActivity {
                                     myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child(groupName);
                                     Message obj = new Message(userName, userName + " just Joined the group", Calendar.getInstance().getTime().toString(), user, "activity");
                                     myRef.push().setValue(obj);
+
+
                                     status.setText("Group Joined\n" + groupName);
 
 

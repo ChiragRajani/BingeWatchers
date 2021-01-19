@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,11 +28,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -99,31 +98,37 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         ChatListAdapter chatAdapter = new ChatListAdapter(this, chats);
         hideSheet = findViewById(R.id.hideSheet);
 
-        myRef.addValueEventListener(new ValueEventListener() {
+
+        myRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                Message obj = dataSnapshot.getValue(Message.class);
 
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Message obj = postSnapshot.getValue(Message.class);
-
-                    if (obj.getType() != null) {
-                        chats.add(obj);
-
-                        chatList.setAdapter(chatAdapter);
-                    }
-
-
+                if (obj.getType() != null) {
+                    chats.add(obj);
+                    System.out.println("-------------- " + obj.getMessage());
+                    chatList.setAdapter(chatAdapter);
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
             }
         });
+
+
         show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,10 +139,10 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
                     if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
                         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//                show.setText("Close sheet");
+
                     } else {
                         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-//                show.setText("Expand sheet");
+
                     }
                 }
                 if (btnFunc == 1) {
@@ -311,7 +316,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
     }
 //getActionBar().setDrawerListener(toggle);
 
-    //...
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.group_info, menu);
         return super.onCreateOptionsMenu(menu);

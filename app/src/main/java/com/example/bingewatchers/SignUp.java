@@ -22,12 +22,15 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,6 +141,11 @@ public class SignUp extends AppCompatActivity {
 
             db.collection("Groups").document("Default").update("Members", FieldValue.arrayUnion(regEmail));
             db.collection("Users").document(regEmail).update("Groups", FieldValue.arrayUnion("Default"));
+
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child("Default");
+            Message obj = new Message(regName, regName + " just Joined the group", Calendar.getInstance().getTime().toString(), regEmail, "activity");
+            myRef.push().setValue(obj);
+
             hideProgressingView();
         } catch (@NonNull Exception e) {
             Log.w(TAG, "Error adding document", e);

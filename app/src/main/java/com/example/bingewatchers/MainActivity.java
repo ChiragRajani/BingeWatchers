@@ -26,9 +26,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     GoogleSignInOptions gso;
     private static final int RC_SIGN_IN = 9001;
-    private TextView reg, google;
+    private TextView reg;
     private FirebaseAuth mAuth;
     ViewGroup progressView, viewGroup;
     View v;
@@ -151,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
             db.collection("Groups").document("Default").update("Members", FieldValue.arrayUnion(regEmail));
             db.collection("Users").document(regEmail).update("Groups", FieldValue.arrayUnion("Default"));
 
+
         } catch (@NonNull Exception e) {
             Log.w(TAG, "Error adding document", e);
 
@@ -182,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
                             userM.put("Name", user.getDisplayName());
 
                             updateUserinDB(userM, user.getEmail());
+                            check();
 
                             Intent i = new Intent(MainActivity.this, DashBoard.class);
                             hideProgressingView();
@@ -191,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             hideProgressingView();
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            warning.setText(task.getException().getMessage()+"/nPlease try again.");
+                            warning.setText(task.getException().getMessage() + "/nPlease try again.");
 
                         }
 
@@ -242,6 +249,26 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finishAffinity();
+    }
+
+    void check() {
+
+
+        DocumentReference docIdRef = db.collection("Users").document(mAuth.getCurrentUser().getEmail());
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (!document.exists()) {
+                        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child("Default");
+                        Message obj = new Message(mAuth.getCurrentUser().getDisplayName(), mAuth.getCurrentUser().getDisplayName() + " just Joined the group", Calendar.getInstance().getTime().toString(), mAuth.getCurrentUser().getEmail(), "activity");
+                        myRef.push().setValue(obj);
+
+                    }
+                }
+            }
+        });
     }
 
 }
