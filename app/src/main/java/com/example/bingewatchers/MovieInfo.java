@@ -107,7 +107,7 @@ public class MovieInfo extends AppCompatActivity {
          hideProgressingView();
                 setFields(movieInfo);
             }
-        }, 1500);
+        }, 2000);
         Glide.with(getApplicationContext()).asDrawable()
                 .load(getIntent().getSerializableExtra("BackdropURL").toString()).into(backdropArea) ;
 

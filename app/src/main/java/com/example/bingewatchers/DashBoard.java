@@ -73,7 +73,7 @@ public class DashBoard extends AppCompatActivity {
     static Recommendation_Adapter adapter12;
     FirebaseAuth mAuth;
     Button goToGroup, suggest;
-    TextView user, viewEmail, viewUsername, movieName, notif_status, hideSheet, rc;
+    TextView user, viewEmail, viewUsername, movieName, notif_status, hideSheet, rc,infoLabel;
     EditText movieReview1;
     FirebaseFirestore db;
     ViewGroup progressView, CardView;
@@ -170,6 +170,7 @@ public class DashBoard extends AppCompatActivity {
         v = this.findViewById(android.R.id.content).getRootView();
         viewGroup = (ViewGroup) v;
         viewCard = (ViewGroup) v;
+        infoLabel=findViewById(R.id.infoLabel) ;
         bottom_sheet = findViewById(R.id.watched_movie);
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
         suggestionLayout = findViewById(R.id.suggentionLayout);
@@ -438,8 +439,12 @@ public class DashBoard extends AppCompatActivity {
                         viewEmail.setText(name);
                         user.setText("Welcome " + name + "! Your groups here,");
                         rc.setText("Hand picked recommendations for ya");
-                        //suggestionLayout.setBackgroundResource(R.drawable.dashboard_card);
-//
+                        infoLabel.setVisibility(View.GONE);
+                        if(genres==null){
+                            infoLabel.setVisibility(View.VISIBLE);
+                            infoLabel.setText("Update your Genres to get better recommendations.");
+                        }
+
                        if(mAuth.getCurrentUser().getPhotoUrl() ==null) {
                            Glide.with(DashBoard.this).asDrawable()
                                    .load("https://ui-avatars.com/api/background=random?name=" + name)

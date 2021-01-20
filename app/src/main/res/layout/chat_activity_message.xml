@@ -14,7 +14,7 @@
         android:text="timestamp"
       />
 
-    <com.skyhope.showmoretextview.ShowMoreTextView
+    <TextView
         android:id="@+id/message"
         style="@style/MovieInfo"
         android:layout_width="wrap_content"

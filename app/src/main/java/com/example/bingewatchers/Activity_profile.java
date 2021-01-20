@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -100,9 +101,16 @@ public class Activity_profile extends AppCompatActivity {
                     userEmail.setText(username);
                     userName.setText(name);
                     dob.setText(date);
-                    Glide.with(Activity_profile.this).asDrawable()
-                            .load("https://ui-avatars.com/api/background=random?name=" + name)
-                            .into(userPicture);
+                    if(mAuth.getCurrentUser().getPhotoUrl() ==null) {
+                        Glide.with(Activity_profile.this).asDrawable()
+                                .load("https://ui-avatars.com/api/background=random?name=" + name)
+                                .into(userPicture);
+                    }
+                    else{
+                        Glide.with(Activity_profile.this).asDrawable()
+                                .load(mAuth.getCurrentUser().getPhotoUrl().toString())
+                                .into(userPicture);
+                    }
                     userName.addTextChangedListener(generalTextWatcher);
                     dob.addTextChangedListener(generalTextWatcher);
                 }

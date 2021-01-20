@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             System.out.println(account.getEmail() + " " + account.getDisplayName());
-
+            showProgressingView();
             // Signed in successfully, show authenticated UI.
             firebaseAuthWithGoogle(account);
 

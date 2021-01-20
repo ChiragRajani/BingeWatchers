@@ -16,11 +16,11 @@
         android:divider="@null"
         android:dividerHeight="10.0sp"
         android:scrollingCache="true"
-        android:smoothScrollbar="false"
+        android:smoothScrollbar="true"
         android:stackFromBottom="true"
         android:transcriptMode="normal" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -29,31 +29,40 @@
 
         <EditText
             android:id="@+id/grpName"
-            android:layout_width="350dp"
-            android:layout_height="match_parent"
+            android:layout_width="345dp"
+            android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:layout_marginStart="5dp"
             android:background="@drawable/round_edittext"
             android:hint="Type a message..."
-            android:paddingStart="20dp"
-            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+
             android:textColor="#000000"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/show"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="8dp"
             android:clickable="true"
-            android:layout_marginBottom="1dp"
             android:gravity="bottom"
+            android:scaleType="fitCenter"
             app:fabCustomSize="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.987"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_baseline_arrow_upward" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include layout="@layout/suggest_sheet_in_group" />
 

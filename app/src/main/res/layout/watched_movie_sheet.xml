@@ -8,6 +8,7 @@
     android:background="@drawable/dashboard_card"
     android:orientation="vertical"
     android:padding="16dp"
+    android:paddingTop="0dp"
     android:paddingBottom="0dp"
     app:layout_constraintCircleRadius="20dp"
    style="@style/BottomSheetItem"
@@ -80,20 +81,20 @@
 
     <TextView
         android:id="@+id/textView3"
+        style="@style/MovieInfo"
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
 
         android:text="Add Suggest"
-
-style="@style/MovieInfo"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.026"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.604" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/notif_info"
@@ -143,7 +144,7 @@ style="@style/MovieInfo"
         android:layout_height="0dp"
         android:layout_marginEnd="4dp"
         android:text="Notification will be sent to every group"
-
+        android:layout_marginTop="10dp"
         style="@style/MovieInfo"
         android:textSize="17dp"
 
@@ -172,5 +173,16 @@ style="@style/MovieInfo"
         android:textSize="80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="35dp"
+        android:layout_height="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.005"
+        app:srcCompat="@drawable/capsule" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

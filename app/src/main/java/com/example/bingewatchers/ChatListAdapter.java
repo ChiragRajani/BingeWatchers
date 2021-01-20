@@ -65,9 +65,9 @@ public class ChatListAdapter extends BaseAdapter {
 
                 if (Chats.get(position).getType().equals("message")) {
                     view = inflater.inflate(R.layout.chat_list_own, null);
-                    holder.message = view.findViewById(R.id.message);
+                    holder.message2 = view.findViewById(R.id.message);
                     holder.time = (TextView) view.findViewById(R.id.time);
-                    holder.message.setText(Chats.get(position).getMessage()+"\n");
+                    holder.message2.setText(Chats.get(position).getMessage()+"\n");
 
                 }
                 if (Chats.get(position).getType().equals("Suggestion")) {
@@ -84,24 +84,24 @@ public class ChatListAdapter extends BaseAdapter {
                 }
                 if (Chats.get(position).getType().equals("activity")) {
                     view = inflater.inflate(R.layout.chat_activity_message, null);
-                    holder.message = view.findViewById(R.id.message);
+                    holder.message2 = view.findViewById(R.id.message);
                     holder.time = (TextView) view.findViewById(R.id.time);
 
 
                     //holder.time.setText(Chats.get(position).getTime().substring(10, 16));
-                    holder.message.setText(Chats.get(position).getMessage()+"\n");
+                    holder.message2.setText(Chats.get(position).getMessage()+"\n");
 
                 }
             } else {
                 if (Chats.get(position).getType().equals("message")) {
                     view = inflater.inflate(R.layout.chat_list_other, null);
-                    holder.message = view.findViewById(R.id.message);
+                    holder.message2 = view.findViewById(R.id.message);
                     holder.senderEmail = (TextView) view.findViewById(R.id.senderEmail);
                     holder.time = (TextView) view.findViewById(R.id.time);
 
 
                     //  holder.time.setText(Chats.get(position).getTime().substring(10, 16));
-                    holder.message.setText(Chats.get(position).getMessage()+"\n");
+                    holder.message2.setText(Chats.get(position).getMessage()+"\n");
                     holder.senderEmail.setText(Chats.get(position).getName());
 
                 } else if (Chats.get(position).getType().equals("Suggestion")) {
@@ -122,17 +122,15 @@ public class ChatListAdapter extends BaseAdapter {
                 }
                 if (Chats.get(position).getType().equals("activity")) {
                     view = inflater.inflate(R.layout.chat_activity_message, null);
-                    holder.message = view.findViewById(R.id.message);
+                    holder.message2 = view.findViewById(R.id.message);
                     holder.time = (TextView) view.findViewById(R.id.time);
 
 
 //                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
-                    holder.message.setText(Chats.get(position).getMessage()+"\n");
+                    holder.message2.setText(Chats.get(position).getMessage()+"\n");
 
                 }
             }
-
-
             if (Chats.get(position).getTime().substring(3, 10).equals(he.getTime().toString().substring(3, 10))) {
 
                 holder.time.setText("Yesterday, " + Chats.get(position).getTime().substring(10, 16));
@@ -141,9 +139,9 @@ public class ChatListAdapter extends BaseAdapter {
             } else {
                 holder.time.setText(Chats.get(position).getTime().substring(3, 10) +", "+ Chats.get(position).getTime().substring(10, 16));
             }
-            holder.message.setShowingLine(6);
+            if(holder.message!=null)
+                holder.message.setShowingLine(6);
 
-//        holder.message.setTexM
         }
 
 
@@ -166,8 +164,9 @@ public class ChatListAdapter extends BaseAdapter {
     public class ViewHolder {
 
 
-        TextView senderEmail;
+        TextView senderEmail,message2;
         ShowMoreTextView message;
+
         ImageView poster;
         TextView time;
 
