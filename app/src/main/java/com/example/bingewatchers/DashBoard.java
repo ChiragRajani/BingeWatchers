@@ -175,7 +175,6 @@ public class DashBoard extends AppCompatActivity {
         suggestionLayout = findViewById(R.id.suggentionLayout);
         showProgressingView();
         list = findViewById(R.id.listview);
-        goToGroup = findViewById(R.id.goToGroup);
         nv = findViewById(R.id.nv);
         dl = findViewById(R.id.activity_nav);
         headerView = nv.getHeaderView(0);
