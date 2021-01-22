@@ -54,7 +54,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -73,7 +72,7 @@ public class DashBoard extends AppCompatActivity {
     static Recommendation_Adapter adapter12;
     FirebaseAuth mAuth;
     Button goToGroup, suggest;
-    TextView user, viewEmail, viewUsername, movieName, notif_status, hideSheet, rc,infoLabel;
+    TextView user, viewEmail, viewUsername, movieName, notif_status, hideSheet, rc, infoLabel;
     EditText movieReview1;
     FirebaseFirestore db;
     ViewGroup progressView, CardView;
@@ -170,7 +169,7 @@ public class DashBoard extends AppCompatActivity {
         v = this.findViewById(android.R.id.content).getRootView();
         viewGroup = (ViewGroup) v;
         viewCard = (ViewGroup) v;
-        infoLabel=findViewById(R.id.infoLabel) ;
+        infoLabel = findViewById(R.id.infoLabel);
         bottom_sheet = findViewById(R.id.watched_movie);
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
         suggestionLayout = findViewById(R.id.suggentionLayout);
@@ -215,7 +214,7 @@ public class DashBoard extends AppCompatActivity {
                 mImageUrls = new ArrayList<>();
 
                 System.out.println("Refresh");
-                
+
                 getGroups();
                 // your code
             }
@@ -233,19 +232,21 @@ public class DashBoard extends AppCompatActivity {
                 switch (id) {
                     case R.id.profile: {
                         startActivity(new Intent(DashBoard.this, Activity_profile.class));
-                        Toast.makeText(DashBoard.this, "My Account", Toast.LENGTH_SHORT).show();
                         break;
                     }
                     case R.id.groups: {
-                        Toast.makeText(DashBoard.this, "Settings", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DashBoard.this, CreateJoinGroup.class));
                         break;
                     }
                     case R.id.logout: {
-                        Toast.makeText(DashBoard.this, "Logout", Toast.LENGTH_SHORT).show();
                         mAuth.signOut();
                         Intent i = new Intent(DashBoard.this, MainActivity.class);
                         i.putExtra("from", "logout");
+                        startActivity(i);
+                        break;
+                    }
+                    case R.id.About: {
+                        Intent i = new Intent(DashBoard.this, About_page.class);
                         startActivity(i);
                         break;
                     }
@@ -253,7 +254,7 @@ public class DashBoard extends AppCompatActivity {
                         Intent i = new Intent(DashBoard.this, GenreSelection.class);
                         i.putExtra("from", "Dashboard");
                         startActivity(i);
-                        Toast.makeText(DashBoard.this, "My Account", Toast.LENGTH_SHORT).show();
+
                         break;
                     }
                     default:
@@ -347,7 +348,7 @@ public class DashBoard extends AppCompatActivity {
                                         DocumentSnapshot document = task.getResult();
                                         List<String> members = (List<String>) document.get("Members");
 
-                                    for (String i : members) {
+                                        for (String i : members) {
                                             if (!i.equals(mAuth.getCurrentUser().getEmail()))
                                                 db.collection("Users").document(i).update("Suggestion", FieldValue.arrayUnion(new Suggestion(y, mAuth.getCurrentUser().getEmail(), Calendar.getInstance().getTime().toString(), i1)));
 
@@ -357,7 +358,7 @@ public class DashBoard extends AppCompatActivity {
                                 });
                             }
 
-                        } catch (IndexOutOfBoundsException | NullPointerException  e) {
+                        } catch (IndexOutOfBoundsException | NullPointerException e) {
                             Toast.makeText(DashBoard.this, "Movie Name Cannot Be Empty!!", Toast.LENGTH_SHORT).show();
 
                         }
@@ -440,21 +441,20 @@ public class DashBoard extends AppCompatActivity {
                         user.setText("Welcome " + name + "! Your groups here,");
                         rc.setText("Hand picked recommendations for ya");
                         infoLabel.setVisibility(View.GONE);
-                        if(genres==null){
+                        if (genres == null) {
                             infoLabel.setVisibility(View.VISIBLE);
                             infoLabel.setText("Update your Genres to get better recommendations.");
                         }
 
-                       if(mAuth.getCurrentUser().getPhotoUrl() ==null) {
-                           Glide.with(DashBoard.this).asDrawable()
-                                   .load("https://ui-avatars.com/api/background=random?name=" + name)
-                                   .into(dp_view);
-                       }
-                       else{
-                           Glide.with(DashBoard.this).asDrawable()
-                                   .load(mAuth.getCurrentUser().getPhotoUrl().toString())
-                                   .into(dp_view);
-                       }
+                        if (mAuth.getCurrentUser().getPhotoUrl() == null) {
+                            Glide.with(DashBoard.this).asDrawable()
+                                    .load("https://ui-avatars.com/api/background=random?name=" + name)
+                                    .into(dp_view);
+                        } else {
+                            Glide.with(DashBoard.this).asDrawable()
+                                    .load(mAuth.getCurrentUser().getPhotoUrl().toString())
+                                    .into(dp_view);
+                        }
 
                         messages[0] = document.getData();
                         Map kv = new HashImages().getHash1();
@@ -518,7 +518,7 @@ public class DashBoard extends AppCompatActivity {
             super.onBackPressed();
             finishAffinity();
         }
-        if(isCardShowing==true)
+        if (isCardShowing == true)
             hideSuggestionCard();
         if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -587,9 +587,7 @@ public class DashBoard extends AppCompatActivity {
                             HashMap<String, Object> i2 = (HashMap<String, Object>) sugg.get(u);
 //                            String i2 = sugg.get(u);
                             HashMap<String, String> i12 = (HashMap<String, String>) i2.get("y");
-                            System.out.println(i12.get("movieName"));
-                            System.out.println("------------------------" + sugg.size() + " " + u);
-                            Toast.makeText(getApplicationContext(), "Showing" + u + "/" + i2.size(), Toast.LENGTH_SHORT);
+
                             u++;
                             u = u % sugg.size();
                             Glide.with(getApplicationContext()).asDrawable()

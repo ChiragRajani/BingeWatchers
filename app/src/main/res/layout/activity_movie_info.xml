@@ -26,7 +26,6 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/linearLayout"
                 style="@style/DrawableBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -146,7 +145,6 @@
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
-                    android:id="@+id/xyz"
                     style="@style/MovieInfo"
                     android:layout_width="82dp"
                     android:layout_height="wrap_content"

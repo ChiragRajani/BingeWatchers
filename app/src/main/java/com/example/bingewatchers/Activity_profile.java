@@ -1,44 +1,40 @@
 package com.example.bingewatchers;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class Activity_profile extends AppCompatActivity {
 
     FirebaseAuth mAuth;
-    Button change ;
-    String email ;
-    FirebaseFirestore db ;
-    DocumentReference docRef ;
-    ImageView userPicture ;
-    EditText userName,userEmail;
+    Button change;
+    String email;
+    FirebaseFirestore db;
+    DocumentReference docRef;
+    ImageView userPicture;
+    EditText userName, userEmail;
     static EditText dob;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +47,14 @@ public class Activity_profile extends AppCompatActivity {
         change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String changedName=userName.getText().toString() ;
-                String changedDOB=dob.getText().toString() ;
-                docRef.update("Name",changedName) ;
-                docRef.update("Date of Birth",changedDOB) ;
-                Toast.makeText(Activity_profile.this,"Credentials Changed",Toast.LENGTH_LONG).show();
-//                System.out.println("344444443434344224242424242424updated value is "+changedName+"      "+changedDOB    );
+                String changedName = userName.getText().toString();
+                String changedDOB = dob.getText().toString();
+                docRef.update("Name", changedName);
+                docRef.update("Date of Birth", changedDOB);
+                Toast.makeText(Activity_profile.this, "Credentials Changed", Toast.LENGTH_LONG).show();
 
-             }
+
+            }
         });
 
     }
@@ -85,28 +81,26 @@ public class Activity_profile extends AppCompatActivity {
         }
     };
 
-    public void getInfo(){
+    public void getInfo() {
         DocumentReference docRef = db.collection("Users").document(email);
 
-        final Map<String, Object>[] messages = new Map[]{null};
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    String name=document.getString("Name") ;
-                    String username=document.getString("Username");
-                    String date=document.getString("Date of Birth");
+                    String name = document.getString("Name");
+                    String username = document.getString("Username");
+                    String date = document.getString("Date of Birth");
                     userEmail.setText(username);
                     userName.setText(name);
                     dob.setText(date);
-                    if(mAuth.getCurrentUser().getPhotoUrl() ==null) {
+                    if (mAuth.getCurrentUser().getPhotoUrl() == null) {
                         Glide.with(Activity_profile.this).asDrawable()
                                 .load("https://ui-avatars.com/api/background=random?name=" + name)
                                 .into(userPicture);
-                    }
-                    else{
+                    } else {
                         Glide.with(Activity_profile.this).asDrawable()
                                 .load(mAuth.getCurrentUser().getPhotoUrl().toString())
                                 .into(userPicture);
@@ -117,23 +111,25 @@ public class Activity_profile extends AppCompatActivity {
             }
         });
     }
+
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public void initialiseFields(){
+    public void initialiseFields() {
         mAuth = FirebaseAuth.getInstance();
         email = mAuth.getCurrentUser().getEmail();
-        db= FirebaseFirestore.getInstance();
-        change=findViewById(R.id.updateInfo) ;
-        userEmail=findViewById(R.id.userEmail) ;
-        userName=findViewById(R.id.userName) ;
-        dob=findViewById(R.id.dob) ;
-        userPicture=findViewById(R.id.account_profile) ;
+        db = FirebaseFirestore.getInstance();
+        change = findViewById(R.id.updateInfo);
+        userEmail = findViewById(R.id.userEmail);
+        userName = findViewById(R.id.userName);
+        dob = findViewById(R.id.dob);
+        userPicture = findViewById(R.id.account_profile);
 
-        docRef=db.collection("Users").document(email) ;
+        docRef = db.collection("Users").document(email);
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         finish();

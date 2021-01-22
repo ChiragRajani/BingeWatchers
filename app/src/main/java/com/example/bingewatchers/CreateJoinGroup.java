@@ -28,8 +28,6 @@ public class CreateJoinGroup extends AppCompatActivity {
     TextView status;
     FirebaseAuth mAuth;
     FirebaseFirestore db, rootRef;
-
-    String TAG = "CreateJoinGroup";
     DocumentReference userInfo;
     String userName;
     DatabaseReference myRef;
@@ -169,7 +167,4 @@ public class CreateJoinGroup extends AppCompatActivity {
 
 
 }
-//    public boolean onSupportNavigateUp() {
-//        finish();
-//        return true;
-//    }
+

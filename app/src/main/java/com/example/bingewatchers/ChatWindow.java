@@ -1,9 +1,6 @@
 package com.example.bingewatchers;
 
 import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,12 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -51,10 +45,8 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
     EditText movieName;
     ListView chatList;
     ListView list;
-    private DrawerLayout dl;
-    private ActionBarDrawerToggle t;
-    ListViewAdapter adapter;
-    java.util.ArrayList<Message> chats = new java.util.ArrayList<>();
+
+
     java.util.ArrayList<Movie> he = new java.util.ArrayList<>();
     Button btnSug;
     EditText movieReview;
@@ -62,7 +54,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
     private EditText grpName;
     private FloatingActionButton show;
-    private String TAG = "CHAT WINDOW";
+
     private DatabaseReference myRef;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -87,9 +79,8 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         name = getIntent().getSerializableExtra("Name").toString();
         myRef = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname);
-        DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference("Group Chats").child(notgrpname).child("message");
+
         mAuth = FirebaseAuth.getInstance();
-        //t = new ActionBarDrawerToggle(this, dl, R.string.drawer_open, R.string.drawer_close);
 
 
         btnSug = findViewById(R.id.button);
@@ -196,10 +187,9 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                 x = 1;
                 i1 = i;
                 he = parsing.he1;
-                Movie y = he.get(i);
+
                 String selected = ((TextView) view.findViewById(R.id.movieName)).getText().toString();
-//                String mvieName = y.getMovieName();
-                Toast.makeText(ChatWindow.this, selected, Toast.LENGTH_SHORT).show();
+
                 movieName.setText(selected);
                 list.setAdapter(null);
             }
@@ -275,7 +265,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
 
             @Override
             public void onSlide(@NonNull View view, float v) {
-//                Toast.makeText(ChatWindow.this, "SLIDING!!", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -305,12 +295,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
                 sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
-//        public boolean onOptionsItemSelected(MenuItem item) {
-//            if (item.getItemId() == android.R.id.home) {
-//                finish();
-//            }
-//            return super.onOptionsItemSelected(item);
-//        }
+
 
     }
 
@@ -319,7 +304,7 @@ public class ChatWindow<ArrayList> extends AppCompatActivity {
         finish();
         return true;
     }
-//getActionBar().setDrawerListener(toggle);
+
 
 
     public boolean onCreateOptionsMenu(Menu menu) {

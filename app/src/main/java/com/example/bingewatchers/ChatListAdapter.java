@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.skyhope.showmoretextview.ShowMoreTextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -20,14 +19,11 @@ import java.util.List;
 public class ChatListAdapter extends BaseAdapter {
 
     private final ArrayList<Message> arraylist;
-    // Declare Variables
-    String TAG = "CHAtLISTADAPTER";
     Context mContext;
     LayoutInflater inflater;
     FirebaseAuth mAuth;
-    SimpleDateFormat sdfo = new SimpleDateFormat("yyyy-MM-dd");
-    int MAX_LINES = 5;
-    Calendar te = Calendar.getInstance(), he = Calendar.getInstance();
+
+    Calendar he = Calendar.getInstance();
     private List<Message> Chats = null;
 
     public ChatListAdapter(Context context, ArrayList<Message> Chats) {
@@ -67,7 +63,7 @@ public class ChatListAdapter extends BaseAdapter {
                     view = inflater.inflate(R.layout.chat_list_own, null);
                     holder.message2 = view.findViewById(R.id.message);
                     holder.time = (TextView) view.findViewById(R.id.time);
-                    holder.message2.setText(Chats.get(position).getMessage()+"\n");
+                    holder.message2.setText(Chats.get(position).getMessage() + "\n");
 
                 }
                 if (Chats.get(position).getType().equals("Suggestion")) {
@@ -77,7 +73,7 @@ public class ChatListAdapter extends BaseAdapter {
                     holder.time = (TextView) view.findViewById(R.id.time);
 
                     // holder.time.setText(Chats.get(position).getTime().substring(10, 16));
-                    holder.message.setText(Chats.get(position).getMessage()+"\n");
+                    holder.message.setText(Chats.get(position).getMessage() + "\n");
                     Glide.with(mContext).asBitmap()
                             .load(Chats.get(position).getUrl())
                             .into(holder.poster);
@@ -89,7 +85,7 @@ public class ChatListAdapter extends BaseAdapter {
 
 
                     //holder.time.setText(Chats.get(position).getTime().substring(10, 16));
-                    holder.message2.setText(Chats.get(position).getMessage()+"\n");
+                    holder.message2.setText(Chats.get(position).getMessage() + "\n");
 
                 }
             } else {
@@ -101,7 +97,7 @@ public class ChatListAdapter extends BaseAdapter {
 
 
                     //  holder.time.setText(Chats.get(position).getTime().substring(10, 16));
-                    holder.message2.setText(Chats.get(position).getMessage()+"\n");
+                    holder.message2.setText(Chats.get(position).getMessage() + "\n");
                     holder.senderEmail.setText(Chats.get(position).getName());
 
                 } else if (Chats.get(position).getType().equals("Suggestion")) {
@@ -113,7 +109,7 @@ public class ChatListAdapter extends BaseAdapter {
 
 
 //                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
-                    holder.message.setText(Chats.get(position).getMessage()+"\n");
+                    holder.message.setText(Chats.get(position).getMessage() + "\n");
                     holder.senderEmail.setText(Chats.get(position).getName());
 
                     Glide.with(mContext).asBitmap()
@@ -127,7 +123,7 @@ public class ChatListAdapter extends BaseAdapter {
 
 
 //                    holder.time.setText(Chats.get(position).getTime().substring(10, 16));
-                    holder.message2.setText(Chats.get(position).getMessage()+"\n");
+                    holder.message2.setText(Chats.get(position).getMessage() + "\n");
 
                 }
             }
@@ -137,9 +133,9 @@ public class ChatListAdapter extends BaseAdapter {
             } else if (Chats.get(position).getTime().substring(3, 10).equals(Calendar.getInstance().getTime().toString().substring(3, 10))) {
                 holder.time.setText("Today, " + Chats.get(position).getTime().substring(10, 16));
             } else {
-                holder.time.setText(Chats.get(position).getTime().substring(3, 10) +", "+ Chats.get(position).getTime().substring(10, 16));
+                holder.time.setText(Chats.get(position).getTime().substring(3, 10) + ", " + Chats.get(position).getTime().substring(10, 16));
             }
-            if(holder.message!=null)
+            if (holder.message != null)
                 holder.message.setShowingLine(6);
 
         }
@@ -164,7 +160,7 @@ public class ChatListAdapter extends BaseAdapter {
     public class ViewHolder {
 
 
-        TextView senderEmail,message2;
+        TextView senderEmail, message2;
         ShowMoreTextView message;
 
         ImageView poster;
