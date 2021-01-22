@@ -39,20 +39,19 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MyActivity";
-
-    private EditText email, pwd;
-    private FirebaseFirestore db;
-    private Button btn;
+    private static final int RC_SIGN_IN = 9001;
     GoogleSignInClient mGoogleSignInClient;
     GoogleSignInOptions gso;
-    private static final int RC_SIGN_IN = 9001;
-    private TextView reg;
-    private FirebaseAuth mAuth;
     ViewGroup progressView, viewGroup;
     View v;
     ProgressBar mProgressBar;
     boolean isProgressShowing = false;
     TextView warning;
+    private EditText email, pwd;
+    private FirebaseFirestore db;
+    private Button btn;
+    private TextView reg;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +81,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.sign_in_button:
+
                         signIn1();
+
                         break;
                 }
             }
@@ -116,12 +117,13 @@ public class MainActivity extends AppCompatActivity {
     private void signIn1() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        showProgressingView();
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
@@ -135,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             System.out.println(account.getEmail() + " " + account.getDisplayName());
-            showProgressingView();
+            //       showProgressingView();
             // Signed in successfully, show authenticated UI.
             firebaseAuthWithGoogle(account);
 
@@ -143,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            hideProgressingView();
 
         }
     }
